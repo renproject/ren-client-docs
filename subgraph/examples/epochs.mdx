@@ -1,0 +1,26 @@
+---
+title: Epochs
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.HowTo} />
+
+import { GraphQL } from "../../components/GraphQL";
+
+The following example shows how to query the latest epochs.
+
+<GraphQL
+  url="https://api.thegraph.com/subgraphs/name/renproject/renvm"
+  defaultQuery={`{
+  epoches(
+    orderBy: timestamp,
+    # Start from the first public epoch.
+    skip: 16
+  ) {
+    numberOfDarknodes
+    timestamp
+    blockNumber
+  }
+}`}
+/>

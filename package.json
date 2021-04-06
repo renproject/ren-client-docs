@@ -1,0 +1,63 @@
+{
+  "name": "ren-js-docs",
+  "version": "0.0.0",
+  "private": true,
+  "homepage": "https://renproject.github.io/ren-docs/",
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids"
+  },
+  "dependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
+    "@docusaurus/core": "2.0.0-alpha.72",
+    "@docusaurus/preset-classic": "2.0.0-alpha.72",
+    "@edno/docusaurus2-graphql-doc-generator": "^1.1.0",
+    "@graphiql/toolkit": "^0.1.1",
+    "@mdx-js/react": "^1.6.21",
+    "@monaco-editor/react": "^4.1.0",
+    "@saucelabs/theme-github-codeblock": "^0.0.4",
+    "axios": "^0.21.1",
+    "clsx": "^1.1.1",
+    "docusaurus-plugin-openapi": "^0.0.13",
+    "docusaurus-plugin-typedoc": "^0.12.0",
+    "exec-sync": "^0.1.6",
+    "ffi": "https://github.com/node-ffi-napi/node-ffi-napi",
+    "graphiql": "^1.4.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "ref": "https://github.com/node-ffi-napi/ref-napi",
+    "typedoc": "^0.20.34",
+    "typedoc-plugin-markdown": "^3.6.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.72",
+    "@tsconfig/docusaurus": "^1.0.2",
+    "@types/react": "^17.0.3",
+    "@types/react-helmet": "^6.1.0",
+    "@types/react-router-dom": "^5.1.7",
+    "typescript": "^4.2.3"
+  },
+  "resolutions": {
+    "ref": "https://github.com/node-ffi-napi/ref-napi",
+    "ffi": "https://github.com/node-ffi-napi/node-ffi-napi"
+  }
+}

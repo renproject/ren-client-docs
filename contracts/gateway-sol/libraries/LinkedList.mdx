@@ -1,0 +1,214 @@
+---
+title: LinkedList
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `LinkedList`
+
+LinkedList is a library for a circular double linked list.
+
+
+
+
+<hr />
+
+
+<br />
+
+## Variables
+
+
+### **`NULL`**: *`address`*
+
+
+
+
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`insertBefore`** *`(struct LinkedList.List self, address target, address newNode)`* (internal)
+
+**Params**
+- `self`: The list being used.
+
+- `target`: The existing node in the list.
+
+- `newNode`: The next node to insert before the target.
+
+
+Insert a new node before an existing node.
+
+
+
+
+
+<hr />
+
+### **`insertAfter`** *`(struct LinkedList.List self, address target, address newNode)`* (internal)
+
+**Params**
+- `self`: The list being used.
+
+- `target`: The existing node in the list.
+
+- `newNode`: The next node to insert after the target.
+
+
+Insert a new node after an existing node.
+
+
+
+
+
+<hr />
+
+### **`remove`** *`(struct LinkedList.List self, address node)`* (internal)
+
+**Params**
+- `self`: The list being using.
+
+- `node`: The node in the list to be removed.
+
+
+Remove a node from the list, and fix the previous and next
+pointers that are pointing to the removed node. Removing anode that is not
+in the list will do nothing.
+
+
+
+
+
+<hr />
+
+### **`prepend`** *`(struct LinkedList.List self, address node)`* (internal)
+
+**Params**
+- `self`: The list being used.
+
+- `node`: The node to insert at the beginning of the list.
+
+
+Insert a node at the beginning of the list.
+
+
+
+
+
+<hr />
+
+### **`append`** *`(struct LinkedList.List self, address node)`* (internal)
+
+**Params**
+- `self`: The list being used.
+
+- `node`: The node to insert at the end of the list.
+
+
+Insert a node at the end of the list.
+
+
+
+
+
+<hr />
+
+### **`swap`** *`(struct LinkedList.List self, address left, address right)`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`isInList`** *`(struct LinkedList.List self, address node) → bool`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`begin`** *`(struct LinkedList.List self) → address`* (internal)
+
+**Params**
+- `self`: The list being used.
+
+
+
+**Returns**
+- `A`: address identifying the node at the beginning of the double
+linked list.
+
+Get the node at the beginning of a double linked list.
+
+
+
+
+
+<hr />
+
+### **`end`** *`(struct LinkedList.List self) → address`* (internal)
+
+**Params**
+- `self`: The list being used.
+
+
+
+**Returns**
+- `A`: address identifying the node at the end of the double linked
+list.
+
+Get the node at the end of a double linked list.
+
+
+
+
+
+<hr />
+
+### **`next`** *`(struct LinkedList.List self, address node) → address`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`previous`** *`(struct LinkedList.List self, address node) → address`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`elements`** *`(struct LinkedList.List self, address _start, uint256 _count) → address[]`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+

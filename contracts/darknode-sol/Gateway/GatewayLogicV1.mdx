@@ -1,0 +1,261 @@
+---
+title: GatewayLogicV1
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `GatewayLogicV1`
+
+Gateway handles verifying mint and burn requests. A mintAuthority
+approves new assets to be minted by providing a digital signature. An owner
+of an asset can request for it to be burnt.
+
+
+
+Inherits from:
+
+- `GatewayStateV1`
+- `IGateway`
+- `CanReclaimTokens`
+- `Claimable`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+
+<br />
+
+## Modifiers
+
+### `onlyOwnerOrMintAuthority()`
+
+Only allow the Darknode Payment contract.
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`initialize`** *`(contract RenERC20LogicV1 _token, address _feeRecipient, address _mintAuthority, uint16 _mintFee, uint16 _burnFee, uint256 _minimumBurnAmount)`* (public)
+
+**Params**
+- `_token`: The RenERC20 this Gateway is responsible for.
+
+- `_feeRecipient`: The recipient of burning and minting fees.
+
+- `_mintAuthority`: The address of the key that can sign mint
+       requests.
+
+- `_mintFee`: The amount subtracted each mint request and
+       forwarded to the feeRecipient. In BIPS.
+
+- `_burnFee`: The amount subtracted each burn request and
+       forwarded to the feeRecipient. In BIPS.
+
+
+
+
+
+
+<hr />
+
+### **`claimTokenOwnership`** *`()`* (public)
+
+
+
+Claims ownership of the token passed in to the constructor.
+`transferStoreOwnership` must have previously been called.
+Anyone can call this function.
+
+
+
+<hr />
+
+### **`transferTokenOwnership`** *`(contract GatewayLogicV1 _nextTokenOwner)`* (public)
+
+
+
+Allow the owner to update the owner of the RenERC20 token.
+
+
+
+<hr />
+
+### **`updateMintAuthority`** *`(address _nextMintAuthority)`* (public)
+
+**Params**
+- `_nextMintAuthority`: The address to start paying fees to.
+
+
+Allow the owner to update the fee recipient.
+
+
+
+
+
+<hr />
+
+### **`updateMinimumBurnAmount`** *`(uint256 _minimumBurnAmount)`* (public)
+
+**Params**
+- `_minimumBurnAmount`: The new min burn amount.
+
+
+Allow the owner to update the minimum burn amount.
+
+
+
+
+
+<hr />
+
+### **`updateFeeRecipient`** *`(address _nextFeeRecipient)`* (public)
+
+**Params**
+- `_nextFeeRecipient`: The address to start paying fees to.
+
+
+Allow the owner to update the fee recipient.
+
+
+
+
+
+<hr />
+
+### **`updateMintFee`** *`(uint16 _nextMintFee)`* (public)
+
+**Params**
+- `_nextMintFee`: The new fee for minting and burning.
+
+
+Allow the owner to update the 'mint' fee.
+
+
+
+
+
+<hr />
+
+### **`updateBurnFee`** *`(uint16 _nextBurnFee)`* (public)
+
+**Params**
+- `_nextBurnFee`: The new fee for minting and burning.
+
+
+Allow the owner to update the burn fee.
+
+
+
+
+
+<hr />
+
+### **`mint`** *`(bytes32 _pHash, uint256 _amountUnderlying, bytes32 _nHash, bytes _sig) → uint256`* (public)
+
+**Params**
+- `_pHash`: (payload hash) The hash of the payload associated with the
+       mint.
+
+- `_amountUnderlying`: The amount of the token being minted, in its smallest
+       value. (e.g. satoshis for BTC).
+
+- `_nHash`: (nonce hash) The hash of the nonce, amount and pHash.
+
+- `_sig`: The signature of the hash of the following values:
+       (pHash, amount, msg.sender, nHash), signed by the mintAuthority.
+
+
+mint verifies a mint approval signature from RenVM and creates
+        tokens after taking a fee for the `_feeRecipient`.
+
+
+
+
+
+<hr />
+
+### **`burn`** *`(bytes _to, uint256 _amount) → uint256`* (public)
+
+**Params**
+- `_to`: The address to receive the un-bridged asset. The format of
+       this address should be of the destination chain.
+       For example, when burning to Bitcoin, _to should be a
+       Bitcoin address.
+
+- `_amount`: The amount of the token being burnt, in its
+       smallest value. (e.g. satoshis for BTC)
+
+
+burn destroys tokens after taking a fee for the `_feeRecipient`,
+        allowing the associated assets to be released on their native
+        chain.
+
+
+
+
+
+<hr />
+
+### **`verifySignature`** *`(bytes32 _signedMessageHash, bytes _sig) → bool`* (public)
+
+
+
+verifySignature checks the the provided signature matches the provided
+parameters.
+
+
+
+<hr />
+
+### **`hashForSignature`** *`(bytes32 _pHash, uint256 _amount, address _to, bytes32 _nHash) → bytes32`* (public)
+
+
+
+hashForSignature hashes the parameters so that they can be signed.
+
+
+
+<hr />
+
+
+
+<br />
+
+## Events
+
+### **`LogMintAuthorityUpdated`** *`(address _newMintAuthority)`*
+
+
+
+
+
+<hr />
+
+### **`LogMint`** *`(address _to, uint256 _amount, uint256 _n, bytes32 _signedMessageHash)`*
+
+
+
+
+
+<hr />
+
+### **`LogBurn`** *`(bytes _to, uint256 _amount, uint256 _n, bytes _indexedTo)`*
+
+
+
+
+
+<hr />
+

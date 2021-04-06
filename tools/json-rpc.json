@@ -1,0 +1,1300 @@
+{
+  "x-send-defaults": true,
+  "openapi": "3.0.0",
+  "x-api-id": "json-rpc-example",
+  "info": {
+    "title": "JSON-RPC OpenAPI",
+    "version": "0.3.0",
+    "description": "The RenVM JSON-RPC OpenAPI definition."
+  },
+  "servers": [
+    {
+      "url": "https://lightnode-{network}.herokuapp.com",
+      "variables": {
+        "network": {
+          "default": "new-mainnet",
+          "enum": ["mainnet", "new-mainnet", "testnet", "new-testnet"]
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/ren_queryTx": {
+      "post": {
+        "operationId": "ren_queryTx",
+        "deprecated": false,
+        "summary": "ren_queryTx",
+        "description": "ren_queryTx returns the transaction state of the provided RenVM transaction hash.",
+        "tags": ["JSONRPC"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["method", "id", "jsonrpc", "params"],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "ren_queryTx",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": ["txHash"],
+                    "properties": {
+                      "txHash": {
+                        "type": "string",
+                        "default": "eKT2CEAd3ZuzIsQ5mrqKO9Yv24e7ql9fSi-ltOUXfBM",
+                        "description": "The RenVM hash of the transaction that will be returned."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "jsonrpc": {
+                      "default": "2.0",
+                      "type": "string"
+                    },
+                    "id": {
+                      "default": 1,
+                      "type": "number"
+                    },
+                    "result": {
+                      "properties": {
+                        "tx": {
+                          "$ref": "#/components/schemas/txWithOut"
+                        },
+                        "txStatus": {
+                          "$ref": "#/components/schemas/txStatus"
+                        }
+                      },
+                      "required": ["tx", "txStatus"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  },
+                  "required": ["jsonrpc", "id", "result"],
+                  "additionalProperties": false,
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ren_submitTx": {
+      "post": {
+        "operationId": "ren_submitTx",
+        "deprecated": false,
+        "summary": "ren_submitTx",
+        "description": "ren_submitTx returns the transaction state of the provided RenVM transaction hash.",
+        "tags": ["JSONRPC"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["method", "id", "jsonrpc", "params"],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "ren_submitTx",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": ["tx"],
+                    "properties": {
+                      "tx": {
+                        "$ref": "#/components/schemas/tx"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "jsonrpc": {
+                      "default": "2.0",
+                      "type": "string"
+                    },
+                    "id": {
+                      "default": 1,
+                      "type": "number"
+                    },
+                    "result": {
+                      "properties": {},
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  },
+                  "required": ["jsonrpc", "id", "result"],
+                  "additionalProperties": false,
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ren_queryTxs": {
+      "post": {
+        "operationId": "ren_queryTxs",
+        "deprecated": false,
+        "summary": "ren_queryTxs",
+        "description": "ren_queryTxs provides a way of enumerating all transactions.",
+        "tags": ["JSONRPC"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["method", "id", "jsonrpc", "params"],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "ren_queryTxs",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "required": [],
+                    "properties": {
+                      "txStatus": {
+                        "description": "The status of transactions that will be returned.",
+                        "$ref": "#/components/schemas/txStatus"
+                      },
+                      "offset": {
+                        "description": "The number of transactions that should be skipped.",
+                        "type": "string",
+                        "example": "10"
+                      },
+                      "limit": {
+                        "description": "the number of transactions that should be returned",
+                        "type": "string",
+                        "example": "2"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "jsonrpc": {
+                      "default": "2.0",
+                      "type": "string"
+                    },
+                    "id": {
+                      "default": 1,
+                      "type": "number"
+                    },
+                    "result": {
+                      "properties": {
+                        "txs": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/txWithOut"
+                          }
+                        }
+                      },
+                      "required": ["tx", "txStatus"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  },
+                  "required": ["jsonrpc", "id", "result"],
+                  "additionalProperties": false,
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ren_queryState": {
+      "post": {
+        "operationId": "ren_queryState",
+        "deprecated": false,
+        "summary": "ren_queryState",
+        "description": "ren_queryState returns the current RenVM state, including information about gas prices for each chain.",
+        "tags": ["JSONRPC"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["method", "id", "jsonrpc", "params"],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "ren_queryState",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "jsonrpc": {
+                      "const": "2.0",
+                      "type": "string"
+                    },
+                    "id": {
+                      "const": 1,
+                      "type": "number"
+                    },
+                    "result": {
+                      "properties": {
+                        "state": {
+                          "properties": {
+                            "Bitcoin": {
+                              "properties": {
+                                "address": {
+                                  "const": "1GRZJYrK5P8Q6NVNNZy9ibBmtbkbf6fXyi",
+                                  "type": "string"
+                                },
+                                "dust": {
+                                  "const": "546",
+                                  "type": "string"
+                                },
+                                "gasCap": {
+                                  "const": "142",
+                                  "type": "string"
+                                },
+                                "gasLimit": {
+                                  "const": "400",
+                                  "type": "string"
+                                },
+                                "gasPrice": {
+                                  "const": "142",
+                                  "type": "string"
+                                },
+                                "latestChainHash": {
+                                  "const": "",
+                                  "type": "string"
+                                },
+                                "latestChainHeight": {
+                                  "const": "0",
+                                  "type": "string"
+                                },
+                                "minimumAmount": {
+                                  "const": "547",
+                                  "type": "string"
+                                },
+                                "output": {
+                                  "properties": {
+                                    "outpoint": {
+                                      "properties": {
+                                        "hash": {
+                                          "const": "dMsmXjow5HEiUisz-S_Ug2UDlJpupjr26GEVK9S6QaE",
+                                          "type": "string"
+                                        },
+                                        "index": {
+                                          "const": "0",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": ["hash", "index"],
+                                      "additionalProperties": false,
+                                      "type": "object"
+                                    },
+                                    "pubKeyScript": {
+                                      "const": "dqkUqS7VrNHwJ8GjqXHg3WCeajtM4OeIrA",
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "const": "372618291",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "outpoint",
+                                    "pubKeyScript",
+                                    "value"
+                                  ],
+                                  "additionalProperties": false,
+                                  "type": "object"
+                                },
+                                "pubKey": {
+                                  "const": "A4knRXgAkxx9RNyUywAhtOiB-ZNcEjTckvRW4y7AGdXX",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "address",
+                                "dust",
+                                "gasCap",
+                                "gasLimit",
+                                "gasPrice",
+                                "latestChainHash",
+                                "latestChainHeight",
+                                "minimumAmount",
+                                "output",
+                                "pubKey"
+                              ],
+                              "additionalProperties": false,
+                              "type": "object"
+                            },
+                            "Filecoin": {
+                              "properties": {
+                                "address": {
+                                  "const": "f15wjyn36z6x5ypq7f73yaolqbxyiiwkg5mmuyo2q",
+                                  "type": "string"
+                                },
+                                "gasCap": {
+                                  "const": "17037009230",
+                                  "type": "string"
+                                },
+                                "gasLimit": {
+                                  "const": "2200000",
+                                  "type": "string"
+                                },
+                                "gasPrice": {
+                                  "const": "200156",
+                                  "type": "string"
+                                },
+                                "gnonces": {
+                                  "items": {
+                                    "oneOf": [
+                                      {
+                                        "properties": {
+                                          "address": {
+                                            "const": "",
+                                            "type": "string"
+                                          },
+                                          "nonce": {
+                                            "const": "0",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": ["address", "nonce"],
+                                        "additionalProperties": false,
+                                        "type": "object"
+                                      }
+                                    ]
+                                  },
+                                  "additionalItems": false,
+                                  "minItems": 1,
+                                  "type": "array"
+                                },
+                                "latestChainHash": {
+                                  "const": "",
+                                  "type": "string"
+                                },
+                                "latestChainHeight": {
+                                  "const": "0",
+                                  "type": "string"
+                                },
+                                "minimumAmount": {
+                                  "const": "1",
+                                  "type": "string"
+                                },
+                                "nonce": {
+                                  "const": "37",
+                                  "type": "string"
+                                },
+                                "pubKey": {
+                                  "const": "A4knRXgAkxx9RNyUywAhtOiB-ZNcEjTckvRW4y7AGdXX",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "address",
+                                "gasCap",
+                                "gasLimit",
+                                "gasPrice",
+                                "gnonces",
+                                "latestChainHash",
+                                "latestChainHeight",
+                                "minimumAmount",
+                                "nonce",
+                                "pubKey"
+                              ],
+                              "additionalProperties": false,
+                              "type": "object"
+                            }
+                          },
+                          "required": ["Bitcoin", "Filecoin"],
+                          "additionalProperties": false,
+                          "type": "object"
+                        }
+                      },
+                      "required": ["state"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  },
+                  "required": ["jsonrpc", "id", "result"],
+                  "additionalProperties": false,
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ren_queryConfig": {
+      "post": {
+        "operationId": "ren_queryConfig",
+        "deprecated": false,
+        "summary": "ren_queryConfig",
+        "description": "ren_queryConfig returns the current RenVM state, including information about gas prices for each chain.",
+        "tags": ["JSONRPC"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["method", "id", "jsonrpc", "params"],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "ren_queryConfig",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "jsonrpc": {
+                      "const": "2.0",
+                      "type": "string"
+                    },
+                    "id": {
+                      "const": 1,
+                      "type": "number"
+                    },
+                    "result": {
+                      "properties": {
+                        "confirmations": {
+                          "properties": {
+                            "BinanceSmartChain": {
+                              "const": "6",
+                              "type": "string"
+                            },
+                            "Bitcoin": {
+                              "const": "0",
+                              "type": "string"
+                            },
+                            "BitcoinCash": {
+                              "const": "0",
+                              "type": "string"
+                            },
+                            "DigiByte": {
+                              "const": "0",
+                              "type": "string"
+                            },
+                            "Dogecoin": {
+                              "const": "0",
+                              "type": "string"
+                            },
+                            "Ethereum": {
+                              "const": "6",
+                              "type": "string"
+                            },
+                            "Filecoin": {
+                              "const": "0",
+                              "type": "string"
+                            },
+                            "Terra": {
+                              "const": "0",
+                              "type": "string"
+                            },
+                            "Zcash": {
+                              "const": "0",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "BinanceSmartChain",
+                            "Bitcoin",
+                            "BitcoinCash",
+                            "DigiByte",
+                            "Dogecoin",
+                            "Ethereum",
+                            "Filecoin",
+                            "Terra",
+                            "Zcash"
+                          ],
+                          "additionalProperties": false,
+                          "type": "object"
+                        },
+                        "whitelist": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "additionalItems": false,
+                          "minItems": 22,
+                          "type": "array"
+                        }
+                      },
+                      "required": ["confirmations", "whitelist"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  },
+                  "required": ["jsonrpc", "id", "result"],
+                  "additionalProperties": false,
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ren_queryBlock": {
+      "post": {
+        "operationId": "ren_queryBlock",
+        "deprecated": false,
+        "summary": "ren_queryBlock",
+        "description": "ren_queryBlock returns the details of the latest block, or of a block at the height specified",
+        "tags": ["JSONRPC"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["method", "id", "jsonrpc", "params"],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "ren_queryBlock",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "properties": {
+                      "blockHeight": {
+                        "type": "string",
+                        "example": "100",
+                        "description": "The height of the block to fetch. If unset, the latest block is returned."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "jsonrpc": {
+                      "const": "2.0",
+                      "type": "string"
+                    },
+                    "id": {
+                      "const": 1,
+                      "type": "number"
+                    },
+                    "result": {
+                      "properties": {
+                        "block": {
+                          "$ref": "#/components/schemas/block"
+                        }
+                      },
+                      "required": ["block"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  },
+                  "required": ["jsonrpc", "id", "result"],
+                  "additionalProperties": false,
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ren_queryBlocks": {
+      "post": {
+        "operationId": "ren_queryBlocks",
+        "deprecated": false,
+        "summary": "ren_queryBlocks",
+        "description": "ren_queryBlocks returns the details of the latest block, or of a block at the height specified",
+        "tags": ["JSONRPC"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["method", "id", "jsonrpc", "params"],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "ren_queryBlocks",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "properties": {
+                      "blockHeight": {
+                        "type": "string",
+                        "example": "100",
+                        "description": "The height of the first block to fetch. If unset, the latest blocks [n] blocks are returned."
+                      },
+                      "n": {
+                        "type": "string",
+                        "example": "2",
+                        "description": "The number blocks to fetch."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "jsonrpc": {
+                      "const": "2.0",
+                      "type": "string"
+                    },
+                    "id": {
+                      "const": 1,
+                      "type": "number"
+                    },
+                    "result": {
+                      "properties": {
+                        "blocks": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/block"
+                          }
+                        }
+                      },
+                      "required": ["blocks"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  },
+                  "required": ["jsonrpc", "id", "result"],
+                  "additionalProperties": false,
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "txIn": {
+        "properties": {
+          "t": {
+            "properties": {
+              "struct": {
+                "items": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "txid": {
+                          "const": "bytes",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["txid"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "txindex": {
+                          "const": "u32",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["txindex"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "amount": {
+                          "const": "u256",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["amount"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "payload": {
+                          "const": "bytes",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["payload"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "phash": {
+                          "const": "bytes32",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["phash"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "to": {
+                          "const": "string",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["to"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "nonce": {
+                          "const": "bytes32",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["nonce"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "nhash": {
+                          "const": "bytes32",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["nhash"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "gpubkey": {
+                          "const": "bytes",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["gpubkey"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "ghash": {
+                          "const": "bytes32",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["ghash"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  ]
+                },
+                "additionalItems": false,
+                "minItems": 10,
+                "type": "array"
+              }
+            },
+            "required": ["struct"],
+            "additionalProperties": false,
+            "type": "object"
+          },
+          "v": {
+            "properties": {
+              "amount": {
+                "const": "401480",
+                "type": "string"
+              },
+              "ghash": {
+                "const": "9VxewtRVSJmKnc2jhplArqWeSOxE50msbMJd1hx2X7U",
+                "type": "string"
+              },
+              "gpubkey": {
+                "const": "A4knRXgAkxx9RNyUywAhtOiB-ZNcEjTckvRW4y7AGdXX",
+                "type": "string"
+              },
+              "nhash": {
+                "const": "MUdOHf1As-OXFjQMI0PogV6Lx5PKbSPN7fpvZu21okM",
+                "type": "string"
+              },
+              "nonce": {
+                "const": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACs",
+                "type": "string"
+              },
+              "payload": {
+                "const": "",
+                "type": "string"
+              },
+              "phash": {
+                "const": "xdJGAYb3IzySfn2y3McDwOUAtlPKgic7e_rYBF2FpHA",
+                "type": "string"
+              },
+              "to": {
+                "const": "bc1qj4cj3406k5pe4m0m7ngth35w73aghljghpykqf",
+                "type": "string"
+              },
+              "txid": {
+                "const": "aCjatCwWSIALMAzSsTGPgSadDgZT8Nsc2iAqn413ewY",
+                "type": "string"
+              },
+              "txindex": {
+                "const": "0",
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "ghash",
+              "gpubkey",
+              "nhash",
+              "nonce",
+              "payload",
+              "phash",
+              "to",
+              "txid",
+              "txindex"
+            ],
+            "additionalProperties": false,
+            "type": "object"
+          }
+        },
+        "required": ["t", "v"],
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "txOut": {
+        "properties": {
+          "t": {
+            "properties": {
+              "struct": {
+                "items": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "amount": {
+                          "const": "u256",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["amount"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "outpoint": {
+                          "properties": {
+                            "struct": {
+                              "items": {
+                                "oneOf": [
+                                  {
+                                    "properties": {
+                                      "hash": {
+                                        "const": "bytes",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": ["hash"],
+                                    "additionalProperties": false,
+                                    "type": "object"
+                                  },
+                                  {
+                                    "properties": {
+                                      "index": {
+                                        "const": "u32",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": ["index"],
+                                    "additionalProperties": false,
+                                    "type": "object"
+                                  }
+                                ]
+                              },
+                              "additionalItems": false,
+                              "minItems": 2,
+                              "type": "array"
+                            }
+                          },
+                          "required": ["struct"],
+                          "additionalProperties": false,
+                          "type": "object"
+                        }
+                      },
+                      "required": ["outpoint"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  ]
+                },
+                "additionalItems": false,
+                "minItems": 2,
+                "type": "array"
+              }
+            },
+            "required": ["struct"],
+            "additionalProperties": false,
+            "type": "object"
+          },
+          "v": {
+            "properties": {
+              "amount": {
+                "const": "320933",
+                "type": "string"
+              },
+              "outpoint": {
+                "properties": {
+                  "hash": {
+                    "const": "OR-M2ba950zlOFqF9ujiA6Qpdqx3G5gxEKaAveGtYEs",
+                    "type": "string"
+                  },
+                  "index": {
+                    "const": "0",
+                    "type": "string"
+                  }
+                },
+                "required": ["hash", "index"],
+                "additionalProperties": false,
+                "type": "object"
+              }
+            },
+            "required": ["amount", "outpoint"],
+            "additionalProperties": false,
+            "type": "object"
+          }
+        },
+        "required": ["t", "v"],
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "txWithOut": {
+        "properties": {
+          "hash": {
+            "example": "eKT2CEAd3ZuzIsQ5mrqKO9Yv24e7ql9fSi-ltOUXfBM",
+            "type": "string"
+          },
+          "in": {
+            "$ref": "#/components/schemas/txIn"
+          },
+          "out": {
+            "$ref": "#/components/schemas/txOut"
+          },
+          "selector": {
+            "example": "BTC/fromBinanceSmartChain",
+            "type": "string"
+          },
+          "version": {
+            "default": "1",
+            "type": "string"
+          }
+        },
+        "required": ["hash", "in", "selector", "version"],
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "tx": {
+        "properties": {
+          "hash": {
+            "example": "eKT2CEAd3ZuzIsQ5mrqKO9Yv24e7ql9fSi-ltOUXfBM",
+            "type": "string"
+          },
+          "in": {
+            "$ref": "#/components/schemas/txIn"
+          },
+          "selector": {
+            "example": "BTC/fromBinanceSmartChain",
+            "type": "string"
+          },
+          "version": {
+            "default": "1",
+            "type": "string"
+          }
+        },
+        "required": ["hash", "in", "selector", "version"],
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "txStatus": {
+        "example": "done",
+        "type": "enum",
+        "description": "One of done, confirming, pending or reverted",
+        "enum": ["done", "confirming", "pending", "reverted"]
+      },
+      "block": {
+        "required": [
+          "extrinsics",
+          "extrinsicsRootHash",
+          "hash",
+          "height",
+          "next",
+          "parentHash",
+          "parentSignature",
+          "timestamp"
+        ],
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "extrinsics": {
+            "properties": {
+              "coreTxs": {
+                "items": [],
+                "additionalItems": false,
+                "minItems": 0,
+                "type": "array"
+              },
+              "plan": {
+                "additionalProperties": false,
+                "type": "object"
+              },
+              "shardTxs": {
+                "properties": {
+                  "txResults": {
+                    "additionalProperties": false,
+                    "type": "object"
+                  },
+                  "txs": {
+                    "properties": {
+                      "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "additionalItems": false,
+                        "minItems": 4,
+                        "type": "array"
+                      }
+                    },
+                    "required": ["AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"],
+                    "additionalProperties": false,
+                    "type": "object"
+                  }
+                },
+                "required": ["txResults", "txs"],
+                "additionalProperties": false,
+                "type": "object"
+              },
+              "state": {
+                "const": "MsTY7_ox8loLHc7224BmNTvpLPohIlN61RWi-PpjmIQ",
+                "type": "string"
+              }
+            },
+            "required": ["coreTxs", "plan", "shardTxs", "state"],
+            "additionalProperties": false,
+            "type": "object"
+          },
+          "extrinsicsRootHash": {
+            "const": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "type": "string"
+          },
+          "hash": {
+            "const": "KLDKq5PvWWVqjXM7YWaYdo_YZrO214Kc9u3R7w1amoM",
+            "type": "string"
+          },
+          "height": {
+            "const": "716942",
+            "type": "string"
+          },
+          "next": {
+            "items": {
+              "type": "object"
+            },
+            "additionalItems": false,
+            "minItems": 0,
+            "type": "array"
+          },
+          "parentHash": {
+            "const": "Gf1u1AKQKTmGI4vRIdwMbLvW60vg_hnKneAue5aP4Yg",
+            "type": "string"
+          },
+          "parentSignature": {
+            "const": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "type": "string"
+          },
+          "timestamp": {
+            "const": "1610973470192268438",
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "x-headers": [],
+  "x-explorer-enabled": true,
+  "x-proxy-enabled": true,
+  "x-samples-enabled": true,
+  "x-samples-languages": ["curl", "node", "ruby", "javascript", "python"],
+  "tags": []
+}

@@ -1,0 +1,63 @@
+---
+title: CanReclaimTokens
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `CanReclaimTokens`
+
+
+
+
+
+Inherits from:
+
+- `Claimable`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+
+
+<br />
+
+## Functions
+
+### **`initialize`** *`(address _nextOwner)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`blacklistRecoverableToken`** *`(address _token)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`recoverTokens`** *`(address _token)`* (external)
+
+
+
+Allow the owner of the contract to recover funds accidentally
+sent to the contract. To withdraw ETH, the token should be set to `0x0`.
+
+
+
+<hr />
+
+

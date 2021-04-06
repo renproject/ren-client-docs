@@ -1,0 +1,209 @@
+enum TransactionType {
+  mint
+  burn
+}
+
+type Transaction {
+  id: ID!
+  timestamp: Int
+  asset: String!
+  type: TransactionType!
+  amount: Int!
+  feeRate: Int!
+  integrator: [Int!]
+  transactionTo: [Int!]
+  burnRecipient: [Int!]
+  destination: [Int!]
+}
+
+type Asset {
+  id: ID!
+  gatewayAddress: String!
+  tokenAddress: String!
+  symbol: String!
+  decimals: Int!
+  priceInEth: Float!
+  priceInUsd: Float!
+}
+
+type ValueWithAsset {
+  id: ID!
+  symbol: String!
+  asset: Asset
+  value: Int!
+}
+
+type AssetAmount {
+  id: ID!
+  symbol: String!
+  asset: Asset
+  amount: Int!
+  amountInEth: Float!
+  amountInUsd: Float!
+}
+
+type Darknode {
+  id: ID!
+  operator: [Int!]!
+  bond: Int!
+  publicKey: [Int!]!
+  registeredAt: Int!
+  deregisteredAt: Int!
+
+  lastClaimedEpoch: Int
+  previousLastClaimedEpoch: Int
+
+  balances: [AssetAmount!]!
+
+  # DEPRECATED
+
+  balanceBTC: Int!
+  balanceZEC: Int!
+  balanceBCH: Int!
+}
+
+type Epoch {
+  id: ID!
+  epochhash: Int!
+  timestamp: Int!
+  blockNumber: Int!
+  nextEpochBlockNumber: Int!
+
+  minimumBond: Int!
+  minimumEpochInterval: Int!
+
+  numberOfDarknodes: Int!
+  numberOfDarknodesLastEpoch: Int!
+
+  rewardShares: [AssetAmount!]!
+  cumulativeRewardShares: [AssetAmount!]!
+
+  # DEPRECATED
+
+  rewardShareBTC: Int!
+  rewardShareZEC: Int!
+  rewardShareBCH: Int!
+
+  totalRewardShareBTC: Int!
+  totalRewardShareZEC: Int!
+  totalRewardShareBCH: Int!
+}
+
+# Data accumulated and condensed into day stats
+type RenVM {
+  id: ID! # fixed to '1'
+  # The most recent Ethereum block in which RenVM had activity.
+  activeBlock: Int!
+  activeTimestamp: Int!
+  previousActiveBlock: Int!
+  previousActiveTimestamp: Int!
+
+  numberOfDarknodes: Int!
+  numberOfDarknodesLastEpoch: Int!
+  numberOfDarknodesNextEpoch: Int!
+  pendingRegistrations: Int!
+  pendingDeregistrations: Int!
+
+  minimumBond: Int!
+
+  # Epochs
+  minimumEpochInterval: Int!
+  currentEpoch: Epoch
+  previousEpoch: Epoch
+  deregistrationInterval: Int!
+
+  # Fees
+  btcMintFee: Int!
+  btcBurnFee: Int!
+  zecMintFee: Int!
+  zecBurnFee: Int!
+  bchMintFee: Int!
+  bchBurnFee: Int!
+
+  mintFee: [ValueWithAsset!]!
+  burnFee: [ValueWithAsset!]!
+
+  # Cycles
+  currentCycle: Int!
+  previousCycle: Int!
+  currentCyclePayoutPercent: Int!
+  cycleStartTime: Int!
+
+  txCount: [ValueWithAsset!]!
+  locked: [AssetAmount!]!
+  volume: [AssetAmount!]!
+  fees: [AssetAmount!]!
+  cycleRewards: [AssetAmount!]!
+
+  # DEPRECATED
+
+  totalTxCountBTC: Int!
+  totalLockedBTC: Int!
+  totalVolumeBTC: Int!
+
+  totalTxCountZEC: Int!
+  totalLockedZEC: Int!
+  totalVolumeZEC: Int!
+
+  totalTxCountBCH: Int!
+  totalLockedBCH: Int!
+  totalVolumeBCH: Int!
+}
+
+# Data accumulated and condensed into day stats
+type Integrator {
+  id: ID!
+  date: Int!
+
+  contractAddress: [Int!]!
+
+  txCount: [ValueWithAsset!]!
+  locked: [AssetAmount!]!
+  volume: [AssetAmount!]!
+  fees: [AssetAmount!]!
+
+  # Track totals so that entities can be sorted by them.
+  txCountTotal: Int!
+  volumeTotalUSD: Float!
+  feesTotalUSD: Float!
+
+  # DEPRECATED
+
+  txCountBTC: Int!
+  lockedBTC: Int!
+  volumeBTC: Int!
+
+  txCountZEC: Int!
+  lockedZEC: Int!
+  volumeZEC: Int!
+
+  txCountBCH: Int!
+  lockedBCH: Int!
+  volumeBCH: Int!
+}
+
+type IntegratorContract {
+  id: ID!
+  date: Int!
+
+  contractAddress: [Int!]!
+
+  txCount: [ValueWithAsset!]!
+  locked: [AssetAmount!]!
+  volume: [AssetAmount!]!
+  fees: [AssetAmount!]!
+
+  # DEPRECATED
+
+  txCountBTC: Int!
+  lockedBTC: Int!
+  volumeBTC: Int!
+
+  txCountZEC: Int!
+  lockedZEC: Int!
+  volumeZEC: Int!
+
+  txCountBCH: Int!
+  lockedBCH: Int!
+  volumeBCH: Int!
+}

@@ -1,0 +1,130 @@
+---
+title: ClaimlessRewardsEvents
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `ClaimlessRewardsEvents`
+
+
+
+
+
+
+<hr />
+
+
+
+
+
+<br />
+
+## Events
+
+### **`LogDarknodeWithdrew`** *`(address _payee, uint256 _value, address _token)`*
+
+Emitted when a node calls withdraw
+
+
+
+**Params**
+- `_payee`: The address of the node which withdrew
+
+- `_value`: The amount of DAI withdrawn
+
+- `_token`: The address of the token that was withdrawn
+
+<hr />
+
+### **`LogCycleChanged`** *`(uint256 _newTimestamp, uint256 _previousTimestamp, uint256 _shareCount)`*
+
+Emitted when the cycle is changed.
+
+
+
+**Params**
+- `_newTimestamp`: The start timestamp of the new cycle.
+
+- `_previousTimestamp`: The start timestamp of the previous cycle.
+
+- `_shareCount`: The number of darknodes at the end of the previous
+cycle.
+
+<hr />
+
+### **`LogHourlyPayoutChanged`** *`(uint256 _newNumerator, uint256 _oldNumerator)`*
+
+Emitted when the node payout percent changes.
+
+
+
+**Params**
+- `_newNumerator`: The new numerator.
+
+- `_oldNumerator`: The old numerator.
+
+<hr />
+
+### **`LogCommunityFundNumeratorChanged`** *`(uint256 _newNumerator, uint256 _oldNumerator)`*
+
+Emitted when the community fund percent changes.
+
+
+
+**Params**
+- `_newNumerator`: The new numerator.
+
+- `_oldNumerator`: The old numerator.
+
+<hr />
+
+### **`LogTokenRegistered`** *`(address _token)`*
+
+Emitted when a new token is registered.
+
+
+
+**Params**
+- `_token`: The token that was registered.
+
+<hr />
+
+### **`LogTokenDeregistered`** *`(address _token)`*
+
+Emitted when a token is deregistered.
+
+
+
+**Params**
+- `_token`: The token that was deregistered.
+
+<hr />
+
+### **`LogDarknodeRegistryUpdated`** *`(contract DarknodeRegistryLogicV1 _previousDarknodeRegistry, contract DarknodeRegistryLogicV1 _nextDarknodeRegistry)`*
+
+Emitted when the DarknodeRegistry is updated.
+
+
+
+**Params**
+- `_previousDarknodeRegistry`: The address of the old registry.
+
+- `_nextDarknodeRegistry`: The address of the new registry.
+
+<hr />
+
+### **`LogCommunityFundUpdated`** *`(address _previousCommunityFund, address _nextCommunityFund)`*
+
+Emitted when the community fund recipient is updated.
+
+
+
+**Params**
+- `_previousCommunityFund`: The address of the old community fund.
+
+- `_nextCommunityFund`: The address of the new community fund.
+
+<hr />
+

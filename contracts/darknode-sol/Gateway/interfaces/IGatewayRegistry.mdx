@@ -1,0 +1,122 @@
+---
+title: IGatewayRegistry
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `IGatewayRegistry`
+
+GatewayRegistry is a mapping from assets to their associated
+RenERC20 and Gateway contracts.
+
+
+
+
+<hr />
+
+
+
+
+<br />
+
+## Functions
+
+### **`getGateways`** *`(address _start, uint256 _count) → address[]`* (external)
+
+
+
+
+
+To get all the registered gateways use count = 0.
+
+<hr />
+
+### **`getRenTokens`** *`(address _start, uint256 _count) → address[]`* (external)
+
+
+
+
+
+To get all the registered RenERC20s use count = 0.
+
+<hr />
+
+### **`getGatewayByToken`** *`(address _tokenAddress) → contract IGateway`* (external)
+
+**Params**
+- `_tokenAddress`: The address of the RenERC20 contract.
+
+
+Returns the Gateway contract for the given RenERC20
+        address.
+
+
+
+
+
+<hr />
+
+### **`getGatewayBySymbol`** *`(string _tokenSymbol) → contract IGateway`* (external)
+
+**Params**
+- `_tokenSymbol`: The symbol of the RenERC20 contract.
+
+
+Returns the Gateway contract for the given RenERC20
+        symbol.
+
+
+
+
+
+<hr />
+
+### **`getTokenBySymbol`** *`(string _tokenSymbol) → contract IERC20`* (external)
+
+**Params**
+- `_tokenSymbol`: The symbol of the RenERC20 contract to
+       lookup.
+
+
+Returns the RenERC20 address for the given token symbol.
+
+
+
+
+
+<hr />
+
+
+
+<br />
+
+## Events
+
+### **`LogGatewayRegistered`** *`(string _symbol, string _indexedSymbol, address _tokenAddress, address _gatewayAddress)`*
+
+
+
+*The symbol is included twice because strings have to be hashed
+first in order to be used as a log index/topic.*
+
+
+<hr />
+
+### **`LogGatewayDeregistered`** *`(string _symbol, string _indexedSymbol, address _tokenAddress, address _gatewayAddress)`*
+
+
+
+
+
+<hr />
+
+### **`LogGatewayUpdated`** *`(address _tokenAddress, address _currentGatewayAddress, address _newGatewayAddress)`*
+
+
+
+
+
+<hr />
+

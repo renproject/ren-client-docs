@@ -1,0 +1,64 @@
+---
+title: ClaimlessRewardsCycleHandler
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `ClaimlessRewardsCycleHandler`
+
+
+
+
+
+Inherits from:
+
+- `ClaimlessRewardsState`
+- `ClaimlessRewardsEvents`
+
+
+<hr />
+
+
+
+
+<br />
+
+## Functions
+
+### **`epochTimestampsLength`** *`() → uint256`* (external)
+
+
+
+(external view) Return the length of the array of cycle
+timestamps. This makes it easier for clients to loop through them.
+
+
+
+<hr />
+
+### **`getEpochTimestamps`** *`() → uint256[]`* (external)
+
+
+
+(external view) Returns the full array of timestamps. If this
+grows too large to return, they should be fetched one-by-one or by
+fetching tx logs.
+
+
+
+<hr />
+
+### **`changeCycle`** *`() → uint256`* (external)
+
+
+
+Changes the current cycle.
+Callable by anyone.
+
+
+
+<hr />
+
+

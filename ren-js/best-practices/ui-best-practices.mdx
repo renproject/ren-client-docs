@@ -1,0 +1,132 @@
+---
+title: RenVM UX Best Practice
+description: >-
+  This section will outline the best practices and things to keep in mind when
+  integrating RenVM via RenJS.
+---
+
+_This section will outline the best practices and things to keep in mind when
+integrating RenVM via RenJS._
+
+<hr />
+
+Cross-chain transactions are a new experience for users of decentralized protocols therefore there is not a lot of precedent for the ideal User Experience \(UX\).
+
+Below is a set of guidelines aiming to increase the usability of a third party application that chooses to integrate RenVM’s native cross-chain experience, utilising the [RenJS JavaScript framework.](https://github.com/renproject/ren-js)
+
+## Top 10 UX Considerations
+
+### **1\) Explicit Warnings \| Loss of Funds**
+
+We strongly suggest putting in a checkbox via opt-in - regarding loss of funds if a user makes a mistake.
+
+:::caution
+**It should be clear that if the user makes a mistake \(sends funds to the wrong address, deposits multiple TXs, etc.\) that their funds are permanently lost \(as with any other blockchain mistake\).**
+
+**It's very important to set the expectations up front, as the Ren team will not be able to assist with loss of funds.**
+:::
+
+### **2\)** Explicit D**isclosures \| RenVM is new technology and that users should not send funds they can’t afford to lose**
+
+While after [four security audits](https://github.com/renproject/ren/wiki/Audits) and years of testing... given the nature of blockchains, there is always a chance things can go wrong. Its obligatory that you warn users.
+
+:::caution
+Your dApps front-end should state clearly that there are risks.
+
+Example: “RenVM is new technology and security audits don't completely eliminate risks. Please don’t supply assets you can’t afford to lose.”
+:::
+
+### **3\) A Gateway Address is only valid for 24 hours**
+
+RenVM generates “Gateway Addresses”. Users transfer assets to the gateway address on one blockchain, and RenVM mints a tokenized representation of those assets on another blockchain.
+
+For example, if I was sending BTC to Ethereum, RenVM would generate a **unique** BTC public key that integrations would show on their front end. A user would then transfer an amount of BTC to this address and RenVM would in turn mint renBTC on Ethereum \(an ERC20\).
+
+:::caution
+These addresses are only valid for 24 hours.
+
+Your front-end should indicate this to the user to avoid them generating a Gateway Address and returning more than 24 hours later to deposit assets to it. **If they deposit assets to an old Gateway Address the funds will be lose.**
+:::
+
+### **4\) A Gateway Address can only be used once**
+
+Gateway Addresses should only be used to deposit funds one-time. Your front-end should alert users to only deposit to a Gateway Address once. If users want to make multiple deposits, they should wait until the first is complete.
+
+:::caution
+**If a user send multiple deposits to an Gateway Address the funds will be lost.**
+:::
+
+### **5\) Storing Orders**
+
+As transactions move from one blockchain to another, the individual order needs to be stored and retrieved incase a user closes their web browser, clears cache & cookies, etc. RenVM does not inherently store this information, so each integrators needs to implement a storage solution.
+
+It can be stored in the web browser, be persistent storage via a decentralized \(3box\) or centralized \(Firebase\) solution, but one must be chosen and then conveyed to users, so they know how to retrieve the information.
+
+Example: An integrator made persistent storage optional but didn't properly warn the user what would happen if they refreshed without storage enabled.
+
+:::tip
+In general, the best UX is that storage is always enabled and mint details are stored before showing a deposit address to users.
+:::
+
+### 6\) Minimum Order Amounts & Fees
+
+There are a few fees that need to be considered when using RenVM.
+
+Example \(BTC to Ethereum\) :  
+_Bitcoin Miner Fee  
+Ethereum Miner Fee  
+RenVM Fee_
+
+As you can imagine these add up, making small transactions not worth it. Its recommended there is typically a 50\$ USD minimum \(depending on networks congestion\), so you should make sure users are aware of this.
+
+:::caution
+**If users send less than the total fees, funds are lost. This should be made clear in the UI.**
+:::
+
+### **7\) Display the blockchain confirmations and blockchain TX details**
+
+Before RenVM mints a tokenized representation, it must wait for a number of confirmations on the guest blockchain.
+
+E.G RenVM waits for 6 confirmations on Bitcoin before minting the user the tokenized representation on Ethereum \(renBTC\). The front-end should display to the user the number of confirmations as an indication of how much longer they need to wait.
+
+Further, it is advised to provide a hyperlink to the relevant on-chain transactions for transparency. If a user is moving BTC to ETH, then provide a link to BTC TX \(e.g Sochain\) and once the ETH TX has been initiated, the same applies \(Etherscan\).
+
+:::tip
+This is important for transparency and so the user feels at ease when waiting.
+:::
+
+### **8\) After RenVM has witnessed the required number of confirmations, the user must submit a Mint transaction on the Host blockchain**
+
+For example, if a user is sending BTC to Ethereum, after 6 confirmations they are required to sign a transaction with a web3 enabled Ethereum wallet \(such as MetaMask\).
+
+After detecting that a user has deposited the Host asset, your front-end should alert the user that they’ll need to return after the required amount of confirmations. If the user walks away after simply depositing to the Gateway Address and does not return to submit the Mint transaction, their funds will be custodied by RenVM but RenVM will not receive any instructions to mint the tokenized representation. **The user must return before 24 hours to submit to the Destination Chain.**
+
+:::tip
+**Be sure to convey to users that they must return to the UI, to trigger the secondary TX and complete the transactions.**
+:::
+
+### **9\) Your front-end should always indicate to a user when they are required to conduct an action with their Web3 wallet**
+
+In the few instances exemplified above, a user will be required to sign with their Web3 wallet when submitting a mint transaction to Ethereum. For the below example we’ll use MetaMask.
+
+When a front-end triggers a MetaMask interaction, the user won’t always receive a pop-up. Instead, they’ll need to click on the MetaMask icon in the browser menu.
+
+:::tip
+To ensure a user is aware that their attention is required on MetaMask, your front-end should alert them that they are required to sign with their wallet. For example, “Sign with wallet to continue.”.
+:::
+
+### **10\) Set user expectations**
+
+Because RenVM needs to wait for a safe amount of blockchain confirmations \(to prevent double spend, etc\), which can take up to 1 hour \(for BTC\), ensure you set user-expectations.
+
+**BTC Example:** Your front-end should alert users that the task is going to take about 1 hour \(6 BTC Confirmations\) before the secondary TX needs to be triggered \(interaction with ETH or a web 3 wallet\) This will help avoid confusion and ensure users return to sign for the transaction.
+
+## Looking Forward
+
+The Ren team will be adapting this list over time, so check back frequently to ensure your RenVM integration is using the best UX practices. These guidelines are intended to reduce the amount of opportunity a user has to make an error, and should reduce loss of funds.
+
+If you have any suggestions, get in touch via [support@renproject.io](mailto:support@renproject.io).
+
+**Additional reading**
+
+1. Consensys’ Rimble is a front-end component library for building Decentralized Applications \(dApps\) on Ethereum. It includes some best practice but is more relevant to Ethereum based User Experiences. [https://rimble.consensys.design/](https://rimble.consensys.design/)

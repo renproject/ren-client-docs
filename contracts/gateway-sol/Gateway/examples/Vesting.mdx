@@ -1,0 +1,121 @@
+---
+title: Vesting
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `Vesting`
+
+
+
+
+
+Inherits from:
+
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+<br />
+
+## Variables
+
+
+### **`registry`**: *`contract GatewayRegistry`*
+
+
+
+
+
+
+
+<hr />
+
+### **`schedules`**: *`mapping(address => struct Vesting.VestingSchedule)`*
+
+
+
+
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`constructor`** *`(contract GatewayRegistry _registry)`* (public)
+
+**Params**
+- `_registry`: The GatewayRegistry contract address.
+
+
+The contract constructor.
+
+
+
+
+<hr />
+
+### **`addVestingSchedule`** *`(address _beneficiary, uint256 _startTime, uint16 _duration, uint256 _amount, bytes32 _nHash, bytes _sig)`* (external)
+
+**Params**
+- `_amount`: The amount of Bitcoin provided to the Darknodes in Sats.
+
+- `_nHash`: The hash of the nonce returned by the Darknodes.
+
+- `_sig`: The signature returned by the Darknodes.
+
+- `_beneficiary`: The address of the recipient entitled to claim the vested tokens.
+
+- `_startTime`: The start time (in seconds since Unix epoch) at which the vesting
+                  period should begin.
+
+- `_duration`: The number of months for the vesting period.
+
+
+Allows the contract owner to add a vesting schedule for a
+        beneficiary.
+
+
+
+
+<hr />
+
+### **`claim`** *`(bytes _to)`* (external)
+
+**Params**
+- `_to`: The Bitcoin address to which the beneficiary will receive
+           their Bitcoin.
+
+
+Allows a beneficiary to withdraw their vested Bitcoin.
+
+
+
+
+<hr />
+
+### **`calculateClaimable`** *`(address _to) → uint256, uint256`* (public)
+
+**Params**
+- `_to`: The Ethereum address of the beneficiary.
+
+
+Retrieves the claimable amount for a given beneficiary.
+
+
+
+
+<hr />
+
+

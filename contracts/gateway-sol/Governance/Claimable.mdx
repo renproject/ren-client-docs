@@ -1,0 +1,90 @@
+---
+title: Claimable
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `Claimable`
+
+
+
+Extension for the Ownable contract, where the ownership needs to be claimed.
+This allows the new owner to accept the transfer.
+
+Inherits from:
+
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+<br />
+
+## Variables
+
+
+### **`pendingOwner`**: *`address`*
+
+
+
+
+
+
+
+<hr />
+
+
+<br />
+
+## Modifiers
+
+### `onlyPendingOwner()`
+
+
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`initialize`** *`(address _nextOwner)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`transferOwnership`** *`(address newOwner)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`claimOwnership`** *`()`* (public)
+
+
+
+
+
+
+
+<hr />
+
+

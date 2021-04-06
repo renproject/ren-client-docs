@@ -1,0 +1,105 @@
+---
+title: ClaimlessRewardsWithdrawHandler
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `ClaimlessRewardsWithdrawHandler`
+
+
+
+
+
+Inherits from:
+
+- `ClaimlessRewardsCycleHandler`
+- `ClaimlessRewardsState`
+- `ClaimlessRewardsEvents`
+
+
+<hr />
+
+
+
+
+<br />
+
+## Functions
+
+### **`getNextEpochFromTimestamp`** *`(uint256 _target) → uint256`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`darknodeBalances`** *`(address _node, address _token) → uint256`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`withdrawToken`** *`(address[] _nodes, address _token)`* (public)
+
+
+
+Withdraw the provided asset for each node in the list.
+
+
+
+<hr />
+
+### **`withdrawMultiple`** *`(address[] _nodes, address[] _tokens)`* (public)
+
+
+
+Withdraw multiple assets for each darknode in the list.
+The interface has been kept the same as the DarknodePayment contract
+for backward-compatibility.
+
+
+
+<hr />
+
+### **`withdraw`** *`(address _node, address _token)`* (public)
+
+
+
+Withdraw the provided asset for the given darknode.
+The interface has been kept the same as the DarknodePayment contract
+for backward-compatibility.
+
+
+
+<hr />
+
+### **`withdrawToCommunityFund`** *`(address[] _tokens)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`_calculateNewWithdrawable`** *`(address _node, address _token) → uint256, uint256`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+

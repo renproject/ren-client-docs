@@ -1,0 +1,37 @@
+*.env
+.docusaurus
+subgraph/subgraph
+docusaurus-plugin-openapi
+
+node_modules
+
+lerna-debug.log
+yarn-error.log
+
+/.project
+/.settings/
+
+# Logs
+*.log
+
+# Coverage
+.nyc_output
+coverage
+reports
+
+# IDE specific
+.vscode
+.idea
+
+.DS_Store
+
+typedoc/
+
+*.env
+
+build
+misc
+dist
+
+package-lock.json
+.npmrc

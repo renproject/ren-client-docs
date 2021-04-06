@@ -1,0 +1,255 @@
+---
+title: DarknodeSlasher
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `DarknodeSlasher`
+
+DarknodeSlasher will become a voting system for darknodes to
+deregister other misbehaving darknodes.
+Right now, it is a placeholder.
+
+
+
+Inherits from:
+
+- `Claimable`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+<br />
+
+## Variables
+
+
+### **`darknodeRegistry`**: *`contract DarknodeRegistryLogicV1`*
+
+
+
+
+
+
+
+<hr />
+
+### **`blacklistSlashPercent`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+### **`maliciousSlashPercent`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+### **`secretRevealSlashPercent`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+### **`slashed`**: *`mapping(uint256 => mapping(uint256 => mapping(address => bool)))`*
+
+
+
+
+
+
+
+<hr />
+
+### **`secretRevealed`**: *`mapping(address => bool)`*
+
+
+
+
+
+
+
+<hr />
+
+### **`blacklisted`**: *`mapping(address => bool)`*
+
+
+
+
+
+
+
+<hr />
+
+
+<br />
+
+## Modifiers
+
+### `validPercent(uint256 _percent)`
+
+Restrict a function to have a valid percentage.
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`constructor`** *`(contract DarknodeRegistryLogicV1 _darknodeRegistry)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`updateDarknodeRegistry`** *`(contract DarknodeRegistryLogicV1 _darknodeRegistry)`* (external)
+
+**Params**
+- `_darknodeRegistry`: The address of the Darknode Registry
+contract.
+
+
+Allows the contract owner to update the address of the
+darknode registry contract.
+
+
+
+
+<hr />
+
+### **`setBlacklistSlashPercent`** *`(uint256 _percentage)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`setMaliciousSlashPercent`** *`(uint256 _percentage)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`setSecretRevealSlashPercent`** *`(uint256 _percentage)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`slash`** *`(address _guilty, address _challenger, uint256 _percentage)`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`blacklist`** *`(address _guilty)`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`slashDuplicatePropose`** *`(uint256 _height, uint256 _round, bytes _blockhash1, uint256 _validRound1, bytes _signature1, bytes _blockhash2, uint256 _validRound2, bytes _signature2)`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`slashDuplicatePrevote`** *`(uint256 _height, uint256 _round, bytes _blockhash1, bytes _signature1, bytes _blockhash2, bytes _signature2)`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`slashDuplicatePrecommit`** *`(uint256 _height, uint256 _round, bytes _blockhash1, bytes _signature1, bytes _blockhash2, bytes _signature2)`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`slashSecretReveal`** *`(uint256 _a, uint256 _b, uint256 _c, uint256 _d, uint256 _e, uint256 _f, bytes _signature)`* (external)
+
+
+
+
+
+
+
+<hr />
+
+
+
+<br />
+
+## Events
+
+### **`LogDarknodeRegistryUpdated`** *`(contract DarknodeRegistryLogicV1 _previousDarknodeRegistry, contract DarknodeRegistryLogicV1 _nextDarknodeRegistry)`*
+
+Emitted when the DarknodeRegistry is updated.
+
+
+
+**Params**
+- `_previousDarknodeRegistry`: The address of the old registry.
+
+- `_nextDarknodeRegistry`: The address of the new registry.
+
+<hr />
+

@@ -1,0 +1,153 @@
+---
+title: Validate
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `Validate`
+
+Validate is a library for validating malicious darknode behaviour.
+
+
+
+
+<hr />
+
+
+
+
+<br />
+
+## Functions
+
+### **`duplicatePropose`** *`(uint256 _height, uint256 _round, bytes _blockhash1, uint256 _validRound1, bytes _signature1, bytes _blockhash2, uint256 _validRound2, bytes _signature2) → address`* (internal)
+
+
+**Returns**
+- `The`: address of the signer if and only if propose messages were
+        different.
+
+Recovers two propose messages and checks if they were signed by
+        the same darknode. If they were different but the height and
+        round were the same, then the darknode was behaving maliciously.
+
+
+
+
+<hr />
+
+### **`recoverPropose`** *`(uint256 _height, uint256 _round, bytes _blockhash, uint256 _validRound, bytes _signature) → address`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`proposeMessage`** *`(uint256 _height, uint256 _round, bytes _blockhash, uint256 _validRound) → bytes`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`duplicatePrevote`** *`(uint256 _height, uint256 _round, bytes _blockhash1, bytes _signature1, bytes _blockhash2, bytes _signature2) → address`* (internal)
+
+
+**Returns**
+- `The`: address of the signer if and only if prevote messages were
+        different.
+
+Recovers two prevote messages and checks if they were signed by
+        the same darknode. If they were different but the height and
+        round were the same, then the darknode was behaving maliciously.
+
+
+
+
+<hr />
+
+### **`recoverPrevote`** *`(uint256 _height, uint256 _round, bytes _blockhash, bytes _signature) → address`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`prevoteMessage`** *`(uint256 _height, uint256 _round, bytes _blockhash) → bytes`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`duplicatePrecommit`** *`(uint256 _height, uint256 _round, bytes _blockhash1, bytes _signature1, bytes _blockhash2, bytes _signature2) → address`* (internal)
+
+
+**Returns**
+- `The`: address of the signer if and only if precommit messages were
+        different.
+
+Recovers two precommit messages and checks if they were signed
+        by the same darknode. If they were different but the height and
+        round were the same, then the darknode was behaving maliciously.
+
+
+
+
+<hr />
+
+### **`recoverPrecommit`** *`(uint256 _height, uint256 _round, bytes _blockhash, bytes _signature) → address`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`precommitMessage`** *`(uint256 _height, uint256 _round, bytes _blockhash) → bytes`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`recoverSecret`** *`(uint256 _a, uint256 _b, uint256 _c, uint256 _d, uint256 _e, uint256 _f, bytes _signature) → address`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`secretMessage`** *`(uint256 _a, uint256 _b, uint256 _c, uint256 _d, uint256 _e, uint256 _f) → bytes`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+

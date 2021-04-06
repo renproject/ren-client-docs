@@ -1,0 +1,68 @@
+---
+title: ClaimlessRewards
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `ClaimlessRewards`
+
+ClaimlessRewards is intended to replace the DarknodePayment
+contract. It's to main improvements are:
+1) no longer requiring nodes to call `claim` each epoch, and
+2) allowing for a community fund to earn a proportion of the rewards.
+
+
+
+Inherits from:
+
+- `ClaimlessRewardsWithdrawHandler`
+- `ClaimlessRewardsCycleHandler`
+- `ClaimlessRewardsAdminHandler`
+- `ClaimlessRewardsTokenHandler`
+- `ClaimlessRewardsState`
+- `ClaimlessRewardsEvents`
+- `Claimable`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+
+
+<br />
+
+## Functions
+
+### **`constructor`** *`(contract DarknodeRegistryLogicV1 _darknodeRegistry, contract DarknodePaymentStore _darknodePaymentStore, address _communityFund, uint256 _communityFundNumerator)`* (public)
+
+**Params**
+- `_darknodeRegistry`: The address of the DarknodeRegistry contract
+
+- `_darknodePaymentStore`: The address of the DarknodePaymentStore
+contract. Can be updated by the contract owner.
+
+- `_communityFund`: The address to which the community fund balances
+can be withdrawn to. Can be updated by the contract owner.
+
+- `_communityFundNumerator`: The portion of the rewards that are paid
+to the community fund. Can be updated by the contract owner.
+
+
+The contract constructor. Starts the current cycle using the
+latest epoch.
+
+
+
+The DarknodeRegistry should be set to point to the
+ClaimlessRewards contract before the next epoch is called.
+
+
+
+<hr />
+
+

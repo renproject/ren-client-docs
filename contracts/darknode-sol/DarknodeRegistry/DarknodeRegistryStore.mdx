@@ -1,0 +1,204 @@
+---
+title: DarknodeRegistryStore
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `DarknodeRegistryStore`
+
+This contract stores data and funds for the DarknodeRegistry
+contract. The data / fund logic and storage have been separated to improve
+upgradability.
+
+
+
+Inherits from:
+
+- `CanReclaimTokens`
+- `Claimable`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+<br />
+
+## Variables
+
+
+### **`VERSION`**: *`string`*
+
+
+
+
+
+
+
+<hr />
+
+### **`ren`**: *`contract RenToken`*
+
+
+
+
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`constructor`** *`(string _VERSION, contract RenToken _ren)`* (public)
+
+**Params**
+- `_VERSION`: A string defining the contract version.
+
+- `_ren`: The address of the RenToken contract.
+
+
+The contract constructor.
+
+
+
+
+
+<hr />
+
+### **`appendDarknode`** *`(address _darknodeID, address payable _darknodeOperator, uint256 _bond, bytes _publicKey, uint256 _registeredAt, uint256 _deregisteredAt)`* (external)
+
+**Params**
+- `_darknodeID`: The darknode's ID.
+
+- `_darknodeOperator`: The darknode's owner's address.
+
+- `_bond`: The darknode's bond value.
+
+- `_publicKey`: The darknode's public key.
+
+- `_registeredAt`: The time stamp when the darknode is registered.
+
+- `_deregisteredAt`: The time stamp when the darknode is deregistered.
+
+
+Instantiates a darknode and appends it to the darknodes
+linked-list.
+
+
+
+
+
+<hr />
+
+### **`begin`** *`() → address`* (external)
+
+
+
+Returns the address of the first darknode in the store.
+
+
+
+<hr />
+
+### **`next`** *`(address darknodeID) → address`* (external)
+
+
+
+Returns the address of the next darknode in the store after the
+given address.
+
+
+
+<hr />
+
+### **`removeDarknode`** *`(address darknodeID)`* (external)
+
+
+
+Removes a darknode from the store and transfers its bond to the
+owner of this contract.
+
+
+
+<hr />
+
+### **`updateDarknodeBond`** *`(address darknodeID, uint256 decreasedBond)`* (external)
+
+
+
+Updates the bond of a darknode. The new bond must be smaller
+than the previous bond of the darknode.
+
+
+
+<hr />
+
+### **`updateDarknodeDeregisteredAt`** *`(address darknodeID, uint256 deregisteredAt)`* (external)
+
+
+
+Updates the deregistration timestamp of a darknode.
+
+
+
+<hr />
+
+### **`darknodeOperator`** *`(address darknodeID) → address payable`* (external)
+
+
+
+Returns the owner of a given darknode.
+
+
+
+<hr />
+
+### **`darknodeBond`** *`(address darknodeID) → uint256`* (external)
+
+
+
+Returns the bond of a given darknode.
+
+
+
+<hr />
+
+### **`darknodeRegisteredAt`** *`(address darknodeID) → uint256`* (external)
+
+
+
+Returns the registration time of a given darknode.
+
+
+
+<hr />
+
+### **`darknodeDeregisteredAt`** *`(address darknodeID) → uint256`* (external)
+
+
+
+Returns the deregistration time of a given darknode.
+
+
+
+<hr />
+
+### **`darknodePublicKey`** *`(address darknodeID) → bytes`* (external)
+
+
+
+Returns the encryption public key of a given darknode.
+
+
+
+<hr />
+
+

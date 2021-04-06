@@ -1,0 +1,97 @@
+---
+title: ClaimlessRewardsTokenHandler
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `ClaimlessRewardsTokenHandler`
+
+
+
+
+
+Inherits from:
+
+- `ClaimlessRewardsState`
+- `ClaimlessRewardsEvents`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+
+
+<br />
+
+## Functions
+
+### **`registerToken`** *`(address _token)`* (external)
+
+**Params**
+- `_token`: The address of the token to be registered.
+
+
+Adds tokens to be payable. Registration is pending until next
+cycle.
+
+
+
+
+
+<hr />
+
+### **`deregisterToken`** *`(address _token)`* (external)
+
+**Params**
+- `_token`: The address of the token to be deregistered.
+
+
+Removes a token from the list of supported tokens.
+Deregistration is pending until next cycle.
+
+
+
+
+
+<hr />
+
+### **`getRegisteredTokens`** *`() → address[]`* (external)
+
+
+
+(external view) Returns the full list of registered tokens.
+
+
+
+<hr />
+
+### **`isRegistered`** *`(address _token) → bool`* (external)
+
+
+
+(external view) Returns whether a token is registered.
+
+
+
+<hr />
+
+### **`forward`** *`(address _token)`* (external)
+
+**Params**
+- `_token`: The token to forward. For ETH, this is 0xeeee... .
+
+
+Forwards any balance held by this contract on to the store.
+
+
+
+
+
+<hr />
+
+

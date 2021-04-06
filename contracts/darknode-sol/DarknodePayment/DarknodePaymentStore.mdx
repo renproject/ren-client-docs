@@ -1,0 +1,178 @@
+---
+title: DarknodePaymentStore
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `DarknodePaymentStore`
+
+DarknodePaymentStore is responsible for tracking balances which have
+        been allocated to the darknodes. It is also responsible for holding
+        the tokens to be paid out to darknodes.
+
+
+
+Inherits from:
+
+- `Claimable`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+<br />
+
+## Variables
+
+
+### **`VERSION`**: *`string`*
+
+
+
+
+
+
+
+<hr />
+
+### **`ETHEREUM`**: *`address`*
+
+
+
+
+
+
+
+<hr />
+
+### **`darknodeBalances`**: *`mapping(address => mapping(address => uint256))`*
+
+
+
+
+
+
+
+<hr />
+
+### **`lockedBalances`**: *`mapping(address => uint256)`*
+
+
+
+
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`constructor`** *`(string _VERSION)`* (public)
+
+**Params**
+- `_VERSION`: A string defining the contract version.
+
+
+The contract constructor.
+
+
+
+
+
+<hr />
+
+### **`fallback`** *`()`* (external)
+
+
+
+Allow direct ETH payments to be made to the DarknodePaymentStore.
+
+
+
+<hr />
+
+### **`totalBalance`** *`(address _token) → uint256`* (public)
+
+**Params**
+- `_token`: The token to check balance of.
+
+
+**Returns**
+- `The`: total balance of the contract.
+
+Get the total balance of the contract for a particular token.
+
+
+
+
+
+<hr />
+
+### **`availableBalance`** *`(address _token) → uint256`* (public)
+
+**Params**
+- `_token`: The token to check balance of.
+
+
+**Returns**
+- `The`: available balance of the contract.
+
+Get the available balance of the contract for a particular token
+        This is the free amount which has not yet been allocated to
+        darknodes.
+
+
+
+
+
+<hr />
+
+### **`incrementDarknodeBalance`** *`(address _darknode, address _token, uint256 _amount)`* (external)
+
+**Params**
+- `_darknode`: The address of the darknode to increase balance of.
+
+- `_token`: The token which the balance should be incremented.
+
+- `_amount`: The amount that the balance should be incremented by.
+
+
+Increments the amount of funds allocated to a particular
+        darknode.
+
+
+
+
+
+<hr />
+
+### **`transfer`** *`(address _darknode, address _token, uint256 _amount, address payable _recipient)`* (external)
+
+**Params**
+- `_darknode`: The address of the darknode.
+
+- `_token`: Which token to transfer.
+
+- `_amount`: The amount to transfer.
+
+- `_recipient`: The address to withdraw it to.
+
+
+Transfers an amount out of balance to a specified address.
+
+
+
+
+
+<hr />
+
+

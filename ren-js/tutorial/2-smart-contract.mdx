@@ -1,0 +1,220 @@
+---
+title: Smart Contract
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Tutorial} />
+
+In this chapter, we will build a simple Ethereum contract that allows us to do three things: deposit BTC, withdraw BTC and check how much BTC we have deposited.
+
+To get started, head over to the online Remix IDE at <https://remix.ethereum.org>, choose "Solidity" and create a new file called `Basic.sol`:
+
+```solidity title="Basic.sol"
+pragma solidity >=0.5.0;
+
+contract Basic {
+}
+```
+
+### Gateways
+
+In order to accept BTC in our Ethereum contract, we need to talk to the `BTCGateway` contract. The `BTCGateway` contract works with RenVM to lock BTC into, and release out of, an ERC20-compatible token called renBTC.
+
+All digital assets (BTC, ZEC, etc.) have their own `Gateway` contract, so we need to ask the `GatewayRegistry` contract for the address of the `BTCGateway`.
+
+Let's add some code to our Ethereum contract so that we can talk to the `Gateway`, `GatewayRegistry`, and `ERC20` contracts:
+
+```solidity title="Basic.sol"
+pragma solidity >=0.5.0;
+
+interface IERC20 {
+    function balanceOf(address account) external view returns (uint256);
+}
+
+interface IGateway {
+    function mint(bytes32 _pHash, uint256 _amount, bytes32 _nHash, bytes calldata _sig) external returns (uint256);
+    function burn(bytes calldata _to, uint256 _amount) external returns (uint256);
+}
+
+interface IGatewayRegistry {
+    function getGatewayBySymbol(string calldata _tokenSymbol) external view returns (IGateway);
+    function getTokenBySymbol(string calldata _tokenSymbol) external view returns (IERC20);
+}
+
+contract Basic {
+    IGatewayRegistry public registry;
+
+    constructor(IGatewayRegistry _registry) public {
+        registry = _registry;
+    }
+}
+```
+
+:::tip
+
+You can find the source code for Gateway and GatewayRegistry on GitHub:
+https://github.com/renproject/darknode-sol/tree/release/1.0.0/contracts/Gateway
+and the Kovan testnet GatewayRegistry on Etherscan:
+https://kovan.etherscan.io/address/0x557e211EC5fc9a6737d2C6b7a1aDe3e0C11A8D5D
+
+:::
+
+### Deposit function
+
+We will use the deposit function to mint & lock BTC into Ethereum. When locking & minting BTC into Ethereum, RenVM will always give us three parameters that we need to forward to the `BTCGateway` contract:
+
+- `amount` represents the amount of BTC we are transferring into Ethereum,
+- `nHash` (also known as the nonce hash) is used to uniquely identify a lock into Ethereum, and
+- `sig` is a signature from RenVM to approve the mint.
+
+In addition to these required fields, our Ethereum contract will also allow the user to attach a message to their deposits and withdrawals. Our Ethereum contract will log these messages as Ethereum events (this is not necessary to transfer BTC into Ethereum, we are just doing it to demonstrate that you can define extra data and functionality).
+
+Add these logs to our Ethereum contract before the `constructor`:
+
+```solidity
+event Deposit(uint256 _amount, bytes _msg);
+event Withdrawal(bytes _to, uint256 _amount, bytes _msg);
+```
+
+Add the `deposit` function after the `constructor`.
+
+```solidity
+function deposit(
+    // Parameters from users
+    bytes calldata _msg,
+    // Parameters from Darknodes
+    uint256        _amount,
+    bytes32        _nHash,
+    bytes calldata _sig
+) external {
+}
+```
+
+There is another parameter we need to forward to the `Gateway`: the `pHash` (also known as the payload hash). It is the hash of any extra data we are using (in our case this is the attached `msg`). Inside the function body, add:
+
+```solidity
+bytes32 pHash = keccak256(abi.encode(_msg));
+```
+
+We can now get the address of the `BTCGateway` and call `mint`. This will return the amount of the `renBTC` token we have received from the transfer, after subtracting a small fee that is paid to RenVM:
+
+```solidity
+uint256 mintedAmount = registry.getGatewayBySymbol("BTC").mint(pHash, _amount, _nHash, _sig);
+```
+
+Finally, we log the deposit:
+
+```solidity
+emit Deposit(mintedAmount, _msg);
+```
+
+The `deposit` function should now look like this:
+
+```solidity
+function deposit(
+    // Parameters from users
+    bytes calldata _msg,
+    // Parameters from Darknodes
+    uint256        _amount,
+    bytes32        _nHash,
+    bytes calldata _sig
+) external {
+    bytes32 pHash = keccak256(abi.encode(_msg));
+    uint256 mintedAmount = registry.getGatewayBySymbol("BTC").mint(pHash, _amount, _nHash, _sig);
+    emit Deposit(mintedAmount, _msg);
+}
+```
+
+### Withdraw function
+
+The `withdaw` function is similar to the `deposit` function - we call `burn` on the `Gateway` contract and the log the withdrawal.
+
+The user will provide the `msg` of the withdrawal (as before), a `to` Bitcoin address to receive the funds to, and the `amount` of BTC they want to withdraw.
+
+```solidity
+function withdraw(bytes calldata _msg, bytes calldata _to, uint256 _amount) external {
+    uint256 burnedAmount = registry.getGatewayBySymbol("BTC").burn(_to, _amount);
+    emit Withdrawal(_to, burnedAmount, _msg);
+}
+```
+
+### Balance
+
+In `balance`, instead of getting the address of the `BTCGateway`, we need the address of the renBTC ERC20 contract. We can use `getTokenBySymbol` instead of `getGatewayBySymbol`. After looking up the address, we ask it for the balance of our `Basic` contract:
+
+```solidity
+function balance() public view returns (uint256) {
+    return registry.getTokenBySymbol("BTC").balanceOf(address(this));
+}
+```
+
+### Final code
+
+```solidity title="Basic.sol"
+pragma solidity >=0.5.0;
+
+interface IERC20 {
+    function balanceOf(address account) external view returns (uint256);
+}
+
+
+interface IGateway {
+    function mint(bytes32 _pHash, uint256 _amount, bytes32 _nHash, bytes calldata _sig) external returns (uint256);
+    function burn(bytes calldata _to, uint256 _amount) external returns (uint256);
+}
+
+interface IGatewayRegistry {
+    function getGatewayBySymbol(string calldata _tokenSymbol) external view returns (IGateway);
+    function getTokenBySymbol(string calldata _tokenSymbol) external view returns (IERC20);
+}
+
+contract Basic {
+    IGatewayRegistry public registry;
+
+    event Deposit(uint256 _amount, bytes _msg);
+    event Withdrawal(bytes _to, uint256 _amount, bytes _msg);
+
+    constructor(IGatewayRegistry _registry) public {
+        registry = _registry;
+    }
+
+    function deposit(
+        // Parameters from users
+        bytes calldata _msg,
+        // Parameters from Darknodes
+        uint256        _amount,
+        bytes32        _nHash,
+        bytes calldata _sig
+    ) external {
+        bytes32 pHash = keccak256(abi.encode(_msg));
+        uint256 mintedAmount = registry.getGatewayBySymbol("BTC").mint(pHash, _amount, _nHash, _sig);
+        emit Deposit(mintedAmount, _msg);
+    }
+
+    function withdraw(bytes calldata _msg, bytes calldata _to, uint256 _amount) external {
+        uint256 burnedAmount = registry.getGatewayBySymbol("BTC").burn(_to, _amount);
+        emit Withdrawal(_to, burnedAmount, _msg);
+    }
+
+    function balance() public view returns (uint256) {
+        return registry.getTokenBySymbol("BTC").balanceOf(address(this));
+    }
+}
+```
+
+### Deploying to Kovan
+
+You'll need [MetaMask](https://metamask.io) installed and the Kovan network selected. Additionally, you'll need Kovan ETH (KETH). Request some here: https://github.com/kovan-testnet/faucet
+
+Copy the final `Basic.sol` into Remix and then click "Compile Basic.sol" in the "Solidity Compiler" tab.
+
+Switch to the "Deploy & Run Transactions" tab and select "Injected Web3" as the environment. Make sure "Basic" is selected in the contract drop-down. Paste the `GatewayRegistry`'s address, `0x557e211EC5fc9a6737d2C6b7a1aDe3e0C11A8D5D`, next to "Deploy" and press the "Deploy" button. After approving the transaction in MetaMask, it will show you the newly deployed Ethereum contract. Hit the "clipboard" button and save the address for the next section.
+
+![Remix deploy screenshot](/img/deploy.png)
+
+:::tip
+You can also use the Basic contract that we have deployed here: 0x3Aa969d343BD6AE66c4027Bb61A382DC96e88150.
+:::
+
+In the next chapter, we will begin building a simple user interface for interacting with our newly deployed Ethereum contract.

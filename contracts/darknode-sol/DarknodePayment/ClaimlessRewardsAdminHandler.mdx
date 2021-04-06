@@ -1,0 +1,149 @@
+---
+title: ClaimlessRewardsAdminHandler
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `ClaimlessRewardsAdminHandler`
+
+
+
+
+
+Inherits from:
+
+- `ClaimlessRewardsState`
+- `ClaimlessRewardsEvents`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+
+
+<br />
+
+## Functions
+
+### **`updateDarknodeRegistry`** *`(contract DarknodeRegistryLogicV1 _darknodeRegistry)`* (external)
+
+**Params**
+- `_darknodeRegistry`: The address of the new Darknode Registry
+contract.
+
+
+Allows the contract owner to update the address of the
+Darknode Registry contract.
+
+
+
+
+<hr />
+
+### **`updateCommunityFund`** *`(address _communityFund)`* (external)
+
+**Params**
+- `_communityFund`: The address of new community fund address.
+
+
+Allows the contract owner to update the address of the new dev
+fund.
+
+
+
+
+<hr />
+
+### **`updateHourlyPayoutWithheld`** *`(uint256 _numerator)`* (external)
+
+**Params**
+- `_numerator`: The numerator of payout for darknodes.
+
+
+Updates the proportion of the rewards that are withheld to be
+paid out over future cycles.
+
+
+
+
+
+<hr />
+
+### **`updateCommunityFundNumerator`** *`(uint256 _numerator)`* (external)
+
+**Params**
+- `_numerator`: The numerator of payout for darknodes.
+
+
+Updates the proportion of the rewards that are withheld to be
+sent to the community fund.
+
+
+
+
+
+<hr />
+
+### **`transferStoreOwnership`** *`(contract ClaimlessRewardsAdminHandler _newOwner)`* (external)
+
+**Params**
+- `_newOwner`: The address to transfer the ownership to.
+
+
+Allows the contract owner to initiate an ownership transfer of
+the DarknodePaymentStore.
+
+
+
+
+
+<hr />
+
+### **`claimStoreOwnership`** *`()`* (external)
+
+
+
+Claims ownership of the store passed in to the constructor.
+`transferStoreOwnership` must have previously been called when
+transferring from another DarknodePaymentStore.
+
+
+
+<hr />
+
+### **`_updateDarknodeRegistry`** *`(contract DarknodeRegistryLogicV1 _darknodeRegistry)`* (internal)
+
+
+
+See `updateDarknodeRegistry`.
+
+
+
+<hr />
+
+### **`_updateCommunityFund`** *`(address _communityFund)`* (internal)
+
+
+
+See `updateCommunityFund`.
+
+
+
+<hr />
+
+### **`_updateCommunityFundNumerator`** *`(uint256 _numerator)`* (internal)
+
+
+
+See `_updateCommunityFundNumerator`.
+
+
+
+<hr />
+
+

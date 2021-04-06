@@ -1,0 +1,143 @@
+---
+title: ERC20WithRate
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `ERC20WithRate`
+
+ERC20WithRate allows for a more dynamic fee model by storing a rate
+that tracks the number of the underlying asset's unit represented by a
+single ERC20 token.
+
+
+
+Inherits from:
+
+- `ERC20`
+- `IERC20`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+<br />
+
+## Variables
+
+
+### **`_rateScale`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+### **`_rate`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`initialize`** *`(address _nextOwner, uint256 _initialRate)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`setExchangeRate`** *`(uint256 _nextRate)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`exchangeRateCurrent`** *`() → uint256`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`_setRate`** *`(uint256 _nextRate)`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+### **`balanceOfUnderlying`** *`(address _account) → uint256`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`toUnderlying`** *`(uint256 _amount) → uint256`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`fromUnderlying`** *`(uint256 _amountUnderlying) → uint256`* (public)
+
+
+
+
+
+
+
+<hr />
+
+
+
+<br />
+
+## Events
+
+### **`LogRateChanged`** *`(uint256 _rate)`*
+
+
+
+
+
+<hr />
+

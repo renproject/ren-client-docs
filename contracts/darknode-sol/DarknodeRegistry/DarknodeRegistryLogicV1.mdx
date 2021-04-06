@@ -1,0 +1,587 @@
+---
+title: DarknodeRegistryLogicV1
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `DarknodeRegistryLogicV1`
+
+DarknodeRegistry is responsible for the registration and
+deregistration of Darknodes.
+
+
+
+Inherits from:
+
+- `DarknodeRegistryStateV1`
+- `CanReclaimTokens`
+- `Claimable`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+
+<br />
+
+## Modifiers
+
+### `onlyDarknodeOperator(address _darknodeID)`
+
+Restrict a function to the owner that registered the darknode.
+
+
+
+<hr />
+
+### `onlyRefunded(address _darknodeID)`
+
+Restrict a function to unregistered darknodes.
+
+
+
+<hr />
+
+### `onlyRefundable(address _darknodeID)`
+
+Restrict a function to refundable darknodes.
+
+
+
+<hr />
+
+### `onlyDeregisterable(address _darknodeID)`
+
+Restrict a function to registered nodes without a pending
+deregistration.
+
+
+
+<hr />
+
+### `onlySlasher()`
+
+Restrict a function to the Slasher contract.
+
+
+
+<hr />
+
+### `onlyDarknode(address _darknodeID)`
+
+Restrict a function to registered nodes without a pending
+deregistration.
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`initialize`** *`(string _VERSION, contract RenToken _renAddress, contract DarknodeRegistryStore _storeAddress, uint256 _minimumBond, uint256 _minimumPodSize, uint256 _minimumEpochIntervalSeconds, uint256 _deregistrationIntervalSeconds)`* (public)
+
+**Params**
+- `_VERSION`: A string defining the contract version.
+
+- `_renAddress`: The address of the RenToken contract.
+
+- `_storeAddress`: The address of the DarknodeRegistryStore contract.
+
+- `_minimumBond`: The minimum bond amount that can be submitted by a
+       Darknode.
+
+- `_minimumPodSize`: The minimum size of a Darknode pod.
+
+- `_minimumEpochIntervalSeconds`: The minimum number of seconds between epochs.
+
+
+The contract constructor.
+
+
+
+
+
+<hr />
+
+### **`register`** *`(address _darknodeID, bytes _publicKey)`* (external)
+
+**Params**
+- `_darknodeID`: The darknode ID that will be registered.
+
+- `_publicKey`: The public key of the darknode. It is stored to allow
+       other darknodes and traders to encrypt messages to the trader.
+
+
+Register a darknode and transfer the bond to this contract.
+Before registering, the bond transfer must be approved in the REN
+contract. The caller must provide a public encryption key for the
+darknode. The darknode will remain pending registration until the next
+epoch. Only after this period can the darknode be deregistered. The
+caller of this method will be stored as the owner of the darknode.
+
+
+
+
+
+<hr />
+
+### **`deregister`** *`(address _darknodeID)`* (external)
+
+**Params**
+- `_darknodeID`: The darknode ID that will be deregistered. The caller
+       of this method must be the owner of this darknode.
+
+
+Deregister a darknode. The darknode will not be deregistered
+until the end of the epoch. After another epoch, the bond can be
+refunded by calling the refund method.
+
+
+
+
+<hr />
+
+### **`epoch`** *`()`* (external)
+
+
+
+Progress the epoch if it is possible to do so. This captures
+the current timestamp and current blockhash and overrides the current
+epoch.
+
+
+
+<hr />
+
+### **`transferStoreOwnership`** *`(contract DarknodeRegistryLogicV1 _newOwner)`* (external)
+
+**Params**
+- `_newOwner`: The address to transfer the ownership to.
+
+
+Allows the contract owner to initiate an ownership transfer of
+the DarknodeRegistryStore.
+
+
+
+
+<hr />
+
+### **`claimStoreOwnership`** *`()`* (external)
+
+
+
+Claims ownership of the store passed in to the constructor.
+`transferStoreOwnership` must have previously been called when
+transferring from another Darknode Registry.
+
+
+
+<hr />
+
+### **`updateDarknodePayment`** *`(contract IDarknodePayment _darknodePayment)`* (external)
+
+**Params**
+- `_darknodePayment`: The address of the Darknode Payment
+contract.
+
+
+Allows the contract owner to update the address of the
+darknode payment contract.
+
+
+
+
+<hr />
+
+### **`updateMinimumBond`** *`(uint256 _nextMinimumBond)`* (external)
+
+**Params**
+- `_nextMinimumBond`: The minimum bond amount that can be submitted by
+       a darknode.
+
+
+Allows the contract owner to update the minimum bond.
+
+
+
+
+<hr />
+
+### **`updateMinimumPodSize`** *`(uint256 _nextMinimumPodSize)`* (external)
+
+**Params**
+- `_nextMinimumPodSize`: The minimum size of a pod.
+
+
+Allows the contract owner to update the minimum pod size.
+
+
+
+
+<hr />
+
+### **`updateMinimumEpochInterval`** *`(uint256 _nextMinimumEpochInterval)`* (external)
+
+**Params**
+- `_nextMinimumEpochInterval`: The minimum number of blocks between epochs.
+
+
+Allows the contract owner to update the minimum epoch interval.
+
+
+
+
+<hr />
+
+### **`updateSlasher`** *`(contract IDarknodeSlasher _slasher)`* (external)
+
+**Params**
+- `_slasher`: The new slasher address.
+
+
+Allow the contract owner to update the DarknodeSlasher contract
+address.
+
+
+
+
+<hr />
+
+### **`slash`** *`(address _guilty, address _challenger, uint256 _percentage)`* (external)
+
+**Params**
+- `_guilty`: The guilty prover whose bond is being slashed.
+
+- `_challenger`: The challenger who should receive a portion of the bond as reward.
+
+- `_percentage`: The total percentage  of bond to be slashed.
+
+
+Allow the DarknodeSlasher contract to slash a portion of darknode's
+        bond and deregister it.
+
+
+
+
+<hr />
+
+### **`refund`** *`(address _darknodeID)`* (external)
+
+**Params**
+- `_darknodeID`: The darknode ID that will be refunded.
+
+
+Refund the bond of a deregistered darknode. This will make the
+darknode available for registration again. Anyone can call this function
+but the bond will always be refunded to the darknode operator.
+
+
+
+
+
+<hr />
+
+### **`getDarknodeOperator`** *`(address _darknodeID) → address payable`* (external)
+
+**Params**
+- `_darknodeID`: The ID of the darknode to retrieve the owner for.
+
+
+Retrieves the address of the account that registered a darknode.
+
+
+
+
+<hr />
+
+### **`getDarknodeBond`** *`(address _darknodeID) → uint256`* (external)
+
+**Params**
+- `_darknodeID`: The ID of the darknode to retrieve the bond for.
+
+
+Retrieves the bond amount of a darknode in 10^-18 REN.
+
+
+
+
+<hr />
+
+### **`getDarknodePublicKey`** *`(address _darknodeID) → bytes`* (external)
+
+**Params**
+- `_darknodeID`: The ID of the darknode to retrieve the public key for.
+
+
+Retrieves the encryption public key of the darknode.
+
+
+
+
+<hr />
+
+### **`getDarknodes`** *`(address _start, uint256 _count) → address[]`* (external)
+
+**Params**
+- `_start`: A darknode ID used as an offset for the list. If _start is
+       0x0, the first dark node will be used. _start won't be
+       included it is not registered for the epoch.
+
+- `_count`: The number of darknodes to retrieve starting from _start.
+       If _count is 0, all of the darknodes from _start are
+       retrieved. If _count is more than the remaining number of
+       registered darknodes, the rest of the list will contain
+       0x0s.
+
+
+Retrieves a list of darknodes which are registered for the
+current epoch.
+
+
+
+
+<hr />
+
+### **`getPreviousDarknodes`** *`(address _start, uint256 _count) → address[]`* (external)
+
+
+
+Retrieves a list of darknodes which were registered for the
+previous epoch. See `getDarknodes` for the parameter documentation.
+
+
+
+<hr />
+
+### **`isPendingRegistration`** *`(address _darknodeID) → bool`* (public)
+
+**Params**
+- `_darknodeID`: The ID of the darknode to return.
+
+
+Returns whether a darknode is scheduled to become registered
+at next epoch.
+
+
+
+
+<hr />
+
+### **`isPendingDeregistration`** *`(address _darknodeID) → bool`* (public)
+
+
+
+Returns if a darknode is in the pending deregistered state. In
+this state a darknode is still considered registered.
+
+
+
+<hr />
+
+### **`isDeregistered`** *`(address _darknodeID) → bool`* (public)
+
+
+
+Returns if a darknode is in the deregistered state.
+
+
+
+<hr />
+
+### **`isDeregisterable`** *`(address _darknodeID) → bool`* (public)
+
+
+
+Returns if a darknode can be deregistered. This is true if the
+darknodes is in the registered state and has not attempted to
+deregister yet.
+
+
+
+<hr />
+
+### **`isRefunded`** *`(address _darknodeID) → bool`* (public)
+
+
+
+Returns if a darknode is in the refunded state. This is true
+for darknodes that have never been registered, or darknodes that have
+been deregistered and refunded.
+
+
+
+<hr />
+
+### **`isRefundable`** *`(address _darknodeID) → bool`* (public)
+
+
+
+Returns if a darknode is refundable. This is true for darknodes
+that have been in the deregistered state for one full epoch.
+
+
+
+<hr />
+
+### **`darknodeRegisteredAt`** *`(address darknodeID) → uint256`* (external)
+
+
+
+Returns the registration time of a given darknode.
+
+
+
+<hr />
+
+### **`darknodeDeregisteredAt`** *`(address darknodeID) → uint256`* (external)
+
+
+
+Returns the deregistration time of a given darknode.
+
+
+
+<hr />
+
+### **`isRegistered`** *`(address _darknodeID) → bool`* (public)
+
+
+
+Returns if a darknode is in the registered state.
+
+
+
+<hr />
+
+### **`isRegisteredInPreviousEpoch`** *`(address _darknodeID) → bool`* (public)
+
+
+
+Returns if a darknode was in the registered state last epoch.
+
+
+
+<hr />
+
+
+
+<br />
+
+## Events
+
+### **`LogDarknodeRegistered`** *`(address _darknodeOperator, address _darknodeID, uint256 _bond)`*
+
+Emitted when a darknode is registered.
+
+
+
+**Params**
+- `_darknodeOperator`: The owner of the darknode.
+
+- `_darknodeID`: The ID of the darknode that was registered.
+
+- `_bond`: The amount of REN that was transferred as bond.
+
+<hr />
+
+### **`LogDarknodeDeregistered`** *`(address _darknodeOperator, address _darknodeID)`*
+
+Emitted when a darknode is deregistered.
+
+
+
+**Params**
+- `_darknodeOperator`: The owner of the darknode.
+
+- `_darknodeID`: The ID of the darknode that was deregistered.
+
+<hr />
+
+### **`LogDarknodeRefunded`** *`(address _darknodeOperator, address _darknodeID, uint256 _amount)`*
+
+Emitted when a refund has been made.
+
+
+
+**Params**
+- `_darknodeOperator`: The owner of the darknode.
+
+- `_amount`: The amount of REN that was refunded.
+
+<hr />
+
+### **`LogDarknodeSlashed`** *`(address _darknodeOperator, address _darknodeID, address _challenger, uint256 _percentage)`*
+
+Emitted when a darknode's bond is slashed.
+
+
+
+**Params**
+- `_darknodeOperator`: The owner of the darknode.
+
+- `_darknodeID`: The ID of the darknode that was slashed.
+
+- `_challenger`: The address of the account that submitted the challenge.
+
+- `_percentage`: The total percentage  of bond slashed.
+
+<hr />
+
+### **`LogNewEpoch`** *`(uint256 epochhash)`*
+
+Emitted when a new epoch has begun.
+
+
+
+<hr />
+
+### **`LogMinimumBondUpdated`** *`(uint256 _previousMinimumBond, uint256 _nextMinimumBond)`*
+
+Emitted when a constructor parameter has been updated.
+
+
+
+<hr />
+
+### **`LogMinimumPodSizeUpdated`** *`(uint256 _previousMinimumPodSize, uint256 _nextMinimumPodSize)`*
+
+
+
+
+
+<hr />
+
+### **`LogMinimumEpochIntervalUpdated`** *`(uint256 _previousMinimumEpochInterval, uint256 _nextMinimumEpochInterval)`*
+
+
+
+
+
+<hr />
+
+### **`LogSlasherUpdated`** *`(address _previousSlasher, address _nextSlasher)`*
+
+
+
+
+
+<hr />
+
+### **`LogDarknodePaymentUpdated`** *`(contract IDarknodePayment _previousDarknodePayment, contract IDarknodePayment _nextDarknodePayment)`*
+
+
+
+
+
+<hr />
+

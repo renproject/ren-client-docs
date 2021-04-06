@@ -1,0 +1,28 @@
+---
+title: RenVM fees
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.HowTo} />
+
+import { GraphQL } from "../../components/GraphQL";
+
+The RenVM entity returns the total fees for each token. You can query the fees for a specific token by changing
+`fees {` to `fees(where: { symbol: "renBTC" }) {`.
+
+<GraphQL
+  url="https://api.thegraph.com/subgraphs/name/renproject/renvm"
+  defaultQuery={`{
+  renVM(id: 1) {
+    fees {
+      symbol
+      amount
+      amountInUsd
+      asset {
+        decimals
+      }
+    }
+  }
+}`}
+/>

@@ -1,0 +1,198 @@
+---
+title: ProtocolLogicV1
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `ProtocolLogicV1`
+
+ProtocolLogicV1 implements the getter functions for the Protocol proxy
+as well as onlyOwner functions for updating the values in ProtocolState.
+
+
+
+Inherits from:
+
+- `IGatewayRegistry`
+- `ProtocolStateV1`
+- `Claimable`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+
+
+<br />
+
+## Functions
+
+### **`initialize`** *`(address _nextOwner)`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`darknodeRegistry`** *`() → contract DarknodeRegistryLogicV1`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`darknodeRegistryStore`** *`() → contract DarknodeRegistryStore`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`renToken`** *`() → contract RenToken`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`darknodePayment`** *`() → contract DarknodePayment`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`darknodePaymentStore`** *`() → contract DarknodePaymentStore`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`darknodeSlasher`** *`() → contract DarknodeSlasher`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`gatewayRegistry`** *`() → contract GatewayRegistry`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`getGateways`** *`(address _start, uint256 _count) → address[]`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`getRenTokens`** *`(address _start, uint256 _count) → address[]`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`getGatewayByToken`** *`(address _tokenAddress) → contract IGateway`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`getGatewayBySymbol`** *`(string _tokenSymbol) → contract IGateway`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`getTokenBySymbol`** *`(string _tokenSymbol) → contract IERC20`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`_updateDarknodeRegistry`** *`(contract DarknodeRegistryLogicV1 _newDarknodeRegistry)`* (public)
+
+
+
+Update the address of DarknodeRegistry. This could affect the
+addresses of DarknodeRegistryStore, DarknodePayment,
+DarknodePaymentStore and DarknodeSlasher.
+
+
+
+<hr />
+
+### **`_updateGatewayRegistry`** *`(contract GatewayRegistry _newGatewayRegistry)`* (public)
+
+
+
+Update the address of GatewayRegistry. This could affect the
+addresses of all of the gateways and tokens.
+
+
+
+<hr />
+
+### **`_payableAddress`** *`(address a) → address payable`* (internal)
+
+
+
+
+
+
+
+<hr />
+
+

@@ -1,0 +1,30 @@
+---
+title: Playground
+---
+
+import { GraphQL } from "../components/GraphQL";
+
+Submit queries to the Mainnet Ethereum subgraph. The query will be reset when you leave the page.
+
+Click the Docs button in the top-right to explore the schema.
+
+<GraphQL
+  minHeight={600}
+  url="https://api.thegraph.com/subgraphs/name/renproject/renvm"
+  defaultQuery={`{
+  # Get the number of registered darknodes.
+  renVM(id: 1) {
+    numberOfDarknodes
+  }
+  # Get the darknode with the highest BTC balance.
+  darknodes(first: 1, orderBy: balanceBTC, orderDirection: desc) {
+    id
+    operator
+    registeredAt
+    balances(where: {symbol: "renBTC"}) {
+      symbol
+      amountInUsd
+    }
+  }
+}`}
+/>

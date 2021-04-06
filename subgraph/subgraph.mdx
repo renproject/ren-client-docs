@@ -1,0 +1,108 @@
+---
+title: Subgraph
+slug: /
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Explanation} />
+
+The RenVM Subgraph provides a way to query Ren's on-chain activity in a more efficient manner than making direct contract calls. It provides a GraphQL interface that can be used to lookup information about darknodes, assets and mints/burns.
+
+## Networks
+
+The RenVM Subgraph is available on the following networks:
+
+export const Link = ({ children }) => (
+  <a target="_blank" rel="noopener noreferrer" href={children}>
+    {children}
+  </a>
+);
+
+<Tabs
+  defaultValue="mainnet"
+  values={[
+    { label: "Mainnet", value: "mainnet" },
+    { label: "Testnet", value: "testnet" },
+  ]}
+>
+  <TabItem value="mainnet">
+    <b>Ethereum</b>
+    <br />
+    API: <Link>https://api.thegraph.com/subgraphs/name/renproject/renvm</Link>
+    <br />
+    Web: <Link>https://thegraph.com/explorer/subgraph/renproject/renvm</Link>
+    <br />
+    <br />
+    <b>Binance Smart Chain</b>
+    <br />
+    API: <Link>
+      https://bsc-graph.renproject.io/subgraphs/name/renproject/renvm
+    </Link>
+  </TabItem>
+  <TabItem value="testnet">
+    <b>Ethereum (Kovan)</b>
+    <br />
+    API:{" "}
+    <Link>
+      https://api.thegraph.com/subgraphs/name/renproject/renvm-testnet
+    </Link>
+    <br />
+    Web:{" "}
+    <Link>https://thegraph.com/explorer/subgraph/renproject/renvm-testnet</Link>
+    <br />
+    <br />
+    <b>Binance Smart Chain (Testnet)</b>
+    <br />
+    API: <Link>
+      https://bsc-graph-testnet.renproject.io/subgraphs/name/renproject/renvm-testnet
+    </Link>
+  </TabItem>
+</Tabs>
+
+## Querying
+
+The [playground](playground) tab and the [examples](examples/fees) provide a quick way to try out queries.
+
+You can also use any GraphQL library (e.g. [Apollo](https://www.npmjs.com/package/apollo)) or client (e.g. [Insomnia](https://insomnia.rest/products/insomnia) or Postman). See [GraphQL Clients](https://graphql.org/graphql-js/graphql-clients/) for more information.
+
+The subgraphs expose a single POST endpoint that allows you to specify what data to query. A query looks like this:
+
+```graphql
+{
+  # Get the darknode with the highest BTC balance.
+  darknodes(first: 1, orderBy: balanceBTC, orderDirection: desc) {
+    id
+    operator
+    registeredAt
+    balances(where: { symbol: "renBTC" }) {
+      symbol
+      amountInUsd
+    }
+  }
+}
+```
+
+Posting this to the Ethereum Mainnet API url returns:
+
+```json
+{
+  "data": {
+    "darknodes": [
+      {
+        "balances": [
+          {
+            "amountInUsd": "7264.59",
+            "symbol": "renBTC"
+          }
+        ],
+        "id": "0x9fec6514e6a83fa21f5da810ff45dc04dda40670",
+        "operator": "0xd8a0bc22290c42f35dfa010f4233b81a3ae3dd2c",
+        "registeredAt": "1590525958"
+      }
+    ]
+  }
+}
+```

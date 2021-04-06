@@ -1,0 +1,580 @@
+---
+title: DarknodePayment
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+## Contract: `DarknodePayment`
+
+DarknodePayment is responsible for paying off darknodes for their
+        computation.
+
+
+
+Inherits from:
+
+- `Claimable`
+- `Ownable`
+- `Context`
+- `Initializable`
+
+
+<hr />
+
+
+<br />
+
+## Variables
+
+
+### **`VERSION`**: *`string`*
+
+
+
+
+
+
+
+<hr />
+
+### **`ETHEREUM`**: *`address`*
+
+
+
+
+
+
+
+<hr />
+
+### **`darknodeRegistry`**: *`contract DarknodeRegistryLogicV1`*
+
+
+
+
+
+
+
+<hr />
+
+### **`store`**: *`contract DarknodePaymentStore`*
+
+
+
+
+
+
+
+<hr />
+
+### **`cycleChanger`**: *`address`*
+
+
+
+
+
+
+
+<hr />
+
+### **`currentCycle`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+### **`previousCycle`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+### **`pendingTokens`**: *`address[]`*
+
+
+
+
+
+
+
+<hr />
+
+### **`registeredTokens`**: *`address[]`*
+
+
+
+
+
+
+
+<hr />
+
+### **`registeredTokenIndex`**: *`mapping(address => uint256)`*
+
+
+
+
+
+
+
+<hr />
+
+### **`unclaimedRewards`**: *`mapping(address => uint256)`*
+
+
+
+
+
+
+
+<hr />
+
+### **`previousCycleRewardShare`**: *`mapping(address => uint256)`*
+
+
+
+
+
+
+
+<hr />
+
+### **`cycleStartTime`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+### **`nextCyclePayoutPercent`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+### **`currentCyclePayoutPercent`**: *`uint256`*
+
+
+
+
+
+
+
+<hr />
+
+### **`rewardClaimed`**: *`mapping(address => mapping(uint256 => bool))`*
+
+
+
+
+
+
+
+<hr />
+
+
+<br />
+
+## Modifiers
+
+### `onlyDarknode(address _darknode)`
+
+Restrict a function registered dark nodes to call a function.
+
+
+
+<hr />
+
+### `validPercent(uint256 _percent)`
+
+Restrict a function to have a valid percentage.
+
+
+
+<hr />
+
+### `onlyCycleChanger()`
+
+Restrict a function to be called by cycleChanger.
+
+
+
+<hr />
+
+
+
+<br />
+
+## Functions
+
+### **`constructor`** *`(string _VERSION, contract DarknodeRegistryLogicV1 _darknodeRegistry, contract DarknodePaymentStore _darknodePaymentStore, uint256 _cyclePayoutPercent)`* (public)
+
+**Params**
+- `_VERSION`: A string defining the contract version.
+
+- `_darknodeRegistry`: The address of the DarknodeRegistry contract.
+
+- `_darknodePaymentStore`: The address of the DarknodePaymentStore
+       contract.
+
+
+The contract constructor. Starts the current cycle using the
+        time of deploy.
+
+
+
+
+
+<hr />
+
+### **`updateDarknodeRegistry`** *`(contract DarknodeRegistryLogicV1 _darknodeRegistry)`* (external)
+
+**Params**
+- `_darknodeRegistry`: The address of the Darknode Registry
+contract.
+
+
+Allows the contract owner to update the address of the
+darknode registry contract.
+
+
+
+
+<hr />
+
+### **`withdraw`** *`(address _darknode, address _token)`* (public)
+
+**Params**
+- `_darknode`: The address of the darknode.
+
+- `_token`: Which token to transfer.
+
+
+Transfers the funds allocated to the darknode to the darknode
+        owner.
+
+
+
+
+
+<hr />
+
+### **`withdrawMultiple`** *`(address[] _darknodes, address[] _tokens)`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`fallback`** *`()`* (external)
+
+
+
+Forward all payments to the DarknodePaymentStore.
+
+
+
+<hr />
+
+### **`currentCycleRewardPool`** *`(address _token) → uint256`* (external)
+
+
+
+The current balance of the contract available as reward for the
+        current cycle.
+
+
+
+<hr />
+
+### **`darknodeBalances`** *`(address _darknodeID, address _token) → uint256`* (external)
+
+
+
+
+
+
+
+<hr />
+
+### **`changeCycle`** *`() → uint256`* (external)
+
+
+
+Changes the current cycle.
+
+
+
+<hr />
+
+### **`deposit`** *`(uint256 _value, address _token)`* (external)
+
+**Params**
+- `_value`: The amount of token deposit in the token's smallest unit.
+
+- `_token`: The token address.
+
+
+Deposits token into the contract to be paid to the Darknodes.
+
+
+
+
+
+<hr />
+
+### **`forward`** *`(address _token)`* (external)
+
+**Params**
+- `_token`: The token address.
+
+
+Forwards any tokens that have been sent to the DarknodePayment contract
+        probably by mistake, to the DarknodePaymentStore.
+
+
+
+
+
+<hr />
+
+### **`claim`** *`(address _darknode)`* (external)
+
+**Params**
+- `_darknode`: The address of the darknode to claim.
+
+
+Claims the rewards allocated to the darknode last epoch.
+
+
+
+
+<hr />
+
+### **`registerToken`** *`(address _token)`* (external)
+
+**Params**
+- `_token`: The address of the token to be registered.
+
+
+Adds tokens to be payable. Registration is pending until next
+        cycle.
+
+
+
+
+
+<hr />
+
+### **`tokenPendingRegistration`** *`(address _token) → bool`* (public)
+
+
+
+
+
+
+
+<hr />
+
+### **`deregisterToken`** *`(address _token)`* (external)
+
+**Params**
+- `_token`: The address of the token to be deregistered.
+
+
+Removes a token from the list of supported tokens.
+        Deregistration is pending until next cycle.
+
+
+
+
+
+<hr />
+
+### **`updateCycleChanger`** *`(address _addr)`* (external)
+
+**Params**
+- `_addr`: The new CycleChanger contract address.
+
+
+Updates the CycleChanger contract address.
+
+
+
+
+
+<hr />
+
+### **`updatePayoutPercentage`** *`(uint256 _percent)`* (external)
+
+**Params**
+- `_percent`: The percentage of payout for darknodes.
+
+
+Updates payout percentage.
+
+
+
+
+
+<hr />
+
+### **`transferStoreOwnership`** *`(contract DarknodePayment _newOwner)`* (external)
+
+**Params**
+- `_newOwner`: The address to transfer the ownership to.
+
+
+Allows the contract owner to initiate an ownership transfer of
+        the DarknodePaymentStore.
+
+
+
+
+
+<hr />
+
+### **`claimStoreOwnership`** *`()`* (external)
+
+
+
+Claims ownership of the store passed in to the constructor.
+        `transferStoreOwnership` must have previously been called when
+        transferring from another DarknodePaymentStore.
+
+
+
+<hr />
+
+
+
+<br />
+
+## Events
+
+### **`LogDarknodeClaim`** *`(address _darknode, uint256 _cycle)`*
+
+Emitted when a darknode claims their share of reward.
+
+
+
+**Params**
+- `_darknode`: The darknode which claimed.
+
+- `_cycle`: The cycle that the darknode claimed for.
+
+<hr />
+
+### **`LogPaymentReceived`** *`(address _payer, address _token, uint256 _amount)`*
+
+Emitted when someone pays the DarknodePayment contract.
+
+
+
+**Params**
+- `_payer`: The darknode which claimed.
+
+- `_amount`: The cycle that the darknode claimed for.
+
+- `_token`: The address of the token that was transferred.
+
+<hr />
+
+### **`LogDarknodeWithdrew`** *`(address _darknodeOperator, address _darknodeID, address _token, uint256 _value)`*
+
+Emitted when a darknode calls withdraw.
+
+
+
+**Params**
+- `_darknodeOperator`: The address of the darknode's operator.
+
+- `_darknodeID`: The address of the darknode which withdrew.
+
+- `_value`: The amount of DAI withdrawn.
+
+- `_token`: The address of the token that was withdrawn.
+
+<hr />
+
+### **`LogPayoutPercentChanged`** *`(uint256 _newPercent, uint256 _oldPercent)`*
+
+Emitted when the payout percent changes.
+
+
+
+**Params**
+- `_newPercent`: The new percent.
+
+- `_oldPercent`: The old percent.
+
+<hr />
+
+### **`LogCycleChangerChanged`** *`(address _newCycleChanger, address _oldCycleChanger)`*
+
+Emitted when the CycleChanger address changes.
+
+
+
+**Params**
+- `_newCycleChanger`: The new CycleChanger.
+
+- `_oldCycleChanger`: The old CycleChanger.
+
+<hr />
+
+### **`LogTokenRegistered`** *`(address _token)`*
+
+Emitted when a new token is registered.
+
+
+
+**Params**
+- `_token`: The token that was registered.
+
+<hr />
+
+### **`LogTokenDeregistered`** *`(address _token)`*
+
+Emitted when a token is deregistered.
+
+
+
+**Params**
+- `_token`: The token that was deregistered.
+
+<hr />
+
+### **`LogDarknodeRegistryUpdated`** *`(contract DarknodeRegistryLogicV1 _previousDarknodeRegistry, contract DarknodeRegistryLogicV1 _nextDarknodeRegistry)`*
+
+Emitted when the DarknodeRegistry is updated.
+
+
+
+**Params**
+- `_previousDarknodeRegistry`: The address of the old registry.
+
+- `_nextDarknodeRegistry`: The address of the new registry.
+
+<hr />
+
