@@ -9,23 +9,39 @@ import { DocTag, DocType } from "/components/DocTag";
 <DocTag type={DocType.Reference} />
 
 export const ContractItem = ({ name, link, address }) => (
-  <li>
-    {name}: <a href={`${link}{address}`}>{address}</a>
+  <li style={{ padding: 0, margin: 0 }}>
+    <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
+      <b>{name}</b>
+      <br />
+      <a href={`${link}{address}`}>{address}</a>
+    </div>
   </li>
 );
 
-export const AssetItem = ({ symbol, link, erc20, gateway, standard }) => (
-  <li>
-    {symbol}
-    <ul>
-      <li>
-        {standard ? standard : <>ERC20</>}:{" "}
-        <a href={`${link}${erc20}`}>{erc20}</a>
-      </li>
-      <li>
-        Gateway: <a href={`${link}${gateway}`}>{gateway}</a>
-      </li>
-    </ul>
+export const AssetItem = ({
+  symbol,
+  link,
+  erc20,
+  gateway,
+  standard,
+  decimals,
+}) => (
+  <li style={{ padding: 0, margin: 0 }}>
+    <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
+      <b>
+        {symbol}
+        {decimals !== undefined ? <> ({decimals} decimals)</> : null}
+      </b>
+      <ul style={{ listStyleType: "none", padding: 0 }}>
+        <li>
+          {standard ? standard : <>ERC20</>}:{" "}
+          <a href={`${link}${erc20}`}>{erc20}</a>
+        </li>
+        <li>
+          Gateway: <a href={`${link}${gateway}`}>{gateway}</a>
+        </li>
+      </ul>
+    </div>
   </li>
 );
 
@@ -39,7 +55,7 @@ Networks in (brackets) are testnet networks.
   ]}
 >
   <TabItem value="ethereum">
-    <ul>
+    <ul style={{listStyleType: "none", padding: 0}}>
       <ContractItem
         name="Protocol"
         link="https://etherscan.io/address/"
@@ -67,10 +83,9 @@ Networks in (brackets) are testnet networks.
       />
     </ul>
 
-
   </TabItem>
   <TabItem value="kovan">
-    <ul>
+    <ul style={{listStyleType: "none", padding: 0}}>
       <ContractItem
         name="Protocol"
         link="https://kovan.etherscan.io/address/"
@@ -98,10 +113,8 @@ Networks in (brackets) are testnet networks.
       />
     </ul>
 
-
   </TabItem>
 </Tabs>
-
 
 Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/renproject/darknode-sol/blob/master/migrations/networks.js).
 
@@ -112,12 +125,13 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
   values={[
     { label: "Ethereum", value: "ethereum" },
     { label: "Binance Smart Chain", value: "bsc" },
+    { label: "Fantom", value: "fantom" },
     { label: "(Ethereum Testnet - Kovan)", value: "kovan" },
     { label: "(BSC Testnet)", value: "bsc-testnet" },
   ]}
 >
   <TabItem value="ethereum">
-    <ul>
+    <ul style={{ listStyleType: "none", padding: 0 }}>
       <ContractItem
         name="GatewayRegistry"
         link="https://etherscan.io/address/"
@@ -173,7 +187,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
     </ul>
   </TabItem>
   <TabItem value="bsc">
-    <ul>
+    <ul style={{ listStyleType: "none", padding: 0 }}>
       <ContractItem
         name="GatewayRegistry"
         link="https://bscscan.com/address/"
@@ -235,8 +249,78 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
       />
     </ul>
   </TabItem>
+  <TabItem value="fantom">
+    <ul style={{ listStyleType: "none", padding: 0 }}>
+      <ContractItem
+        name="GatewayRegistry"
+        link="https://ftmscan.com/address/"
+        address="0x21C482f153D0317fe85C60bE1F7fa079019fcEbD"
+      />
+      <ContractItem
+        name="BasicAdapter"
+        link="https://ftmscan.com/address/"
+        address="0xAC23817f7E9Ec7EB6B7889BDd2b50e04a44470c5"
+      />
+      <AssetItem
+        link="https://ftmscan.com/address/"
+        symbol={"renBTC"}
+        erc20={"0xDBf31dF14B66535aF65AaC99C32e9eA844e14501"}
+        gateway={"0x05Cadbf3128BcB7f2b89F3dD55E5B0a036a49e20"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://ftmscan.com/address/"
+        symbol={"renZEC"}
+        erc20={"0x31a0D1A199631D244761EEba67e8501296d2E383"}
+        gateway={"0x7986568375Af35B427f3f51389d73196967C356a"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://ftmscan.com/address/"
+        symbol={"renBCH"}
+        erc20={"0xc3fEd6eB39178A541D274e6Fc748d48f0Ca01CC3"}
+        gateway={"0x06A2C5d79c66268610eEBBca10AFa17092860830"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://ftmscan.com/address/"
+        symbol={"renFIL"}
+        erc20={"0xc4Ace9278e7E01755B670C0838c3106367639962"}
+        gateway={"0x4d59f628CB8e4670b779eAE22aF0c46DebC06695"}
+        standard={"ERC20"}
+        decimals={18}
+      />
+      <AssetItem
+        link="https://ftmscan.com/address/"
+        symbol={"renDGB"}
+        erc20={"0x2628568509E87c4429fBb5c664Ed11391BE1BD29"}
+        gateway={"0x677b23D0ffc82414B063accA197f74d791285952"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://ftmscan.com/address/"
+        symbol={"renDOGE"}
+        erc20={"0xcE829A89d4A55a63418bcC43F00145adef0eDB8E"}
+        gateway={"0x9FB2C0b19A9fee6d02E7Ea861C71503608B64d6A"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://ftmscan.com/address/"
+        symbol={"renLUNA"}
+        erc20={"0x7c7DAAF2dB46fEFd067f002a69FD0BE14AeB159f"}
+        gateway={"0x731Ea4Ba77fF184d89dBeB160A0078274Acbe9D2"}
+        standard={"ERC20"}
+        decimals={6}
+      />
+    </ul>
+  </TabItem>
   <TabItem value="kovan">
-    <ul>
+    <ul style={{ listStyleType: "none", padding: 0 }}>
       <ContractItem
         name="GatewayRegistry"
         link="https://kovan.etherscan.io/address/"
@@ -292,7 +376,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
     </ul>
   </TabItem>
   <TabItem value="bsc-testnet">
-    <ul>
+    <ul style={{ listStyleType: "none", padding: 0 }}>
       <ContractItem
         name="GatewayRegistry"
         link="https://testnet.bscscan.com/address/"

@@ -19,7 +19,7 @@ yarn add @renproject/ren @renproject/chains ethers
 ```ts
 import { Bitcoin, Ethereum } from "@renproject/chains";
 import RenJS from "@renproject/ren";
-import ethers from "ethers";
+import { ethers } from "ethers";
 
 const mint = async () => {
   await window.ethereum.enable();
@@ -49,7 +49,7 @@ mint().catch(console.error);
 ```ts
 import { Bitcoin, Ethereum } from "@renproject/chains";
 import RenJS from "@renproject/ren";
-import ethers from "ethers";
+import { ethers } from "ethers";
 
 const burn = async () => {
   await window.ethereum.enable();

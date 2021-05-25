@@ -3,8 +3,8 @@ id: "index"
 title: "root"
 slug: "/api"
 sidebar_label: "Readme"
+sidebar_position: 0
 custom_edit_url: null
-hide_title: true
 ---
 
 # RenJS Docs
@@ -18,10 +18,10 @@ See [docs.renproject.io/developers](https://docs.renproject.io/developers) for m
 -   [[RenJS]]
 
     -   [[RenJS.lockAndMint]] - for minting ren-assets, e.g. bridging BTC onto Ethereum as renBTC.
-        RenJS.lockAndMint returns a [LockAndMint](classes/ren_src_lockandmint.lockandmint.md) object, and each deposit creates a [LockAndMintDeposit](classes/ren_src_lockandmint.lockandmintdeposit.md).
+        RenJS.lockAndMint returns a [LockAndMint](classes/lib_ren_src_lockandmint.lockandmint.md) object, and each deposit creates a [LockAndMintDeposit](classes/lib_ren_src_lockandmint.lockandmintdeposit.md).
 
     -   [[RenJS.burnAndRelease]] - for returning assets to their native chains - e.g. burning renBTC back to BTC.
-        RenJS.burnAndRelease returns a [BurnAndRelease](classes/ren_src_burnandrelease.burnandrelease.md) object.
+        RenJS.burnAndRelease returns a [BurnAndRelease](classes/lib_ren_src_burnandrelease.burnandrelease.md) object.
 
 ### Chains
 

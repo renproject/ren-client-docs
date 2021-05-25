@@ -10,10 +10,10 @@ module.exports = {
           type: "category",
           label: "Tutorial",
           items: [
-            "tutorial/1-overview",
-            "tutorial/2-smart-contract",
-            "tutorial/3-react-ui",
-            "tutorial/4-ren-js",
+            "tutorial/overview",
+            "tutorial/smart-contract",
+            "tutorial/react-ui",
+            "tutorial/ren-js",
           ],
           collapsed: false,
         },
@@ -34,6 +34,7 @@ module.exports = {
           collapsed: false,
         },
         "other/brand",
+        "other/forking-ren-bridge",
       ],
     },
 

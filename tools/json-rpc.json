@@ -267,7 +267,7 @@
                           }
                         }
                       },
-                      "required": ["tx", "txStatus"],
+                      "required": ["txs"],
                       "additionalProperties": false,
                       "type": "object"
                     }
