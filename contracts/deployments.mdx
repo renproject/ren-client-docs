@@ -30,7 +30,12 @@ export const AssetItem = ({
     <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
       <b>
         {symbol}
-        {decimals !== undefined ? <> ({decimals} decimals)</> : null}
+        {decimals !== undefined ? (
+          <span style={{ opacity: 0.8, fontWeight: 300 }}>
+            {" "}
+            ({decimals} decimals)
+          </span>
+        ) : null}
       </b>
       <ul style={{ listStyleType: "none", padding: 0 }}>
         <li>
@@ -44,6 +49,10 @@ export const AssetItem = ({
     </div>
   </li>
 );
+
+## Darknode contracts
+
+The darknode contracts, deployed to Ethereum, are responsible for managing darknode registration and darknode rewards. Darknode rewards are currently undergoing an update that will move them from Ethereum to RenVM.
 
 Networks in (brackets) are testnet networks.
 
@@ -120,12 +129,17 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
 
 ## Gateway contracts
 
+The gateway contracts, deployed to every host-chain supported by RenVM, are responsible for mints and burns.
+Currently, they are all EVM-based contracts.
+
 <Tabs
   defaultValue="ethereum"
   values={[
     { label: "Ethereum", value: "ethereum" },
     { label: "Binance Smart Chain", value: "bsc" },
     { label: "Fantom", value: "fantom" },
+    { label: "Polygon", value: "polygon" },
+    { label: "Avalanche", value: "avalanche" },
     { label: "(Ethereum Testnet - Kovan)", value: "kovan" },
     { label: "(BSC Testnet)", value: "bsc-testnet" },
   ]}
@@ -147,42 +161,49 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
         symbol={"renBTC"}
         erc20={"0x459086F2376525BdCebA5bDDA135e4E9d3FeF5bf"}
         gateway={"0xCc4FF5b8A4A7adb35F00ff0CBf53784e07c3C52F"}
+        decimals={8}
       />
       <AssetItem
         link="https://etherscan.io/address/"
         symbol={"renZEC"}
         erc20={"0x1C5db575E2Ff833E46a2E9864C22F4B22E0B37C2"}
         gateway={"0xc3BbD5aDb611dd74eCa6123F05B18acc886e122D"}
+        decimals={8}
       />
       <AssetItem
         link="https://etherscan.io/address/"
         symbol={"renBCH"}
         erc20={"0x459086F2376525BdCebA5bDDA135e4E9d3FeF5bf"}
         gateway={"0xCc4FF5b8A4A7adb35F00ff0CBf53784e07c3C52F"}
+        decimals={8}
       />
       <AssetItem
         link="https://etherscan.io/address/"
         symbol={"renFIL"}
         erc20={"0xD5147bc8e386d91Cc5DBE72099DAC6C9b99276F5"}
         gateway={"0xED7D080AA1d2A4D468C615a5d481125Bb56BF1bf"}
+        decimals={18}
       />
       <AssetItem
         link="https://etherscan.io/address/"
         symbol={"renDOGE"}
         erc20={"0xe3Cb486f3f5C639e98cCBaF57d95369375687F80"}
         gateway={"0x05387a10Bb3EF789b6C2a9CE2d6C21D5a8c6B1aA"}
+        decimals={8}
       />
       <AssetItem
         link="https://etherscan.io/address/"
         symbol={"renDGB"}
         erc20={"0x3832d2F059E55934220881F831bE501D180671A7"}
         gateway={"0x2362843745615368F4ef0A43D7502353649C0783"}
+        decimals={8}
       />
       <AssetItem
         link="https://etherscan.io/address/"
         symbol={"renLUNA"}
         erc20={"0x52d87F22192131636F93c5AB18d0127Ea52CB641"}
         gateway={"0xD7D7Deab930B6d3f98b35A26a4c431630d5AB874"}
+        decimals={6}
       />
     </ul>
   </TabItem>
@@ -204,6 +225,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
         erc20={"0xfCe146bF3146100cfe5dB4129cf6C82b0eF4Ad8c"}
         gateway={"0x95De7b32e24B62c44A4C44521eFF4493f1d1fE13"}
         standard={"BEP20"}
+        decimals={8}
       />
       <AssetItem
         link="https://bscscan.com/address/"
@@ -211,6 +233,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
         erc20={"0x695FD30aF473F2960e81Dc9bA7cB67679d35EDb7"}
         gateway={"0xfdecB67cE94A22C8e227D17938c3127EA1B47B4E"}
         standard={"BEP20"}
+        decimals={8}
       />
       <AssetItem
         link="https://bscscan.com/address/"
@@ -218,6 +241,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
         erc20={"0xA164B067193bd119933e5C1e7877421FCE53D3E5"}
         gateway={"0x3023DD075B0291Cd6aDc890A1EBDD6C400595E08"}
         standard={"BEP20"}
+        decimals={8}
       />
       <AssetItem
         link="https://bscscan.com/address/"
@@ -225,6 +249,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
         erc20={"0xDBf31dF14B66535aF65AaC99C32e9eA844e14501"}
         gateway={"0x05Cadbf3128BcB7f2b89F3dD55E5B0a036a49e20"}
         standard={"BEP20"}
+        decimals={18}
       />
       <AssetItem
         link="https://bscscan.com/address/"
@@ -232,6 +257,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
         erc20={"0x31a0D1A199631D244761EEba67e8501296d2E383"}
         gateway={"0x7986568375Af35B427f3f51389d73196967C356a"}
         standard={"BEP20"}
+        decimals={8}
       />
       <AssetItem
         link="https://bscscan.com/address/"
@@ -239,6 +265,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
         erc20={"0xc3fEd6eB39178A541D274e6Fc748d48f0Ca01CC3"}
         gateway={"0x06A2C5d79c66268610eEBBca10AFa17092860830"}
         standard={"BEP20"}
+        decimals={8}
       />
       <AssetItem
         link="https://bscscan.com/address/"
@@ -246,6 +273,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
         erc20={"0xc4Ace9278e7E01755B670C0838c3106367639962"}
         gateway={"0x4d59f628CB8e4670b779eAE22aF0c46DebC06695"}
         standard={"BEP20"}
+        decimals={6}
       />
     </ul>
   </TabItem>
@@ -311,6 +339,146 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
       />
       <AssetItem
         link="https://ftmscan.com/address/"
+        symbol={"renLUNA"}
+        erc20={"0x7c7DAAF2dB46fEFd067f002a69FD0BE14AeB159f"}
+        gateway={"0x731Ea4Ba77fF184d89dBeB160A0078274Acbe9D2"}
+        standard={"ERC20"}
+        decimals={6}
+      />
+    </ul>
+  </TabItem>
+  <TabItem value="polygon">
+    <ul style={{ listStyleType: "none", padding: 0 }}>
+      <ContractItem
+        name="GatewayRegistry"
+        link="https://explorer.matic.network/address/"
+        address="0x21C482f153D0317fe85C60bE1F7fa079019fcEbD"
+      />
+      <ContractItem
+        name="BasicAdapter"
+        link="https://explorer.matic.network/address/"
+        address="0xAC23817f7E9Ec7EB6B7889BDd2b50e04a44470c5"
+      />
+      <AssetItem
+        link="https://explorer.matic.network/address/"
+        symbol={"renBTC"}
+        erc20={"0xDBf31dF14B66535aF65AaC99C32e9eA844e14501"}
+        gateway={"0x05Cadbf3128BcB7f2b89F3dD55E5B0a036a49e20"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://explorer.matic.network/address/"
+        symbol={"renZEC"}
+        erc20={"0x31a0D1A199631D244761EEba67e8501296d2E383"}
+        gateway={"0x7986568375Af35B427f3f51389d73196967C356a"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://explorer.matic.network/address/"
+        symbol={"renBCH"}
+        erc20={"0xc3fEd6eB39178A541D274e6Fc748d48f0Ca01CC3"}
+        gateway={"0x06A2C5d79c66268610eEBBca10AFa17092860830"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://explorer.matic.network/address/"
+        symbol={"renFIL"}
+        erc20={"0xc4Ace9278e7E01755B670C0838c3106367639962"}
+        gateway={"0x4d59f628CB8e4670b779eAE22aF0c46DebC06695"}
+        standard={"ERC20"}
+        decimals={18}
+      />
+      <AssetItem
+        link="https://explorer.matic.network/address/"
+        symbol={"renDGB"}
+        erc20={"0x2628568509E87c4429fBb5c664Ed11391BE1BD29"}
+        gateway={"0x677b23D0ffc82414B063accA197f74d791285952"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://explorer.matic.network/address/"
+        symbol={"renDOGE"}
+        erc20={"0xcE829A89d4A55a63418bcC43F00145adef0eDB8E"}
+        gateway={"0x9FB2C0b19A9fee6d02E7Ea861C71503608B64d6A"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://explorer.matic.network/address/"
+        symbol={"renLUNA"}
+        erc20={"0x7c7DAAF2dB46fEFd067f002a69FD0BE14AeB159f"}
+        gateway={"0x731Ea4Ba77fF184d89dBeB160A0078274Acbe9D2"}
+        standard={"ERC20"}
+        decimals={6}
+      />
+    </ul>
+  </TabItem>
+  <TabItem value="avalanche">
+    <ul style={{ listStyleType: "none", padding: 0 }}>
+      <ContractItem
+        name="GatewayRegistry"
+        link="https://cchain.explorer.avax.network/address/"
+        address="0x21C482f153D0317fe85C60bE1F7fa079019fcEbD"
+      />
+      <ContractItem
+        name="BasicAdapter"
+        link="https://cchain.explorer.avax.network/address/"
+        address="0xAC23817f7E9Ec7EB6B7889BDd2b50e04a44470c5"
+      />
+      <AssetItem
+        link="https://cchain.explorer.avax.network/address/"
+        symbol={"renBTC"}
+        erc20={"0xDBf31dF14B66535aF65AaC99C32e9eA844e14501"}
+        gateway={"0x05Cadbf3128BcB7f2b89F3dD55E5B0a036a49e20"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://cchain.explorer.avax.network/address/"
+        symbol={"renZEC"}
+        erc20={"0x31a0D1A199631D244761EEba67e8501296d2E383"}
+        gateway={"0x7986568375Af35B427f3f51389d73196967C356a"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://cchain.explorer.avax.network/address/"
+        symbol={"renBCH"}
+        erc20={"0xc3fEd6eB39178A541D274e6Fc748d48f0Ca01CC3"}
+        gateway={"0x06A2C5d79c66268610eEBBca10AFa17092860830"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://cchain.explorer.avax.network/address/"
+        symbol={"renFIL"}
+        erc20={"0xc4Ace9278e7E01755B670C0838c3106367639962"}
+        gateway={"0x4d59f628CB8e4670b779eAE22aF0c46DebC06695"}
+        standard={"ERC20"}
+        decimals={18}
+      />
+      <AssetItem
+        link="https://cchain.explorer.avax.network/address/"
+        symbol={"renDGB"}
+        erc20={"0x2628568509E87c4429fBb5c664Ed11391BE1BD29"}
+        gateway={"0x677b23D0ffc82414B063accA197f74d791285952"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://cchain.explorer.avax.network/address/"
+        symbol={"renDOGE"}
+        erc20={"0xcE829A89d4A55a63418bcC43F00145adef0eDB8E"}
+        gateway={"0x9FB2C0b19A9fee6d02E7Ea861C71503608B64d6A"}
+        standard={"ERC20"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://cchain.explorer.avax.network/address/"
         symbol={"renLUNA"}
         erc20={"0x7c7DAAF2dB46fEFd067f002a69FD0BE14AeB159f"}
         gateway={"0x731Ea4Ba77fF184d89dBeB160A0078274Acbe9D2"}
