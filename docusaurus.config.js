@@ -152,7 +152,7 @@ module.exports = {
       },
     ],
     [
-      path.resolve(__dirname, "./docusaurus-plugin-openapi"),
+      "docusaurus-plugin-openapi",
       {
         openapiPath: require.resolve("./tools/json-rpc.json"),
       },
