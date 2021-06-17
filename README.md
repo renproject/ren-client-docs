@@ -8,6 +8,7 @@ To start a development server:
 
 ```bash
 yarn
+npx docusaurus graphql-to-doc
 yarn start
 ```
 

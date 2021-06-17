@@ -137,7 +137,7 @@ module.exports = {
         schema:
           "https://api.thegraph.com/subgraphs/id/QmUJbxwpMiNzCCp1C9TnytfDpwyFKtmkFr7mzzcAWqMquc",
         rootPath: "./subgraph", // docs will be generated under './docs/swapi' (rootPath/baseURL)
-        baseURL: "subgraph/subgraph",
+        baseURL: "subgraph",
         homepage: "./subgraph/api.md",
       },
     ],
