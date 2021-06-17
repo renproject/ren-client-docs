@@ -13,7 +13,7 @@ export const ContractItem = ({ name, link, address }) => (
     <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
       <b>{name}</b>
       <br />
-      <a href={`${link}{address}`}>{address}</a>
+      <a href={`${link}${address}`}>{address}</a>
     </div>
   </li>
 );
@@ -130,7 +130,7 @@ Source: [darknode-sol/blob/master/migrations/networks.js](https://github.com/ren
 ## Gateway contracts
 
 The gateway contracts, deployed to every host-chain supported by RenVM, are responsible for mints and burns.
-Currently, they are all EVM-based contracts.
+Currently, they are EVM-based contracts and Solana programs.
 
 <Tabs
   defaultValue="ethereum"
@@ -142,6 +142,7 @@ Currently, they are all EVM-based contracts.
     { label: "Avalanche", value: "avalanche" },
     { label: "(Ethereum Testnet - Kovan)", value: "kovan" },
     { label: "(BSC Testnet)", value: "bsc-testnet" },
+    { label: "Solana", value: "solana" },
   ]}
 >
   <TabItem value="ethereum">
@@ -603,6 +604,71 @@ Currently, they are all EVM-based contracts.
         erc20={"0x2c82a39549858A0fF1a369D84695D983791d0786"}
         gateway={"0x26f4F36A070190Ee4379241DD1463A420768EB4B"}
         standard={"BEP20"}
+      />
+    </ul>
+  </TabItem>
+  <TabItem value="solana">
+    <ul style={{ listStyleType: "none", padding: 0 }}>
+      <ContractItem
+        name="GatewayRegistry"
+        link="https://explorer.solana.com/address/"
+        address="REGrPFKQhRneFFdUV3e9UDdzqUJyS6SKj88GdXFCRd2"
+      />
+      <AssetItem
+        link="https://explorer.solana.com/address/"
+        symbol={"renBTC"}
+        erc20={"CDJWUqTcYTVAKXAVXoQZFes5JUFc7owSeq7eMQcDSbo5"}
+        gateway={"BTC5yiRuonJKcQvD9j9QwYKPx4MCGbvkWfvHFyBJG6RY"}
+        standard={"SPL"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://explorer.solana.com/address/"
+        symbol={"renBCH"}
+        erc20={"G1a6jxYz3m8DVyMqYnuV7s86wD4fvuXYneWSpLJkmsXj"}
+        gateway={"BCHLK8N6spajPuk5P5imR4BdPKxMWMRAkfvsCVAiHDsx"}
+        standard={"SPL"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://explorer.solana.com/address/"
+        symbol={"renDGB"}
+        erc20={"FKJvvVJ242tX7zFtzTmzqoA631LqHh4CdgcN8dcfFSju"}
+        gateway={"DGB9b34QragJSwWkrLc2L8akZdeYKgwruDaT1rqea3Sz"}
+        standard={"SPL"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://explorer.solana.com/address/"
+        symbol={"renDOGE"}
+        erc20={"ArUkYE2XDKzqy77PRRGjo4wREWwqk6RXTfM9NeqzPvjU"}
+        gateway={"DoGEYj1prGAkc5fHcHPyg5bhgfbUQm5uaPwtaVQPuNKh"}
+        standard={"SPL"}
+        decimals={8}
+      />
+      <AssetItem
+        link="https://explorer.solana.com/address/"
+        symbol={"renFIL"}
+        erc20={"De2bU64vsXKU9jq4bCjeDxNRGPn8nr3euaTK8jBYmD3J"}
+        gateway={"FiLWGcjSCGhnXsWfkrwBYL2JeNJ4a6z7MStVxnayS8Nf"}
+        standard={"SPL"}
+        decimals={9}
+      />
+      <AssetItem
+        link="https://explorer.solana.com/address/"
+        symbol={"renLUNA"}
+        erc20={"8wv2KAykQstNAj2oW6AHANGBiFKVFhvMiyyzzjhkmGvE"}
+        gateway={"LUNAZQmNvQYHycB9m3kE95afQQyf4LZw1pfXKvZaZar"}
+        standard={"SPL"}
+        decimals={6}
+      />
+      <AssetItem
+        link="https://explorer.solana.com/address/"
+        symbol={"renZEC"}
+        erc20={"E99CQ2gFMmbiyK2bwiaFNWUUmwz4r8k2CVEFxwuvQ7ue"}
+        gateway={"ZECGnwPTpT8v8ccn7onj8oafGA4c1RJV8MH7bYSCRCU"}
+        standard={"SPL"}
+        decimals={8}
       />
     </ul>
   </TabItem>
