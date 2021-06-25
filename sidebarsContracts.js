@@ -5,6 +5,7 @@ module.exports = {
       label: "Ren Contracts",
       items: [
         "contracts",
+        "integrating-contracts",
         "deployments",
         "proof-of-reserve",
         {

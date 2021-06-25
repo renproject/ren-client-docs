@@ -7,6 +7,10 @@ import { DocTag, DocType } from "/components/DocTag";
 
 <DocTag type={DocType.Tutorial} />
 
+:::tip
+This guide uses the online Remix IDE. If you prefer to set up a local repository, check out [Ren Solidity Template](https://github.com/renproject/ren-solidity-template).
+:::
+
 In this chapter, we will build a simple Ethereum contract that allows us to do three things: deposit BTC, withdraw BTC and check how much BTC we have deposited.
 
 To get started, head over to the online Remix IDE at <https://remix.ethereum.org>, choose "Solidity" and create a new file called `Basic.sol`:
@@ -84,7 +88,7 @@ Add the `deposit` function after the `constructor`.
 function deposit(
     // Parameters from users
     bytes calldata _msg,
-    // Parameters from Darknodes
+    // Parameters from RenVM
     uint256        _amount,
     bytes32        _nHash,
     bytes calldata _sig
@@ -116,7 +120,7 @@ The `deposit` function should now look like this:
 function deposit(
     // Parameters from users
     bytes calldata _msg,
-    // Parameters from Darknodes
+    // Parameters from RenVM
     uint256        _amount,
     bytes32        _nHash,
     bytes calldata _sig
@@ -183,7 +187,7 @@ contract Basic {
     function deposit(
         // Parameters from users
         bytes calldata _msg,
-        // Parameters from Darknodes
+        // Parameters from RenVM
         uint256        _amount,
         bytes32        _nHash,
         bytes calldata _sig

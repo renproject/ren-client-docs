@@ -1,0 +1,51 @@
+---
+title: Integrating with Ren contracts
+slug: /integrating-contracts
+---
+
+:::tip
+
+For now, integrating with Ren contracts is only documented for EVM chains and Solidity.
+
+:::
+
+The [RenJS Tutorial](/ren-js/tutorial/overview) goes through writing a smart contract that can mint Ren-tokens.
+
+There is also the [Ren Solidity Template](https://github.com/renproject/ren-solidity-template) repository which has a working set-up including local tests using RenJS.
+
+## Solidity
+
+In order for a contract to be compatible with how RenJS submits mints, the function being called must follow the following standard:
+
+```solidity
+function functionName(
+
+    // Normal parameters - can be any number and types
+    uint256 _param1,
+    uint256 _param2,
+
+    // Parameters from RenVM
+    uint256        _amount,
+    bytes32        _nHash,
+    bytes calldata _sig
+
+) external {
+
+  // ... your code
+
+  // Hash parameters. All parameters besides _amount, _nHash and _sig should be included.
+  bytes32 pHash = keccak256(abi.encode(_param1, _param2));
+
+  // Mint Ren-asset. The returned value is how much was minted, after subtracting RenVM fees.
+  uint256 mintedAmount = registry.getGatewayBySymbol("BTC").mint(pHash, _amount, _nHash, _sig);
+
+  // ... your code
+
+}
+```
+
+If you want to support multiple Ren-assets, then you can pass in a `_symbol` parameter anywhere in the parameters (before the `_amount` parameter) and pass it to `getGatewayBySymbol`.
+
+## Testing on a local network
+
+See [Ren Solidity Template](https://github.com/renproject/ren-solidity-template).
