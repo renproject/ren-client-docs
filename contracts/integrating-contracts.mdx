@@ -11,9 +11,39 @@ For now, integrating with Ren contracts is only documented for EVM chains and So
 
 The [RenJS Tutorial](/ren-js/tutorial/overview) goes through writing a smart contract that can mint Ren-tokens.
 
-There is also the [Ren Solidity Template](https://github.com/renproject/ren-solidity-template) repository which has a working set-up including local tests using RenJS.
+There is also the [Ren Solidity Template](https://github.com/renproject/ren-solidity-template) repository includes local tests that test a mint function using RenJS and a mock RenVM provider.
 
 ## Solidity
+
+### Importing Ren contracts
+
+The Ren contracts can be imported with the following packages:
+
+- [`@renproject/sol`](https://www.npmjs.com/package/@renproject/sol) - for the DarknodeRegistry and DarknodePayment contracts
+- [`@renproject/gateway-sol`](https://www.npmjs.com/package/@renproject/gateway-sol) - for the GatewayRegistry, Gateway and RenERC20 contracts
+
+Note that they currently require an older Solidity compiler version - `0.5.17`. You can configure Hardhat to use multiple Solidity versions by adding the following line to the `networks` field in `hardhat.config.ts`:
+
+```js
+  solidity: {
+    compilers: [
+      {
+        version: "0.8.4",
+      },
+      {
+        version: "0.5.17",
+      },
+    ],
+  },
+```
+
+You can then import contracts in Solidity like so:
+
+```solidity
+import {GatewayRegistry} from "@renproject/gateway-sol/contracts/Gateway/GatewayRegistry.sol";
+```
+
+### Writing a mint function
 
 In order for a contract to be compatible with how RenJS submits mints, the function being called must follow the following standard:
 
@@ -46,6 +76,6 @@ function functionName(
 
 If you want to support multiple Ren-assets, then you can pass in a `_symbol` parameter anywhere in the parameters (before the `_amount` parameter) and pass it to `getGatewayBySymbol`.
 
-## Testing on a local network
+### Testing on a local network
 
 See [Ren Solidity Template](https://github.com/renproject/ren-solidity-template).
