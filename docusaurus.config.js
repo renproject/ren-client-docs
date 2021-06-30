@@ -77,11 +77,11 @@ module.exports = {
           items: [
             {
               label: "Telegram",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
+              href: "https://t.me/renproject",
             },
             {
               label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              href: "https://github.com/renproject",
             },
           ],
         },
