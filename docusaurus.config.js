@@ -21,6 +21,14 @@ module.exports = {
     prism: {
       additionalLanguages: ["solidity"],
     },
+    announcementBar: {
+      id: 'support_us', // Any value that will identify this message.
+      content:
+        'We are always looking to improve our docs, feel free to complete <a target="_blank" rel="noopener noreferrer" href="https://forms.gle/Vtj9B2j4qMQsJrpq5">this survey.</a>',
+      backgroundColor: '#4E8AFF', // Defaults to `#fff`.
+      textColor: '#D6DCE1', // Defaults to `#000`.
+      isCloseable: false, // Defaults to `true`.
+    },
     navbar: {
       title: "Ren Client Docs",
       logo: {
