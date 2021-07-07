@@ -135,7 +135,7 @@ module.exports = {
       require.resolve("@edno/docusaurus2-graphql-doc-generator"),
       {
         schema:
-          "https://api.thegraph.com/subgraphs/id/QmUJbxwpMiNzCCp1C9TnytfDpwyFKtmkFr7mzzcAWqMquc",
+          "https://api.thegraph.com/subgraphs/name/renproject/renvm",
         rootPath: "./subgraph", // docs will be generated under './docs/swapi' (rootPath/baseURL)
         baseURL: "subgraph",
         homepage: "./subgraph/api.md",
