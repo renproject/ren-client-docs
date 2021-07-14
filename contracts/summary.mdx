@@ -1,0 +1,57 @@
+---
+title: Summary of contracts
+---
+
+## Darknode contracts (Ethereum-only)
+
+The darknode contracts include the following contracts:
+
+### `RenToken`
+
+This is the ERC20 contract for the REN token.
+
+### `DarknodeRegistry` and `DarknodeRegistryStore`
+
+These contracts are responsible for managing the registration and bonding of darknodes.
+
+The `DarknodeRegistry` handles the logic of registering, while the `DarknodeRegistryStore` stores the REN used for bonds.
+
+### `DarknodePayment` and `DarknodePaymentStore` [LEGACY]
+
+Minting and burning fees were previously subtracted on Ethereum, and then forwarded to the `DarknodePayment` contract.
+
+Fees are now collected in RenVM instead, but darknode operators can still withdraw legacy rewards from the `DarknodePayment` contract through the Command Center.
+
+### `Protocol`
+
+The `Protocol` contract tracks the addresses of all of the other contracts.
+
+<br />
+
+## EVM Gateway contracts
+
+### `RenERC20`
+
+Each ren-asset (e.g. renBTC, renDOGE, etc.) is represented on EVM-compatible chains (Ethereum, BSC, etc.) by an ERC20 contract.
+
+### `MintGateway`
+
+Each `RenERC20` has an associated `MintGateway` contract which is responsible for minting and burning the ren-asset. It handles verifying the RenVM signature, and emitting burn events which are watched by RenVM.
+
+A future upgrade will unify all `MintGateway`s into a single contract that manages all `RenERC20` contracts.
+
+### `GatewayRegistry`
+
+Each EVM-compatible chain has a `GatewayRegistry` which can be used to look-up the `MintGateway` and `RenERC20` contract addresses from a symbol.
+
+A future upgrade will replace the `GatewayRegistry` with a `RenERC20Factory` which will also be responsible for deploying new `RenERC20`s.
+
+### `BasicAdapter`
+
+The `BasicAdapter` contract is not part of the core RenVM protocol contracts, and is only used by the front-end RenJS library. It's a contract that submits mint signatures to a `MintGateway` and then forwards the minted ren-asset to the specified recipient.
+
+
+
+<br />
+<br />
+<br />

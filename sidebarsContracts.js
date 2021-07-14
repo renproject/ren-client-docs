@@ -7,6 +7,8 @@ module.exports = {
         "contracts",
         "integrating-contracts",
         "deployments",
+        "summary",
+        "upgrades",
         "proof-of-reserve",
         {
           type: "category",

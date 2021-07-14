@@ -1,0 +1,76 @@
+---
+title: Previous Upgrades
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+export const ContractItem = ({ name, link, address }) => (
+  <li style={{ padding: 0, margin: 0 }}>
+    <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
+      <b>{name}</b>
+      <br />
+      <a href={`${link}${address}`}>{address}</a>
+    </div>
+  </li>
+);
+
+This page documents previous upgrades to the mainnet contracts.
+
+The contracts are governed by a Multisig with a 7-day timelock. Over time, more parties will be added to this Multisig.
+
+<Tabs
+  defaultValue="ethereum"
+  values={[
+    { label: "Ethereum", value: "ethereum" },
+  ]}
+>
+  <TabItem value="ethereum">
+    <ul style={{listStyleType: "none", padding: 0}}>
+      <ContractItem
+        name="Multisig"
+        link="https://gnosis-safe.io/app/#/safes/"
+        address="0xc49d7d07f1b21168a89d686F3E65BC07142250ef"
+      />
+      <ContractItem
+        name="Timelock"
+        link="https://etherscan.io/address/"
+        address="0xfE43c3a01102EDA295333F5Ad6CC747f03314fdb"
+      />
+    </ul>
+
+  </TabItem>
+</Tabs>
+
+<br />
+<br />
+
+## Previous upgrades
+
+### Upgrade 1 - 2020
+
+The minting fees on Ethereum were updated to 25 BPS (0.25%).
+
+### Upgrade 2 - June 11 2021
+
+The BTC, ZEC and BCH gateway contracts on Ethereum were updated to support the RenVM v0.4 upgrade, while remaining backwards compatible with the v0.2 mint signature format.
+
+### Upgrade 3 - June 28 2021
+
+Mint and burn fees were set to 0 for all assets across all networks, so that fees can be collected directly in RenVM.
+
+<br />
+<br />
+
+## Planned upgrades
+
+### Upgrade 4
+
+This upgrade will add support for specifying a target chain when burning ren-assets.
+
+<br />
+<br />
+<br />
