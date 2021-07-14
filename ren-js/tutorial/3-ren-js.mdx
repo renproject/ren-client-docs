@@ -54,7 +54,7 @@ Initialize RenJS, adding it to your `App.js` state (line `17`) like so:
 this.state = {
   balance: 0,
   message: "",
-  renJS: new RenJS("testnet"),
+  renJS: new RenJS("testnet", { useV2TransactionFormat: true }),
   error: "",
 };
 ```
@@ -81,6 +81,8 @@ For our example, we want to send BTC to a smart contract, not just a user's addr
 
 ```ts title="src/App.js - deposit"
 const { web3, renJS } = this.state;
+
+this.log(`Generating deposit address...`);
 
 const amount = 0.003; // BTC
 const mint = await renJS.lockAndMint({
@@ -155,6 +157,8 @@ mint.on("deposit", async (deposit) => {
     .on("transactionHash", (txHash) =>
       this.log(`Ethereum transaction: ${String(txHash)}\nSubmitting...`)
     );
+
+  this.log(`Deposited ${amount} BTC.`);
 });
 ```
 
@@ -253,7 +257,7 @@ class App extends React.Component {
       balance: 0,
       message: "",
       error: "",
-      renJS: new RenJS("testnet"),
+      renJS: new RenJS("testnet", { useV2TransactionFormat: true }),
     };
   }
 
@@ -344,6 +348,8 @@ class App extends React.Component {
 
     const { web3, renJS } = this.state;
 
+    this.log(`Generating deposit address...`);
+
     const amount = 0.003; // BTC
     const mint = await renJS.lockAndMint({
       // Send BTC from the Bitcoin blockchain to the Ethereum blockchain.
@@ -401,9 +407,9 @@ class App extends React.Component {
         .mint()
         // Print Ethereum transaction hash.
         .on("transactionHash", (txHash) => depositLog(`Mint tx: ${txHash}`));
-    });
 
-    this.log(`Deposited ${amount} BTC.`);
+      this.log(`Deposited ${amount} BTC.`);
+    });
   };
 
   withdraw = async () => {
@@ -431,7 +437,7 @@ class App extends React.Component {
           {
             type: "bytes",
             name: "_to",
-            value: Buffer.from(btcAddress),
+            value: btcAddress,
           },
           {
             type: "uint256",
@@ -463,7 +469,7 @@ class App extends React.Component {
           : this.log(status)
       )
       // Print RenVM transaction hash
-      .on("txHash", this.log);
+      .on("txHash", (hash) => this.log(`RenVM hash: ${hash}`));
 
     this.log(`Withdrew ${amount} BTC to ${recipient}.`);
   };

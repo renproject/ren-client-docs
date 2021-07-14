@@ -28,7 +28,7 @@ const mint = async () => {
   const signer = provider.getSigner();
   const address = await signer.getAddress();
 
-  const lockAndMint = await new RenJS("testnet").lockAndMint({
+  const lockAndMint = await new RenJS("testnet", { useV2TransactionFormat: true }).lockAndMint({
     asset: "BTC",
     from: Bitcoin(),
     to: Ethereum(provider.provider).Address(address),
@@ -56,7 +56,7 @@ const burn = async () => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const value = 2000000; // sats
 
-  const burnAndRelease = await new RenJS("testnet").burnAndRelease({
+  const burnAndRelease = await new RenJS("testnet", { useV2TransactionFormat: true }).burnAndRelease({
     asset: "BTC",
     to: Bitcoin().Address("miMi2VET41YV1j6SDNTeZoPBbmH8B4nEx6"),
     from: Ethereum(provider.provider).Account({ value }),
