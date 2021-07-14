@@ -152,7 +152,9 @@ class App extends React.Component {
             Withdraw {balance} BTC
           </button>
         </p>
-        <p>{message}</p>
+        {message.split("\n").map((line) => (
+          <p>{line}</p>
+        ))}
         {error ? <p style={{ color: "red" }}>{error}</p> : null}
       </div>
     );

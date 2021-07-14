@@ -127,13 +127,19 @@ mint.on("deposit", async (deposit) => {
 
   const hash = deposit.txHash();
   const depositLog = (msg) =>
-    this.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
+    this.log(
+      `BTC deposit: ${Bitcoin.utils.transactionExplorerLink(
+        deposit.depositDetails.transaction,
+        "testnet"
+      )}\n
+      RenVM Hash: ${hash}\n
+      Status: ${deposit.status}\n
+      ${msg}`
+    );
 
   await deposit
     .confirmed()
-    .on("target", (confs, target) =>
-      depositLog(`${confs}/${target} confirmations`)
-    )
+    .on("target", (target) => depositLog(`0/${target} confirmations`))
     .on("confirmation", (confs, target) =>
       depositLog(`${confs}/${target} confirmations`)
     );
@@ -146,7 +152,9 @@ mint.on("deposit", async (deposit) => {
   await deposit
     .mint()
     // Print Ethereum transaction hash.
-    .on("transactionHash", (txHash) => depositLog(`Mint tx: ${txHash}`));
+    .on("transactionHash", (txHash) =>
+      this.log(`Ethereum transaction: ${String(txHash)}\nSubmitting...`)
+    );
 });
 ```
 
@@ -229,6 +237,7 @@ Your `App.js` file should now look like this (don't forget to replace the contra
 ```ts title="src/App.js"
 import React from "react";
 import RenJS from "@renproject/ren";
+import { Bitcoin, Ethereum } from "@renproject/chains";
 import Web3 from "web3";
 import "./App.css";
 
@@ -306,7 +315,9 @@ class App extends React.Component {
             Withdraw {balance} BTC
           </button>
         </p>
-        <p>{message}</p>
+        {message.split("\n").map((line) => (
+          <p>{line}</p>
+        ))}
         {error ? <p style={{ color: "red" }}>{error}</p> : null}
       </div>
     );
@@ -364,13 +375,19 @@ class App extends React.Component {
 
       const hash = deposit.txHash();
       const depositLog = (msg) =>
-        this.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
+        this.log(
+          `BTC deposit: ${Bitcoin.utils.transactionExplorerLink(
+            deposit.depositDetails.transaction,
+            "testnet"
+          )}\n
+          RenVM Hash: ${hash}\n
+          Status: ${deposit.status}\n
+          ${msg}`
+        );
 
       await deposit
         .confirmed()
-        .on("target", (confs, target) =>
-          depositLog(`${confs}/${target} confirmations`)
-        )
+        .on("target", (target) => depositLog(`0/${target} confirmations`))
         .on("confirmation", (confs, target) =>
           depositLog(`${confs}/${target} confirmations`)
         );
@@ -433,7 +450,9 @@ class App extends React.Component {
         confirmations = confs;
       })
       // Print Ethereum transaction hash.
-      .on("transactionHash", (txHash) => this.log(`txHash: ${String(txHash)}`));
+      .on("transactionHash", (txHash) =>
+        this.log(`Ethereum transaction: ${String(txHash)}\nSubmitting...`)
+      );
 
     await burnAndRelease
       .release()
