@@ -10,9 +10,7 @@ import { DocTag, DocType } from "/components/DocTag";
 
 RenERC20 represents a digital asset that has been bridged on to
 the Ethereum ledger. It exposes mint and burn functions that can only be
-called by it's associated Gateway contract.
-
-
+called by its associated Gateway contract.
 
 Inherits from:
 
@@ -27,66 +25,34 @@ Inherits from:
 - `Context`
 - `Initializable`
 
-
 <hr />
-
-
-
 
 <br />
 
 ## Functions
 
-### **`initialize`** *`(uint256 _chainId, address _nextOwner, uint256 _initialRate, string _version, string _name, string _symbol, uint8 _decimals)`* (public)
-
-
-
-
-
-
+### **`initialize`** _`(uint256 _chainId, address _nextOwner, uint256 _initialRate, string _version, string _name, string _symbol, uint8 _decimals)`_ (public)
 
 <hr />
 
-### **`mint`** *`(address _to, uint256 _amount)`* (public)
-
-
+### **`mint`** _`(address _to, uint256 _amount)`_ (public)
 
 mint can only be called by the tokens' associated Gateway
 contract. See Gateway's mint function instead.
 
-
-
 <hr />
 
-### **`burn`** *`(address _from, uint256 _amount)`* (public)
-
-
+### **`burn`** _`(address _from, uint256 _amount)`_ (public)
 
 burn can only be called by the tokens' associated Gateway
 contract. See Gateway's burn functions instead.
 
+<hr />
 
+### **`transfer`** _`(address recipient, uint256 amount) → bool`_ (public)
 
 <hr />
 
-### **`transfer`** *`(address recipient, uint256 amount) → bool`* (public)
-
-
-
-
-
-
+### **`transferFrom`** _`(address sender, address recipient, uint256 amount) → bool`_ (public)
 
 <hr />
-
-### **`transferFrom`** *`(address sender, address recipient, uint256 amount) → bool`* (public)
-
-
-
-
-
-
-
-<hr />
-
-

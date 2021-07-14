@@ -4,13 +4,19 @@ title: Things to note
 
 This is a list of limitations and other things to know about using RenJS.
 
+:::note Resuming a mint that is in progress requires the all of the parameters passed in to `lockAndMint` to be available.
+
+See [Resuming Transfers](/ren-js/how-to/resuming-transfers) on how to resume a mint (e.g. after the user refreshes the page).
+
+:::
+
 :::note Once a deposit to a gateway address has been made, it cannot be refunded.
 
 This means that it's critical that a mint signature can always be submitted. See the page on adding a [Recovery Method](/ren-js/how-to/recovery-method).
 
 :::
 
-:::note If a contract has multiple methods for minting, a 3rd party may be able to submit a mint inteded for one method to another method
+:::note If a contract has multiple methods for minting, a 3rd party may be able to submit a mint intended for one method to another method
 
 If the parameters passed in to the payload-hash (`pHash`) calculation are of the same length of bytes, you may want to add an additional method parameter which specifies the function name, and then check that it's correct in the method.
 
