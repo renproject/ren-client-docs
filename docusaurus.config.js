@@ -22,11 +22,11 @@ module.exports = {
       additionalLanguages: ["solidity"],
     },
     announcementBar: {
-      id: 'support_us', // Any value that will identify this message.
+      id: "support_us", // Any value that will identify this message.
       content:
-        'We are always looking to improve our docs, feel free to complete <a target="_blank" rel="noopener noreferrer" href="https://forms.gle/Vtj9B2j4qMQsJrpq5">this survey.</a>',
-      backgroundColor: '#4E8AFF', // Defaults to `#fff`.
-      textColor: '#D6DCE1', // Defaults to `#000`.
+        'We are always looking to improve our docs. If you have feedback, feel free to complete <a target="_blank" rel="noopener noreferrer" href="https://forms.gle/Vtj9B2j4qMQsJrpq5">this survey.</a>',
+      backgroundColor: "#4E8AFF", // Defaults to `#fff`.
+      textColor: "#D6DCE1", // Defaults to `#000`.
       isCloseable: false, // Defaults to `true`.
     },
     navbar: {
@@ -100,6 +100,10 @@ module.exports = {
       ],
       // copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
+    algolia: {
+      apiKey: "d5bd58f50568706dcfbd32b4d4386bcd",
+      indexName: "ren-client",
+    },
   },
   presets: [
     [
@@ -142,8 +146,7 @@ module.exports = {
     [
       require.resolve("@edno/docusaurus2-graphql-doc-generator"),
       {
-        schema:
-          "https://api.thegraph.com/subgraphs/name/renproject/renvm",
+        schema: "https://api.thegraph.com/subgraphs/name/renproject/renvm",
         rootPath: "./subgraph", // docs will be generated under './docs/swapi' (rootPath/baseURL)
         baseURL: "subgraph",
         homepage: "./subgraph/api.md",
