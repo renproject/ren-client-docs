@@ -17,6 +17,7 @@ module.exports = {
           ],
           collapsed: false,
         },
+        "things-to-note",
         {
           type: "category",
           label: "How Tos",
@@ -24,6 +25,8 @@ module.exports = {
             "how-to/resuming-transfers",
             "how-to/chain-utils",
             "how-to/handling-address-expiry",
+            "how-to/add-parameters-at-mint",
+            "how-to/recovery-method",
           ],
           collapsed: false,
         },

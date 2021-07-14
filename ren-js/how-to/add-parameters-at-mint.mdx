@@ -1,0 +1,41 @@
+---
+title: Add parameters at mint
+---
+
+RenVM allows for gateway addresses to be tied to a set of parameters, which means that when a user is depositing to an address, the deposit can only be submitted to the host-chain with those same parameters.
+
+For dynamic parameters like exchange rates and slippage amounts, you many need to encode a starting parameter, and allow the user to provide a suitable percentage it can change by when the contract calculates the actual amount. If the value has changed too much, then the contract may want to instead skip the trade or relevant operation, and instead forward the ren-asset to the user. NOTE - the contract shouldn't revert in this instance, otherwise the mint signature won't be able to be redeemed.
+
+### Excluding a parameter from the payload
+
+If it's no possible to specify all parameters before the mint is started, then you can indicate in RenJS that a parameter should not be included in the payload.
+
+You still need to define the parameter type when creating a `lockAndMint`, and provide a default value, but with an added `notInPayload` field.
+
+```ts
+{
+    name: "parameterName",
+    type: "uint256",
+
+    // Add this flag.
+    notInPayload: true,
+
+    // Specify a default value.
+    value: 0
+}
+```
+
+Once a deposit is ready to be minted, you can provide a value for it:
+
+```
+await deposit.mint({
+    // Override value of `parameterName`.
+    parameterName: 100,
+});
+```
+
+:::note
+
+The [Ren Dev Tools](https://renproject.github.io/dev-tools) will not work for mints with parameters that aren't in the payload.
+
+:::

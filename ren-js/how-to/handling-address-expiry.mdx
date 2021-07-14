@@ -24,7 +24,7 @@ const lockAndMint = await renJS.lockAndMint({
 
 It is best if the nonce is incremental for the user, using persistent storage to track it. If a random nonce is used, it should still be stored to persistent storage to that the `LockAndMint` can be resumed if the user's session is closed.
 
-:::warning
+:::caution
 
 Just like all the other parameters, the LockAndMint can only be resumed by providing the nonce again. If the nonce is lost, the funds may not be recoverable.
 
