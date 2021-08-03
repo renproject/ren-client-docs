@@ -15,9 +15,9 @@ https://github.com/saucelabs/docusaurus-theme-github-codeblock/blob/main/src/the
 
 Integrate using the official RenVM JavaScript SDK, [RenJS](https://github.com/renproject/ren-js/), to provide native BTC support to your decentralized app. To get started with RenJS, read through the Tutorial, go through the Quick Start page or browse through the type docs.
 
-- [Tutorial](tutorial/overview)
-- [Quick start](quick-start)
-- [RenJS Type Reference]
+- [Tutorial](https://renproject.github.io/ren-client-docs/ren-js/tutorial/overview)
+- [Quick start](https://renproject.github.io/ren-client-docs/ren-js/quick-start)
+- [RenJS Type Reference] (https://renproject.github.io/ren-js/index.html)
 
 <hr />
 
