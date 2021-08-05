@@ -1,0 +1,58 @@
+---
+title: Query 24h fees
+tag: test
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.HowTo} />
+
+import { GraphQL } from "../components/GraphQL";
+
+In order to get the 24h fees earned by RenVM, you'll need to fetch the current all-time fees, and the all-time fees from 24 hours ago, and subgract the two.
+
+```ts
+const currentTimestamp = Math.floor(Date.now() / 1000);
+> 1628130330
+const previousTimestamp = currentTimestamp - (24 * 60 * 60)
+> 1628043930
+```
+
+<GraphQL
+  url="https://renvm-tracker.herokuapp.com"
+  defaultQuery={`{
+  current: Snapshot(timestamp: "1628130330") {
+    fees {
+      asset
+      amount
+      amountInUsd
+    }
+  }
+  dayAgo: Snapshot(timestamp: "1628043930") {
+    fees {
+      asset
+      amount
+      amountInUsd
+    }
+  }
+}`}
+/>
+
+You can then loop each asset to get the difference:
+
+```ts
+const dayAgo = response.data.dayAgo.fees.reduce(
+  (acc, fees) => ({ ...acc, [fees.asset]: fees }),
+  {}
+);
+
+const oneDayFees = response.data.current.fees.reduce(
+  (acc, { asset, amountInUsd }) => ({
+    ...acc,
+    [asset]: amountInUsd - (dayAgo[asset] ? dayAgo[asset].amountInUsd : 0),
+  }),
+  {}
+);
+
+console.log(oneDayFees);
+```

@@ -28,7 +28,6 @@
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "docusaurus-plugin-openapi": "npm:@ren-forks/docusaurus-plugin-openapi",
-    "docusaurus-plugin-typedoc": "^0.12.0",
     "exec-sync": "^0.1.6",
     "ffi": "https://github.com/node-ffi-napi/node-ffi-napi",
     "graphiql": "^1.4.0",

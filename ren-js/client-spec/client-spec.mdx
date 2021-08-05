@@ -1,0 +1,118 @@
+---
+title: Client Spec (WIP)
+---
+
+This document outlines all of a client's steps involved in initiating, submitting and completing mints and burns.
+
+It serves as a specification for RenJS to follow, as well as for other potential client implementations.
+
+### Contents
+
+- 1 [Locking](locking)
+- 1.1 [Generating a gateway address](generating-a-gateway-address)
+
+# Locking
+
+## Generating a gateway address
+
+### Dependency chain
+
+- Gateway address depends on
+  - gPubKey, which depends on
+    - the selector
+    - the latest `ren_queryState` result
+  - gHash, which depends on
+    - the recipient
+    - nonce
+    - pHash, which depends on
+      - payload
+    - sHash, which depends on
+      - the selector
+
+### Information provided by the user / the front-end
+
+1. The chain on which an asset is being locked
+2. The asset being locked
+3. The host chain, where the ren-asset will be minted
+4. A recipient on the target chain - either a user's address or a contract
+5. A payload associated with the recipient, such as the parameters for a contract call
+6. A nonce, an arbitrary 32-byte integer
+
+The **_selector_** is defined to be `ASSET/toHostChain` for the provided asset and host-chain.
+
+> **Example**
+>
+> - **Lock-chain**: Terra
+> - **Asset**: LUNA
+> - **Host-chain**: Ethereum
+> - **Selector**: `LUNA/toEthereum
+> - **Recipient**: The `BasicAdapter` contract deployed at `0x32666B64e9fD0F44916E1378Efb2CFa3B3B96e80`, decoded from hex
+> - **Payload**:
+> - **Nonce**: 3
+
+### Select a shard
+
+A RenVM shard is selected using the `ren_queryState` JSON-RPC endpoint on RenVM. The shard must support the asset being locked.
+
+We assign the shard's public key to the variable `gPubKey`.
+
+> **Example**
+>
+> - `ren_queryState` result:
+>
+> ```
+> POST https://lightnode-testnet.herokuapp.com/
+> {
+> 	"id": 1,
+> 	"jsonrpc": "2.0",
+> 	"method": "ren_queryState",
+> 	"params": {}
+> }
+> RESPONSE
+> {
+>   "jsonrpc": "2.0",
+>   "id": 1,
+>   "result": {
+>     "state": {
+>       "Bitcoin": {
+>         "address": "mytu3FGw8cTzGTBTQZoVcZ2CZaYpRdk2YA",
+>         "dust": "546",
+>         "gasCap": "2",
+>         "gasLimit": "400",
+>         "gasPrice": "2",
+>         "latestChainHash": "",
+>         "latestChainHeight": "2034624",
+>         "minimumAmount": "547",
+>         "output": {
+>           "outpoint": {
+>             "hash": "4ZIEedHtDGcEXu-xTNjeaQSTHRHS1rvW6twem9gT2mU",
+>             "index": "2"
+>           },
+>           "pubKeyScript": "dqkUyZiyqIrJZnbhTwdzkANBl5mmgjqIrA",
+>           "value": "840258866"
+>         },
+>         "pubKey": "Aw3WX32ykguyKZEuP0IT3RUOX5csm3PpvnFNhEVhrDVc"
+>       }
+>     }
+>   }
+> }
+> ```
+>
+> We select the `pubKey` listed under `"Bitcoin"`.
+>
+> - **gPubKey**: `Aw3WX32ykguyKZEuP0IT3RUOX5csm3PpvnFNhEVhrDVc`
+
+### Hashes
+
+There are several hashes involved in generating a gateway address. All of them use Keccak256, but some encode the data being hashed differently.
+
+The hashes are:
+
+- **_sHash_** - the selector hash. `keccak256(selector)`
+- **_pHash_** - the payload hash. `keccak256(payload)`
+- **_gHash_** - the gateway hash. `keccak256(concat(pHash, sHash, recipient, nonce))`
+
+> **_Example_**
+>
+> - **sHash**: `keccak256("LUNA/toEthereum")` => `cf82f7a141f97d439a22da6e28ef6c74c814875a32d79c6630afe73242e47e0d`
+> - **pHash**: `keccak256()`

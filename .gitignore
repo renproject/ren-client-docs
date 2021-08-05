@@ -1,6 +1,5 @@
 *.env
 .docusaurus
-subgraph/subgraph
 docusaurus-plugin-openapi
 
 node_modules

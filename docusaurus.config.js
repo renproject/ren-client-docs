@@ -9,7 +9,7 @@ const typedocPaths = execSync(
 module.exports = {
   title: "Ren Client Docs",
   tagline: "Documentation and tutorials for interacting with RenVM",
-  url: "https://your-docusaurus-test-site.com",
+  url: "https://renproject.github.io/ren-client-docs",
   baseUrl: "/ren-client-docs/",
   // onBrokenLinks: "throw",
   onBrokenLinks: "warn",
@@ -49,9 +49,9 @@ module.exports = {
           position: "left",
         },
         {
-          to: "subgraph/",
-          activeBasePath: "subgraph",
-          label: "Subgraph",
+          to: "stats/",
+          activeBasePath: "stats",
+          label: "Stats APIs",
           position: "left",
         },
         {
@@ -111,9 +111,7 @@ module.exports = {
       {
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
-          // editUrl:
-          //   "https://github.com/facebook/docusaurus/edit/master/website/blog/",
+          editUrl: "https://github.com/renproject/ren-client-docs/edit/master",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -130,6 +128,7 @@ module.exports = {
         path: "ren-js",
         routeBasePath: "ren-js",
         sidebarPath: require.resolve("./sidebarsRenJS.js"),
+        editUrl: "https://github.com/renproject/ren-client-docs/edit/master",
         // ... other options
       },
     ],
@@ -140,25 +139,18 @@ module.exports = {
         path: "contracts",
         routeBasePath: "contracts",
         sidebarPath: require.resolve("./sidebarsContracts.js"),
+        editUrl: "https://github.com/renproject/ren-client-docs/edit/master",
         // ... other options
-      },
-    ],
-    [
-      require.resolve("@edno/docusaurus2-graphql-doc-generator"),
-      {
-        schema: "https://api.thegraph.com/subgraphs/name/renproject/renvm",
-        rootPath: "./subgraph", // docs will be generated under './docs/swapi' (rootPath/baseURL)
-        baseURL: "subgraph",
-        homepage: "./subgraph/api.md",
       },
     ],
     [
       "@docusaurus/plugin-content-docs",
       {
-        id: "subgraph",
-        path: "subgraph",
-        routeBasePath: "subgraph",
-        sidebarPath: require.resolve("./sidebarsSubgraph.js"),
+        id: "stats",
+        path: "stats",
+        routeBasePath: "stats",
+        sidebarPath: require.resolve("./sidebarsStats.js"),
+        editUrl: "https://github.com/renproject/ren-client-docs/edit/master",
         // ... other options
       },
     ],
@@ -166,45 +158,6 @@ module.exports = {
       "docusaurus-plugin-openapi",
       {
         openapiPath: require.resolve("./tools/json-rpc.json"),
-      },
-    ],
-    [
-      "docusaurus-plugin-typedoc",
-
-      // typedoc src
-      // --exclude \\*\\*/\\*.spec.ts,\\*.spec.ts
-      // --target ES6
-      // --mode file
-      // --out build/docs
-      // --includeDeclarations
-      // --excludeExternals
-      // --excludeNotExported
-      // --excludePrivate
-      // --excludeProtected
-      // --name \"RenJS v2.0.0 Documentation\"
-
-      {
-        // TypeDoc options
-        entryPoints: ["../ren-js/packages/lib/ren/src", ...typedocPaths],
-        tsconfig: "../ren-js/packages/lib/ren/tsconfig.json",
-        readme: "../ren-js/packages/lib/ren/DOCS.md",
-        exclude: "*.spec.ts",
-        // target: "ES6",
-        // includeDeclarations: true,
-        excludeExternals: true,
-        // excludeNotExported: true,
-        excludePrivate: true,
-        excludeProtected: true,
-        // plugin: ["typedoc-plugin-xyz"],
-
-        // Plugin options
-        docsRoot: "./ren-js",
-        out: "api",
-        allReflectionsHaveOwnDocument: false,
-        sidebar: {
-          sidebarFile: "sidebarRenJSAPI.js",
-          fullNames: false,
-        },
       },
     ],
   ],

@@ -2,15 +2,82 @@
 title: Quick Start
 ---
 
-This is a quick-start guide with minimal code snippets for minting and burning Bitcoin on Ethereum.
-
-This assumes `window.ethereum` is available (e.g. in a browser with MetaMask installed). See [hdwallet-provider](https://github.com/trufflesuite/truffle/tree/develop/packages/hdwallet-provider) and [infura.io](https://infura.io) if you are using RenJS using Node.js instead of in a browser.
+This is a quick-start guide for minting BTC on Ethereum, intended for developers already familiar with Web3.
 
 ### Install RenJS and Ethers
 
 ```bash
-yarn add @renproject/ren @renproject/chains ethers
+yarn add @renproject/ren @renproject/chains
 ```
+
+<hr />
+
+### Ethereum provider
+
+<details>
+
+<summary>Ethers.js with Infura/Alchemy and a mnemonic</summary>
+
+<br />
+
+```bash
+yarn add ethers
+```
+
+```sh
+ETHEREUM_PROVIDER="https://kovan.infura.io/v3/YOUR_INFURA_KEY"
+MNEMONIC=""
+```
+
+```ts
+import { ethers } from "ethers";
+
+const { ETHEREUM_PROVIDER, MNEMONIC } = process.env;
+
+const provider = new ethers.providers.JsonRpcProvider(ETHEREUM_PROVIDER);
+const signer = new ethers.Wallet.fromMnemonic(MNEMONIC);
+const address = await signer.getAddress();
+const ethereumProvider = { provider, signer };
+```
+
+</details>
+
+<details>
+
+<summary>Ethers.js with MetaMask</summary>
+
+<br />
+
+```bash
+yarn add ethers
+```
+
+```ts
+import { ethers } from "ethers";
+
+// Inside an async method.
+await window.ethereum.enable();
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+const address = await signer.getAddress();
+const ethereumProvider = { provider, signer };
+```
+
+</details>
+
+<details>
+
+<summary>Existing Web3 provider</summary>
+
+<br />
+
+```ts
+// Inside an async method.
+const address = (await web3.eth.getAccounts())[0];
+const ethereumProvider = web3.currentProvider;
+```
+
+</details>
 
 <hr />
 
@@ -19,28 +86,38 @@ yarn add @renproject/ren @renproject/chains ethers
 ```ts
 import { Bitcoin, Ethereum } from "@renproject/chains";
 import RenJS from "@renproject/ren";
-import { ethers } from "ethers";
+
+// Must already be set-up.
+console.log(ethereumProvider);
+console.log(address);
 
 const mint = async () => {
-  await window.ethereum.enable();
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  provider.getSigner();
-  const signer = provider.getSigner();
-  const address = await signer.getAddress();
-
-  const lockAndMint = await new RenJS("testnet", { useV2TransactionFormat: true }).lockAndMint({
+  const lockAndMint = await new RenJS("testnet", {
+    useV2TransactionFormat: true,
+  }).lockAndMint({
     asset: "BTC",
     from: Bitcoin(),
-    to: Ethereum(provider.provider).Address(address),
+    to: Ethereum(ethereumProvider).Address(address),
   });
 
   console.log(`Deposit BTC to ${lockAndMint.gatewayAddress}`);
 
-  lockAndMint.on("deposit", RenJS.defaultDepositHandler);
+  // See also RenJS.defaultDepositHandler.
+  lockAndMint.on("deposit", (deposit) => {
+    await deposit.confirmed();
+    await deposit.signed();
+    await deposit.mint();
+  });
 };
 
 mint().catch(console.error);
 ```
+
+:::caution
+
+In production, retry-logic should be added each of the `confirmed`, `signed` and `mint` steps. They may occasionally fail due to network issues.
+
+:::
 
 <hr />
 
@@ -49,17 +126,19 @@ mint().catch(console.error);
 ```ts
 import { Bitcoin, Ethereum } from "@renproject/chains";
 import RenJS from "@renproject/ren";
-import { ethers } from "ethers";
+
+// Must already be set-up.
+console.log(ethereumProvider);
 
 const burn = async () => {
-  await window.ethereum.enable();
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const value = 2000000; // sats
+  const value = 0.02 * 1e8; // sats
 
-  const burnAndRelease = await new RenJS("testnet", { useV2TransactionFormat: true }).burnAndRelease({
+  const burnAndRelease = await new RenJS("testnet", {
+    useV2TransactionFormat: true,
+  }).burnAndRelease({
     asset: "BTC",
     to: Bitcoin().Address("miMi2VET41YV1j6SDNTeZoPBbmH8B4nEx6"),
-    from: Ethereum(provider.provider).Account({ value }),
+    from: Ethereum(ethereumProvider).Account({ value }),
   });
 
   await burnAndRelease.burn();
@@ -68,6 +147,8 @@ const burn = async () => {
 
 burn().catch(console.error);
 ```
+
+As with minting, the `burn` and `release` methods may occasionally fail due to network issues.
 
 <hr />
 

@@ -46,5 +46,14 @@ export const GraphQL: React.FC<Props> = (props) => {
     return null;
   }
 
-  return <BrowserOnly>{() => <GraphQLBrowserOnly {...props} />}</BrowserOnly>;
+  return (
+    <BrowserOnly>
+      {() => (
+        <>
+          <GraphQLBrowserOnly {...props} />
+          <br />
+        </>
+      )}
+    </BrowserOnly>
+  );
 };
