@@ -8,13 +8,13 @@ import { GraphQL } from "../components/GraphQL";
 
 <DocTag type={DocType.HowTo} /> <DocTag type={DocType.Reference} />
 
-The RenVM Tracker is a server that syncs RenVM blocks and tracks volume, locked amounts and historic asset prices.
+The RenVM Tracker is a server that syncs RenVM blocks and tracks volume, locked amounts and historic asset prices. It provides a GraphQL endpoint to query RenVM stats for a provided timestamp.
 
 ### Usage
 
-The interface is a GraphQL endpoint running at https://renvm-tracker.herokuapp.com (mainnet) and https://renvm-tracker-testnet.herokuapp.com (testnet).
+The interface is a GraphQL endpoint running at https://stats.renproject.io (mainnet) and https://renvm-tracker-testnet.herokuapp.com (testnet).
 
-There is one type of queryable entities, `Snapshots`, which contain RenVM's statistics for a specific timestamp.
+There is one type of queryable entities, `Snapshots`, which contain RenVM's statistics for a specific timestamp. `Snapshots` are created when new RenVM transactions are confirmed, batching together transactions in the same 5 minute timeslot.
 
 Snapshots can be queried by providing a Unix timestamp in seconds. The request will return the most recent `Snapshot` before or at that timestamp. If the timestamp is from before the first `Snapshot`, an error will be thrown.
 
@@ -66,7 +66,7 @@ In order to query the RenVM tracker, you will need a GraphQL library. Some optio
 
 <GraphQL
   minHeight={600}
-  url="https://renvm-tracker.herokuapp.com"
+  url="https://stats.renproject.io"
   defaultQuery={`{
   snapshot1: Snapshot(timestamp: "1627300267") {
     id
