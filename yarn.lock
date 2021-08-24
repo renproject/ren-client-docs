@@ -5353,11 +5353,6 @@ dns-txt@^2.0.2:
     remark-admonitions "^1.2.1"
     traverse "^0.6.6"
 
-docusaurus-plugin-typedoc@^0.12.0:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/docusaurus-plugin-typedoc/-/docusaurus-plugin-typedoc-0.12.1.tgz#62a408bab58970af2d1b1e2579c3551e43033bf3"
-  integrity sha512-m8VNiz2Q+5AhMPWJ2+eHYFTYSY1FvNDmXWt/s2kgH7k9CUGSBUx3pVgFNXLeVkgmh7Omuog903lv0lo5B2MX7A==
-
 dom-converter@^0.2, dom-converter@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/dom-converter/-/dom-converter-0.2.0.tgz#6721a9daee2e293682955b6afe416771627bb768"

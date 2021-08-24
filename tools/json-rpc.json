@@ -12,8 +12,8 @@
       "url": "https://lightnode-{network}.herokuapp.com",
       "variables": {
         "network": {
-          "default": "new-mainnet",
-          "enum": ["mainnet", "new-mainnet", "testnet", "new-testnet"]
+          "default": "mainnet",
+          "enum": ["mainnet", "testnet"]
         }
       }
     }
@@ -286,7 +286,7 @@
       "post": {
         "operationId": "ren_queryState",
         "deprecated": false,
-        "summary": "ren_queryState",
+        "summary": "ren_queryState (legacy)",
         "description": "ren_queryState returns the current RenVM state, including information about gas prices for each chain.",
         "tags": ["JSONRPC"],
         "parameters": [],
@@ -523,6 +523,81 @@
                   "required": ["jsonrpc", "id", "result"],
                   "additionalProperties": false,
                   "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ren_queryBlockState": {
+      "post": {
+        "operationId": "ren_queryBlockState",
+        "deprecated": false,
+        "summary": "ren_queryBlockState",
+        "description": "ren_queryBlockState returns the current RenVM state, including information about fees and gas prices for each chain.",
+        "tags": ["JSONRPC"],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["method", "id", "jsonrpc", "params"],
+                "properties": {
+                  "method": {
+                    "type": "string",
+                    "default": "ren_queryBlockState",
+                    "description": "Method name"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32",
+                    "description": "Request ID"
+                  },
+                  "jsonrpc": {
+                    "type": "string",
+                    "default": "2.0",
+                    "description": "JSON-RPC Version (2.0)"
+                  },
+                  "params": {
+                    "title": "Parameters",
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "jsonrpc": {
+                      "const": "2.0",
+                      "type": "string"
+                    },
+                    "id": {
+                      "const": 1,
+                      "type": "number"
+                    },
+                    "result": {
+                      "properties": {
+                        "state": {
+                          "$ref": "#/components/schemas/blockState"
+                        }
+                      }
+                    },
+                    "required": ["jsonrpc", "id", "result"],
+                    "additionalProperties": false,
+                    "type": "object"
+                  }
                 }
               }
             }
@@ -1288,6 +1363,127 @@
             "type": "string"
           }
         }
+      },
+      "blockState": {
+        "properties": {
+          "t": {
+            "properties": {
+              "struct": {
+                "items": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "latestHeight": {
+                          "const": "u256",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["latestHeight"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "gasCap": {
+                          "const": "u256",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["gasCap"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "gasLimit": {
+                          "const": "u256",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["gasLimit"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "gasPrice": {
+                          "const": "u256",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["gasPrice"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "minimumAmount": {
+                          "const": "u256",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["minimumAmount"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    },
+                    {
+                      "properties": {
+                        "dustAmount": {
+                          "const": "u256",
+                          "type": "string"
+                        }
+                      },
+                      "required": ["dustAmount"],
+                      "additionalProperties": false,
+                      "type": "object"
+                    }
+                  ]
+                },
+                "additionalItems": true,
+                "minItems": 6,
+                "type": "array"
+              }
+            },
+            "required": ["struct"],
+            "additionalProperties": false,
+            "type": "object"
+          },
+          "v": {
+            "properties": {
+              "latestHeight": {
+                "type": "string"
+              },
+              "gasCap": {
+                "type": "string"
+              },
+              "gasLimit": {
+                "type": "string"
+              },
+              "gasPrice": {
+                "type": "string"
+              },
+              "minimumAmount": {
+                "type": "string"
+              },
+              "dustAmount": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "latestHeight",
+              "gasCap",
+              "gasLimit",
+              "gasPrice",
+              "minimumAmount",
+              "dustAmount"
+            ],
+            "additionalProperties": true,
+            "type": "object"
+          }
+        },
+        "required": ["t", "v"],
+        "additionalProperties": false,
+        "type": "object"
       }
     }
   },
