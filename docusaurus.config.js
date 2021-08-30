@@ -37,6 +37,12 @@ module.exports = {
       },
       items: [
         {
+          to: "general/",
+          activeBasePath: "general",
+          label: "General",
+          position: "left",
+        },
+        {
           to: "ren-js/",
           activeBasePath: "ren-js",
           label: "RenJS",
@@ -121,6 +127,17 @@ module.exports = {
   ],
   themes: ["@saucelabs/theme-github-codeblock"],
   plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "general",
+        path: "general",
+        routeBasePath: "/general",
+        sidebarPath: require.resolve("./sidebarsGeneral.js"),
+        editUrl: "https://github.com/renproject/ren-client-docs/edit/master",
+        // ... other options
+      },
+    ],
     [
       "@docusaurus/plugin-content-docs",
       {

@@ -1,0 +1,98 @@
+---
+title: RenVM Networks
+slug: /
+---
+
+import { useState } from "react";
+
+RenVM has two networks available to developers - Mainnet and Testnet.
+
+Testnet RenVM can be used to develop and test using testnet funds. Any chains supported by RenVM Testnet are also testnet chains, e.g. Bitcoin Testnet, and multiple Ethereum testnets (Kovan and Görli). Each of these testnet chains have their own docs and faucets available online.
+
+Testnet RenVM has its own REN token (see [contract deployments](/contracts/deployments) for the address). If you require testnet REN for testing registering darknodes on testnet, please contract the Ren team.
+
+A list of links and resources for each of RenVM's networks can be found below:
+
+export const Item = ({ name, link, description }) => (
+  <li style={{ padding: 0, margin: 0 }}>
+    <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
+      <b>{name}</b> - <span>{description}</span>
+      <br />
+      <a target="_blank" rel="noopener noreferrer" href={link}>
+        {link}
+      </a>
+    </div>
+  </li>
+);
+
+export const links = {
+  commandCenter: {
+    Mainnet: "https://mainnet.renproject.io",
+    Testnet: "https://testnet.renproject.io",
+  },
+  renBridge: {
+    Mainnet: "https://bridge.renproject.io",
+    Testnet: "https://bridge.renproject.io/mint?network=testnet",
+  },
+  explorer: {
+    Mainnet: "https://explorer.renproject.io/",
+    Testnet: "https://explorer-testnet.renproject.io/",
+  },
+  rpc: {
+    Mainnet: "https://rpc.renproject.io/",
+    Testnet: "https://rpc-testnet.renproject.io/",
+  },
+  graphql: {
+    Mainnet: "https://stats.renproject.io/",
+    Testnet: "https://stats-testnet.renproject.io/",
+  },
+};
+
+export const Networks = () => {
+  const [network, setNetwork] = useState("Mainnet");
+  const handleChangeNetwork = (event) => {
+    setNetwork(event.target.value);
+  };
+  return (
+    <>
+      <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 20 }}>
+        <div className="select">
+          <select value={network} onChange={handleChangeNetwork}>
+            <option>Mainnet</option>
+            <option>Testnet</option>
+          </select>
+          <div className="select_arrow" />
+        </div>
+        <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+          <Item
+            name="Command Center"
+            link={links.commandCenter[network]}
+            description="for RenVM stats and for managing darknode"
+          />
+          <Item
+            name="RenBridge"
+            link={links.renBridge[network]}
+            description="the official interface for minting and burning ren-assets"
+          />
+          <Item
+            name="Dev Tools / Explorer"
+            link={links.explorer[network]}
+            description="for looking up RenVM transactions"
+          />
+          <Item
+            name="RPC"
+            link={links.rpc[network]}
+            description="JSON-RPC endpoint - see the JSON-RPC tab"
+          />
+          <Item
+            name="Stats"
+            link={links.graphql[network]}
+            description="GraphQL endpoint for querying RenVM stats - see the Stats APIs tab"
+          />
+        </ul>
+      </div>
+    </>
+  );
+};
+
+<Networks />

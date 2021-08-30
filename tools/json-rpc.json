@@ -9,11 +9,11 @@
   },
   "servers": [
     {
-      "url": "https://lightnode-{network}.herokuapp.com",
+      "url": "https://{network}.renproject.io",
       "variables": {
         "network": {
-          "default": "mainnet",
-          "enum": ["mainnet", "testnet"]
+          "default": "rpc",
+          "enum": ["rpc", "rpc-testnet"]
         }
       }
     }
@@ -58,7 +58,7 @@
                     "properties": {
                       "txHash": {
                         "type": "string",
-                        "default": "eKT2CEAd3ZuzIsQ5mrqKO9Yv24e7ql9fSi-ltOUXfBM",
+                        "default": "Tv-KivJbAynFKbGX0VIBFOXjR-w1gyXZVz49YL0SM2E",
                         "description": "The RenVM hash of the transaction that will be returned."
                       }
                     }
