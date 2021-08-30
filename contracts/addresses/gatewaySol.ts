@@ -775,7 +775,7 @@ export const gatewaySolConfig = {
   },
 
   solanaMainnet: {
-    GatewayRegistry: "0xe80d347DF1209a76DD9d2319d62912ba98C54DDD",
+    GatewayRegistry: "REGrPFKQhRneFFdUV3e9UDdzqUJyS6SKj88GdXFCRd2",
     BasicAdapter: "",
     assets: [
       {
