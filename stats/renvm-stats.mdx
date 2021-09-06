@@ -27,7 +27,6 @@ The `fees` field is only available for snapshots from August 2021 onwards.
 ```graphql
 {
   snapshot1: Snapshot(timestamp: "1627300267") {
-    id
     timestamp
     locked {
       asset
@@ -69,7 +68,6 @@ In order to query the RenVM tracker, you will need a GraphQL library. Some optio
   url="https://stats.renproject.io"
   defaultQuery={`{
   snapshot1: Snapshot(timestamp: "1627300267") {
-    id
     timestamp
     locked {
       asset
