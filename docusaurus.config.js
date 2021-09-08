@@ -66,7 +66,10 @@ module.exports = {
           label: "JSON-RPC",
           position: "left",
         },
-        // { to: "blog", label: "Blog", position: "left" },
+        { 
+          to: "blog", 
+          label: "Blog", 
+          position: "left" },
         {
           href: "https://github.com/renproject/ren-js",
           label: "RenJS GitHub",
