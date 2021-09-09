@@ -4,15 +4,15 @@
         <title>Ren Client Docs Blog</title>
         <link>https://renproject.github.io/ren-client-docs/blog</link>
         <description>Ren Client Docs Blog</description>
-        <lastBuildDate>Sat, 28 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 08 Sep 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
-            <title><![CDATA[Ren Client Docs blog]]></title>
-            <link>https://renproject.github.io/ren-client-docs/ren-client-docs/blog/ren-client-docs-blog</link>
-            <guid>ren-client-docs-blog</guid>
-            <pubDate>Sat, 28 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[There's nothing here yet, but we might use this page for tutorials.]]></description>
+            <title><![CDATA[Build your first Dapp with RenJS]]></title>
+            <link>https://renproject.github.io/ren-client-docs/ren-client-docs/blog/build-a-dapp-with-renjs</link>
+            <guid>build-a-dapp-with-renjs</guid>
+            <pubDate>Wed, 08 Sep 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Building a simple marketplace on Ethereum]]></description>
         </item>
     </channel>
 </rss>

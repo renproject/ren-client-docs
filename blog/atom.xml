@@ -2,16 +2,16 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://renproject.github.io/ren-client-docs/blog</id>
     <title>Ren Client Docs Blog</title>
-    <updated>2021-08-28T00:00:00.000Z</updated>
+    <updated>2021-09-08T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://renproject.github.io/ren-client-docs/blog"/>
     <subtitle>Ren Client Docs Blog</subtitle>
     <icon>https://renproject.github.io/ren-client-docs/img/favicon.ico</icon>
     <entry>
-        <title type="html"><![CDATA[Ren Client Docs blog]]></title>
-        <id>ren-client-docs-blog</id>
-        <link href="https://renproject.github.io/ren-client-docs/ren-client-docs/blog/ren-client-docs-blog"/>
-        <updated>2021-08-28T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[There's nothing here yet, but we might use this page for tutorials.]]></summary>
+        <title type="html"><![CDATA[Build your first Dapp with RenJS]]></title>
+        <id>build-a-dapp-with-renjs</id>
+        <link href="https://renproject.github.io/ren-client-docs/ren-client-docs/blog/build-a-dapp-with-renjs"/>
+        <updated>2021-09-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Building a simple marketplace on Ethereum]]></summary>
     </entry>
 </feed>
