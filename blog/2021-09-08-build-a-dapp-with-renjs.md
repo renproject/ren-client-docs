@@ -44,7 +44,7 @@ Let’s install the Truffle suite next. With Truffle you will be able to do a va
 
 To install Truffle open your terminal and follow the instructions[ here](https://www.trufflesuite.com/docs/truffle/getting-started/installation). Alternatively, if you feel like diving into the project without installing Truffle globally or you just want to toy around with the code, you can clone the repo (link) and run npm since Truffle and all the other dependencies are included. So to install Truffe head over to the terminal and type
 
-```
+```sh
 npm install truffle -g
 ```
 
@@ -59,12 +59,12 @@ To install Metamask check out their[ extension](https://chrome.google.com/websto
 
 Instead of going through the rigamarole of getting your project’s directory set up, I created a clonable repo based off the Create ETH app that has all the Ren dependencies you might need to get things moving quickly, just head over to this repo (link) and clone it by typing:
 
-```
+```sh
 git clone https://github.com/terrafirmatrekker/Nakamoto-Store-Demo
 ```
 Now cd into the directory that you cloned and you should be ready to go! Looking at our project directory you should see a simple truffle project configuration to help you build many dapps including some of the best packages from Ren, even though we only actually need two. I definitely recommend checking out all of the[ integration options we have](https://github.com/renproject/ren-js). With this basic project setup, you can create and test smart contracts, develop modern frontend applications. You can check out the dependencies in the package.json file if you’d like. To install the dependencies head over to the terminal with the project directory selected and type:
 
-```
+```sh
 npm install
 ```
 In the project directory you will notice a truffle-config file. This file is used to connect to our dapp’s blockchain network. In the file you will see configurations to connect to the Ganache blockchain (127.0.0.1:7545). We will get into the rest of the files in the directory as they pertain to the project. The other important items to consider in the directory is the components folder which is based on a starter template for our React frontend and simple tests written in Mocha and with the Chai assertion library, which I used to test our smart contracts, but you can use as a reference. We will go over the rest in the remainder of this tutorial.
@@ -98,7 +98,7 @@ Instead of going through the entire contract, I am going to explain some of the 
 
 First, you will see the version of Solidity declared:
 
-```
+```sol
 pragma solidity ^0.5.0;
 ```
 
@@ -106,7 +106,7 @@ Below it we will declare our smart contract Marketplace which creates a state va
 
 Below you can see a struct to allow us to list products:
 
-```
+```sol
 struct Product {
     uint256 id; 
     string name;
@@ -118,7 +118,7 @@ struct Product {
 
 We can treat a struct like a value type such that it can be used within arrays and mappings. You can see the struct members, which consist of variable names along with their types. Solidity enables you to create your own data structures, with any attributes. That’s exactly what is done by creating a Product struct. It stores all the attributes of a product that we’ll need, like id, name, price, owner, and a boolean to determine if it is purchased. Now let’s jump back up a few lines you may have noticed these two lines which I didn’t explain:
 
-```
+```sol
 uint256 public productCount = 0;
 mapping(uint256 => Product) public products;
 ```
@@ -157,7 +157,7 @@ Looking at our smart contract some things to note would be the use of interfaces
 
 In our contract you should notice the use of the IGateway interface with two function declarations mint and burn:
 
-```
+```sol
 interface IGateway {
     function mint(bytes32 _pHash, uint256 _amount, bytes32 _nHash, bytes calldata _sig) external returns (uint256);
     function burn(bytes calldata _to, uint256 _amount) external returns (uint256);
@@ -166,7 +166,7 @@ interface IGateway {
 
 For our dapp we will only implement mint since our users will send BTC and mint renBTC which is an ERC20 token that can be used in our store. You can see the implementation in the mint function:
 
-```
+```sol
 function mint(
     // Payload
     string calldata _symbol,
@@ -218,7 +218,7 @@ First you will need to install 2 packages:
 
 I have imported these packages at the top of my component file. Next, I initialize RenJS, I initialize it with the parameter “testnet” on line 19 to connect to RenVM’s testnet. 
 
-```
+```ts
 renJS: new RenJS(“testnet”),
 ```
 
@@ -228,7 +228,7 @@ Though for our dapp we want to send BTC to a smart contract, not just a user’s
 
 Each LockAndMint object has a unique _gateway address_, generated from the details we provided to it. We want to show the gateway address to the user and then wait for them to send BTC to this address. We do this on line 145 by adding:
 
-```
+```ts
 alert(`Deposit ${amount} BTC to ${mint.gatewayAddress}`);
 ```
 
@@ -242,7 +242,7 @@ We perform these steps inside the "deposit" event callback on lines 147–164
 
 We then alert the user of the BTC deposited:
 
-```
+```ts
 alert(`Deposited ${amount} BTC.`);
 ```
 
@@ -259,7 +259,7 @@ In order to return the BTC back from Ethereum, the renBTC must be burned, and a 
 
 For the sake of education here is how initiating a burn looks like: (lines 169–208 in Bridge.js file):
 
-```
+```ts
 const { web3, renJS, balance } = this.state;
 const recipient = prompt("Enter BTC recipient:");
 const amount = balance;
