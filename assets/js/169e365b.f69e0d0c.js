@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[28],{60:function(n){n.exports=JSON.parse('{"allTagsPath":"/ren-client-docs/blog/tags","slug":"ren-vm","name":"renvm","count":1,"permalink":"/ren-client-docs/blog/tags/ren-vm"}')}}]);
