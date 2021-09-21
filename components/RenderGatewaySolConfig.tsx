@@ -1,14 +1,14 @@
 import React from "react";
-import { gatewaySolConfig } from "../contracts/addresses/gatewaySol";
-import { ContractItem } from "./RenderDarknodeSolConfig";
 
+import { gatewaySolConfig } from "../contracts/addresses/gatewaySol";
 import IconRenBCH from "../contracts/icons/renBCH.svg";
-import IconRenZEC from "../contracts/icons/renZEC.svg";
-import IconRenLUNA from "../contracts/icons/renLUNA.svg";
-import IconRenFIL from "../contracts/icons/renFIL.svg";
-import IconRenDOGE from "../contracts/icons/renDOGE.svg";
-import IconRenDGB from "../contracts/icons/renDGB.svg";
 import IconRenBTC from "../contracts/icons/renBTC.svg";
+import IconRenDGB from "../contracts/icons/renDGB.svg";
+import IconRenDOGE from "../contracts/icons/renDOGE.svg";
+import IconRenFIL from "../contracts/icons/renFIL.svg";
+import IconRenLUNA from "../contracts/icons/renLUNA.svg";
+import IconRenZEC from "../contracts/icons/renZEC.svg";
+import { ContractItem } from "./RenderDarknodeSolConfig";
 
 const icons = {
   renBCH: IconRenBCH,
@@ -115,6 +115,10 @@ const links = {
   Avalanche: {
     Mainnet: "https://cchain.explorer.avax.network/address/",
     Testnet: "https://cchain.explorer.avax-test.network/address",
+  },
+  Arbitrum: {
+    Mainnet: "https://arbiscan.io/address/",
+    Testnet: "https://testnet.arbiscan.io/address/",
   },
   Solana: {
     Mainnet: "https://explorer.solana.com/address/",
