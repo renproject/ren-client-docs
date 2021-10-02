@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[228],{260:function(p){p.exports=JSON.parse('{"allTagsPath":"/ren-client-docs/blog/tags","slug":"dapp","name":"dapp","count":1,"permalink":"/ren-client-docs/blog/tags/dapp"}')}}]);
