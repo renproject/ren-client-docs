@@ -3,7 +3,7 @@ module.exports = {
     {
       type: "category",
       label: "General",
-      items: ["networks"],
+      items: ["introduction", "networks"],
     },
   ],
 };
