@@ -11,12 +11,11 @@ image: https://avatars.githubusercontent.com/u/11544711?s=60&v=4
 hide_table_of_contents: false
 ---
 
-Our dapp will be powered by a smart contract that will track the ownership of products and instantly transfer ownership after a product is purchased by another user. One feature that will be unique is that users will be able to bridge Bitcoin in so our users can participate in the Ethereum ecosystem, this will be achieved by utilizing RenJS in our dapp. 
+Our dapp will be powered by a smart contract that will track the ownership of products and instantly transfer ownership after a product is purchased by another user. One feature that will be unique is that users will be able to bridge Bitcoin in so our users can participate in the Ethereum ecosystem, this will be achieved by utilizing RenJS in our dapp.
 
 <!--truncate-->
 
 RenJS is the SDK for integrating with RenVM. For more lower-level details on the inner workings of the RenVM network, check out the[ specification](https://github.com/renproject/ren/wiki/Introduction) on GitHub.
-
 
 #### **Why are we building it?**
 
@@ -28,13 +27,13 @@ Our approach to this tutorial is to introduce to you a simple way to familiarize
 
 #### **Configuring your Developer Environment**
 
-This tutorial assumes that you already have Node installed in order to use NPM. If you need to install Node you can visit the Node.js [website]([https://nodejs.org/en/](https://nodejs.org/en/)) to download it. Let’s begin the tutorial by getting the rest of our project’s dependencies installed. First, we are going to install and set up Ganache.
+This tutorial assumes that you already have Node installed in order to use NPM. If you need to install Node you can visit the [Node.js website](https://nodejs.org/en/) to download it. Let’s begin the tutorial by getting the rest of our project’s dependencies installed. First, we are going to install and set up Ganache.
 
 #### **Ganache**
 
 Ganache will enable us to use a personal blockchain to develop, deploy, and test the dapp locally before we deploy it to Kovan testnet. You can find the latest release for your OS[ here](https://www.trufflesuite.com/ganache). Once you’ve downloaded the package, extract the installer and go through the setup.
 
-After you’ve installed and opened Ganache you should see two buttons: Quickstart and New Workspace. Click New Workspace and you should see a screen with  10 accounts with 100 ether as the balances. 
+After you’ve installed and opened Ganache you should see two buttons: Quickstart and New Workspace. Click New Workspace and you should see a screen with 10 accounts with 100 ether as the balances.
 
 Congratulations you now have a local blockchain up and running! By utilizing Ganache we save time avoiding blockchain development or account creation for testing. Ganache mimics the behavior of the public blockchain locally and is just one of many tools you may find useful in your Web3 developer journey.
 
@@ -54,7 +53,6 @@ If you don’t already have Metamask installed, now is the time to do so. Metama
 
 To install Metamask check out their[ extension](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en) and follow their instructions to get it set up. Make sure that you see the extension activated as denoted by the fox icon along your browser’s address bar.
 
-
 #### **Cloning the project repo**
 
 Instead of going through the rigamarole of getting your project’s directory set up, I created a clonable repo based off the Create ETH app that has all the Ren dependencies you might need to get things moving quickly, just head over to this repo (link) and clone it by typing:
@@ -62,16 +60,16 @@ Instead of going through the rigamarole of getting your project’s directory se
 ```sh
 git clone https://github.com/terrafirmatrekker/Nakamoto-Store-Demo
 ```
+
 Now cd into the directory that you cloned and you should be ready to go! Looking at our project directory you should see a simple truffle project configuration to help you build many dapps including some of the best packages from Ren, even though we only actually need two. I definitely recommend checking out all of the[ integration options we have](https://github.com/renproject/ren-js). With this basic project setup, you can create and test smart contracts, develop modern frontend applications. You can check out the dependencies in the package.json file if you’d like. To install the dependencies head over to the terminal with the project directory selected and type:
 
 ```sh
 npm install
 ```
+
 In the project directory you will notice a truffle-config file. This file is used to connect to our dapp’s blockchain network. In the file you will see configurations to connect to the Ganache blockchain (127.0.0.1:7545). We will get into the rest of the files in the directory as they pertain to the project. The other important items to consider in the directory is the components folder which is based on a starter template for our React frontend and simple tests written in Mocha and with the Chai assertion library, which I used to test our smart contracts, but you can use as a reference. We will go over the rest in the remainder of this tutorial.
 
-
 ---
-
 
 ### ** Part 2: Smart Contracts**
 
@@ -86,7 +84,6 @@ Ethereum has developer-friendly languages for writing smart contracts such as So
 There is one gotcha for most use cases, smart contracts cannot retrieve information from the “real-world” because of their inability to send HTTP requests. This was a product of design since reliance on external sources could jeopardize security and the goal of decentralization. Dapps use[ oracles](https://ethereum.org/en/developers/docs/oracles/) for such information but there are workarounds.
 
 It is a good idea to use audited and pre-built smart contracts which are used throughout the ecosystem. A great resource is[ OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) who regularly undergoes audits and contributes to the composable nature of smart contracts.
-
 
 #### **Our Contract**
 
@@ -108,7 +105,7 @@ Below you can see a struct to allow us to list products:
 
 ```sol
 struct Product {
-    uint256 id; 
+    uint256 id;
     string name;
     uint256 price;
     address payable owner;
@@ -133,19 +130,15 @@ Now let’s break down the second function corresponding to the event **ProductP
 
 Wow, we covered a ton of information in a short span of time! So by now you should have the tools to mimic a public blockchain through Ganache, the Truffle suite to automate testing with the test files and do a variety of things. We have also reviewed quite a bit on smart contracts, I encourage you to read the[ Solidity documentation](https://docs.soliditylang.org/en/v0.8.6/) to further develop your understanding. You may also consider[ their examples](https://docs.soliditylang.org/en/v0.8.1/solidity-by-example.html#) to develop some of your own basic dapps. There are also many open-source resources to get you started. If you have a desire to dig deeper on some of the concepts, a few things that helped me understand concepts better:
 
-
-
-* [Visualizing the blockchain](https://andersbrownworth.com/blockchain/): a professor has some examples of keys, blockchains and various other demos
-* [MIT Mooc Blockchain and Money](https://ocw.mit.edu/courses/sloan-school-of-management/15-s12-blockchain-and-money-fall-2018/index.htm): In particular Sessions 2–4 (relevant to Week 3 of Notion), & 6 ( a great course in its entirety)
-* [ETH Builder](https://eth.build/): I think the dev behind this illustrates the[ Blockchain](https://www.youtube.com/watch?v=zcX7OJ-L8XQ) and[ Smart Contracts](https://www.youtube.com/watch?v=-6aYBdnJ-nM) pretty well. In fact besides his connection to Ethereum, I think a visualization of RenVM via the same open-source toolset would be great as well!
-*  [Hitchhiker’s Guide to Smart Contracts](https://blog.openzeppelin.com/the-hitchhikers-guide-to-smart-contracts-in-ethereum-848f08001f05/%29,%20[A%20Gentle%20Intro%20to%20Ethereum%20Programming]%28https://blog.openzeppelin.com/designing-the-architecture-for-your-ethereum-application-9cec086f8317/)
-*  [Introduction to Blockchain through Cryptoeconomics](https://medium.com/blockchain-at-berkeley/introduction-to-blockchain-through-cryptoeconomics-part-1-bitcoin-369f245067f9)
+- [Visualizing the blockchain](https://andersbrownworth.com/blockchain/): a professor has some examples of keys, blockchains and various other demos
+- [MIT Mooc Blockchain and Money](https://ocw.mit.edu/courses/sloan-school-of-management/15-s12-blockchain-and-money-fall-2018/index.htm): In particular Sessions 2–4 (relevant to Week 3 of Notion), & 6 ( a great course in its entirety)
+- [ETH Builder](https://eth.build/): I think the dev behind this illustrates the[ Blockchain](https://www.youtube.com/watch?v=zcX7OJ-L8XQ) and[ Smart Contracts](https://www.youtube.com/watch?v=-6aYBdnJ-nM) pretty well. In fact besides his connection to Ethereum, I think a visualization of RenVM via the same open-source toolset would be great as well!
+- [Hitchhiker’s Guide to Smart Contracts](https://blog.openzeppelin.com/the-hitchhikers-guide-to-smart-contracts-in-ethereum-848f08001f05/%29,%20[A%20Gentle%20Intro%20to%20Ethereum%20Programming]%28https://blog.openzeppelin.com/designing-the-architecture-for-your-ethereum-application-9cec086f8317/)
+- [Introduction to Blockchain through Cryptoeconomics](https://medium.com/blockchain-at-berkeley/introduction-to-blockchain-through-cryptoeconomics-part-1-bitcoin-369f245067f9)
 
 In Part 2 and 3 I will outline some of the components of our dapp like the Store’s frontend, a frontpage, a “bridge” where we will interact with RenVM to allow customers to convert BTC to renBTC to use in the shop, and more on other ways you can use RenVM.
 
-
 ---
-
 
 ### **Part 2: Interacting with RenVM**
 
@@ -191,19 +184,17 @@ You can interact with this contract that is already deployed on Kovan[ here](htt
 
 **Remember to deploy to GatewayRegistry’s address, 0x557e211EC5fc9a6737d2C6b7a1aDe3e0C11A8D5D**
 
-At this point we can move to the frontend integration of RenJS. For the purposes of the tutorial, we are going to cover the integration but the store itself is fully functional and can be used to sell and buy products on the blockchain with ethers. 
-
+At this point we can move to the frontend integration of RenJS. For the purposes of the tutorial, we are going to cover the integration but the store itself is fully functional and can be used to sell and buy products on the blockchain with ethers.
 
 ---
 
-
 ### **Part 3: Integrating with RenJS**
 
-As I mentioned in Part 2, the store as is totally functional if you are using ethers as a method of payment. But let’s make it possible for users to convert BTC to renBTC a 1:1 ERC-20 token representation of Bitcoin (BTC) on Ethereum. 
+As I mentioned in Part 2, the store as is totally functional if you are using ethers as a method of payment. But let’s make it possible for users to convert BTC to renBTC a 1:1 ERC-20 token representation of Bitcoin (BTC) on Ethereum.
 
-We have already laid the foundation for adapting our smart contract to use RenJS the official SDK for interacting with RenVM. As I intimated before our users will only require a mint transaction, technically speaking a lock-and-mint transaction. 
+We have already laid the foundation for adapting our smart contract to use RenJS the official SDK for interacting with RenVM. As I intimated before our users will only require a mint transaction, technically speaking a lock-and-mint transaction.
 
-Lock-and-mint transactions are so named because the first step requires the user to send assets to RenVM, thereby “locking” into its custody. Unless there is consensus in RenVM that the assets can be released, they will remain locked. After witnessing the locking of assets, RenVM returns a “minting signature” to the user. This authorizes the user to mint a tokenized representation of the asset on the host chain. This representation is pegged one-to-one with the locked asset; it is always redeemable in any quantity at any time. You can learn more about cross-chain transactions[ here](https://github.com/renproject/ren/wiki#cross-chain-transactions). 
+Lock-and-mint transactions are so named because the first step requires the user to send assets to RenVM, thereby “locking” into its custody. Unless there is consensus in RenVM that the assets can be released, they will remain locked. After witnessing the locking of assets, RenVM returns a “minting signature” to the user. This authorizes the user to mint a tokenized representation of the asset on the host chain. This representation is pegged one-to-one with the locked asset; it is always redeemable in any quantity at any time. You can learn more about cross-chain transactions[ here](https://github.com/renproject/ren/wiki#cross-chain-transactions).
 
 In fact, you would not need the adapter contract if your dapp was merely minting and burning assets. In our Developer Docs we have a[ quick start section](https://renproject.github.io/ren-client-docs/ren-js/quick-start) that illustrates how easy it is to mint and burn assets if you are a developer familiar with Web3. Check out the code below to mint a tokenized Bitcoin.
 
@@ -213,10 +204,10 @@ RenJS allows developers to interact with RenVM’s growing network of bridged ch
 
 First you will need to install 2 packages:
 
-* @renproject/ren implements the core logic for interacting with RenVM
-* @renproject/chains provides support for various assets and chains. These can also be imported separately as I have done- e.g. using @renproject/chains-ethereum for Ethereum
+- @renproject/ren implements the core logic for interacting with RenVM
+- @renproject/chains provides support for various assets and chains. These can also be imported separately as I have done- e.g. using @renproject/chains-ethereum for Ethereum
 
-I have imported these packages at the top of my component file. Next, I initialize RenJS, I initialize it with the parameter “testnet” on line 19 to connect to RenVM’s testnet. 
+I have imported these packages at the top of my component file. Next, I initialize RenJS, I initialize it with the parameter “testnet” on line 19 to connect to RenVM’s testnet.
 
 ```ts
 renJS: new RenJS(“testnet”),
@@ -224,7 +215,7 @@ renJS: new RenJS(“testnet”),
 
 As I intimated before there are two steps involves in creating new renBTC tokens on Ethereum — 1) locking BTC and 2) minting renBTC. The method on RenJS to initiate this process is called a lockAndMint. You can read more about this interface in our[ TypeDocs](https://renproject.github.io/ren-js-docs/index.html). Here's what it looks like to set-up a lockAndMint to a user's address on Ethereum:
 
-Though for our dapp we want to send BTC to a smart contract, not just a user’s address. To do this, we specify the details needed to call the smart contract. You can see a const variable on line 20 with the address of the smart contract we created. 
+Though for our dapp we want to send BTC to a smart contract, not just a user’s address. To do this, we specify the details needed to call the smart contract. You can see a const variable on line 20 with the address of the smart contract we created.
 
 Each LockAndMint object has a unique _gateway address_, generated from the details we provided to it. We want to show the gateway address to the user and then wait for them to send BTC to this address. We do this on line 145 by adding:
 
@@ -250,7 +241,7 @@ To check on the status of the deposit we can usedeposit.status which returns the
 
 In addition to receiving .on("deposit", ...) events, you can also manually provide the details of a deposit using mint.processDeposit. The parameter should match the type of deposit.depositDetails of a deposit object returned from.on("deposit", ...).
 
-Now let’s say the user wanted to get their BTC back by burning their renBTC. This functionality though not utilized in the dapp is added on just to show how users can get their BTC back. 
+Now let’s say the user wanted to get their BTC back by burning their renBTC. This functionality though not utilized in the dapp is added on just to show how users can get their BTC back.
 
 In order to return the BTC back from Ethereum, the renBTC must be burned, and a recipient BTC address must be chosen. RenVM will automatically see and process the burn, releasing the BTC to the recipient. RenJS can be used to:
 
@@ -281,7 +272,7 @@ const burnAndRelease = await renJS.burnAndRelease({
       {
         type: "bytes",
         name: "_to",
-        value: Buffer.from(btcAddress),
+        value: btcAddress,
       },
       {
         type: "uint256",
@@ -317,12 +308,12 @@ this.log(`Withdrew ${amount} BTC to ${recipient}.`);
 @terrafirmatrekker
 ```
 
-If you want to try the Bridge out yourself, you will need some test ether and testBTC. Run the dapp locally in your browser if you haven’t already and try it out! Once the mint is done you should be able to see testBTC in your MetaMask wallet. Just make sure to add the token to Metamask. To do so, make sure you are on Kovan Test Network in Metamask and then go to “Assets” and then Click “Add Token”. Paste in the Kovan renBTC address (you can find it[ here](https://renproject.github.io/ren-client-docs/contracts/deployments/%29) — make sure you’ve chosen Ethereum and Testnet, and then copy the ERC20 address under testBTC. 
+If you want to try the Bridge out yourself, you will need some test ether and testBTC. Run the dapp locally in your browser if you haven’t already and try it out! Once the mint is done you should be able to see testBTC in your MetaMask wallet. Just make sure to add the token to Metamask. To do so, make sure you are on Kovan Test Network in Metamask and then go to “Assets” and then Click “Add Token”. Paste in the Kovan renBTC address (you can find it[ here](https://renproject.github.io/ren-client-docs/contracts/deployments/%29) — make sure you’ve chosen Ethereum and Testnet, and then copy the ERC20 address under testBTC.
 
 ### **Conclusion **
 
-Wow, we have made some tremendous progress from the beginning of this tutorial! We have created a smart contract that allows users to buy and sell products on Ethereum. Finally, we integrated with RenJS in order to interact with RenVM so users can “convert” BTC to renBTC (ERC20)through a lockAndMint. There are still a few missing pieces of the puzzle that I leave up to you. 
+Wow, we have made some tremendous progress from the beginning of this tutorial! We have created a smart contract that allows users to buy and sell products on Ethereum. Finally, we integrated with RenJS in order to interact with RenVM so users can “convert” BTC to renBTC (ERC20)through a lockAndMint. There are still a few missing pieces of the puzzle that I leave up to you.
 
-Firstly, how can we modify our smart contract and front-end to allow users to shop with renBTC in lieu of Ethereum? We could possibly price the items in renBTC but that leaves a lot of users in the dark, we could also swap the renBTC for Ethers through a number of “third-party” dapps. We could also use the renBTC balance inside of the contract, like a store balance/credit, so that you don’t have to worry about approvals. Like when a user mints renBTC, it stays in the contract, but it gets stored in a map from the user’s address to their balance. I am curious about which method you choose to implement! Send me your ideas and implementations, we want to see what you create!  
+Firstly, how can we modify our smart contract and front-end to allow users to shop with renBTC in lieu of Ethereum? We could possibly price the items in renBTC but that leaves a lot of users in the dark, we could also swap the renBTC for Ethers through a number of “third-party” dapps. We could also use the renBTC balance inside of the contract, like a store balance/credit, so that you don’t have to worry about approvals. Like when a user mints renBTC, it stays in the contract, but it gets stored in a map from the user’s address to their balance. I am curious about which method you choose to implement! Send me your ideas and implementations, we want to see what you create!
 
-Thanks for reading my tutorial, feel free to reach out to me with any questions, concerns, or modifications you have made to the dapp. Also, feel free to join Ren’s[ telegram](https://t.me/joinchat/xED0D5pCfVI1YWU5) to ask technical questions and to learn more about the ecosystem and protocol. Remember, things are only impossible until they’re not! There is so much to #buidl show us what you dream up! 
+Thanks for reading my tutorial, feel free to reach out to me with any questions, concerns, or modifications you have made to the dapp. Also, feel free to join Ren’s[ telegram](https://t.me/joinchat/xED0D5pCfVI1YWU5) to ask technical questions and to learn more about the ecosystem and protocol. Remember, things are only impossible until they’re not! There is so much to #buidl show us what you dream up!
