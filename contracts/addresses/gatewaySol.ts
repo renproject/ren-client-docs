@@ -2395,6 +2395,127 @@ export const gatewaySolConfig = {
                 token: "8wv2KAykQstNAj2oW6AHANGBiFKVFhvMiyyzzjhkmGvE",
                 gateway: "LUNAZQmNvQYHycB9m3kE95afQQyf4LZw1pfXKvZaZar",
             },
+
+            {
+                // renAVAX
+                symbol: "AVAX",
+                gateway: "H5AMZeawDD8y3Y5UrCq9SsmZv9ApFCVZ2psvpRNRGY1u",
+                token: "GPD881hvMpMB1SnB4q4N9mtRn2FDbMTGq4ysSCjzucUA",
+            },
+            {
+                // renBNB
+                symbol: "BNB",
+                gateway: "2cKfnRVMsj2HfzGxMHjDKooyb359owwW5zogymv3x98X",
+                token: "DegjW7Xd9w4p8iduwhaYuR6N8giyDtiMsd9N8a4oXpuZ",
+            },
+            {
+                // renETH
+                symbol: "ETH",
+                gateway: "3maEPhtCqVQURmWYh4dmLYzf2orj83TTxVxSFWzT95wt",
+                token: "9BEjTK9iRmhXQ3rSwKMbqUkjTLt5SMxPDbQRwhk3Lka9",
+            },
+            {
+                // renFTM
+                symbol: "FTM",
+                gateway: "HRBdvHn4WimsJDpPJg8Qzo5wYaZSnFQQuYBDvnRvpDYK",
+                token: "FVMkZouczjBFPWEqmqLPgsyiyoG9quZMqP2Wbn7Aoweq",
+            },
+            {
+                // renMATIC
+                symbol: "MATIC",
+                gateway: "6jv5hz3TiguAv5pUvN3YVD4cy4M6e6WzrLdDe4QHXTAm",
+                token: "2ykh3Z1rSLXUUfquGRqmP2k34x8J1mJUc6UXx3STRho4",
+            },
+            {
+                // renBADGER
+                symbol: "BADGER",
+                gateway: "Fe2z2TdQnGGLym3RwKQCfwMiCbEgHT2GoBiWMSLKgpqA",
+                token: "4VGMEnc14xBSb78mRynE92Ug52a1z8YurovAKH9vJZyF",
+            },
+            {
+                // renBUSD
+                symbol: "BUSD",
+                gateway: "jYpEJppz1uRRhaBDzN4t3RcxumYJ8oGDJ3uTk4YNjFq",
+                token: "H2XPSB7X6Ed4CPgbEMaB4kLbdrWjNcsZyZ4YvyQmvQTB",
+            },
+            {
+                // renCRV
+                symbol: "CRV",
+                gateway: "9pphGZPbpT1yqagvcN7NkinBXN5Y5omD4DpYNHgAEhMS",
+                token: "FAKyedB4V9NtgTCAH37fpupeNvkQUsAVC9vnX2n9Mbkk",
+            },
+            {
+                // renDAI
+                symbol: "DAI",
+                gateway: "CYFHcVnLQkNTm4UiFgvqUGt6gctVuLqQfzp14awbtsBw",
+                token: "AyUwXqixQRFwaobd4zTwg1z1oziY6ctDPifcZdeTiXks",
+            },
+            {
+                // renEURT
+                symbol: "EURT",
+                gateway: "F1sdX5yuc1HjykcP2swBi2HH7ud81YcXU8EKyuBwHVFq",
+                token: "6rUrLwJDjwXuhTq3VX3qhVqDJAPMjPYzTngr5s4BrEiu",
+            },
+            {
+                // renFTT
+                symbol: "FTT",
+                gateway: "9rpUoZLPHjHLnRL9w6PVpmiQ4a7wxEtgJrTZ1gBpWX71",
+                token: "4TbnFE6VGDMPfie1wKuKCy71RKGvk7VgP5VSDjTQka3T",
+            },
+            {
+                // renKNC
+                symbol: "KNC",
+                gateway: "AwCjXz4jWzX7TKVLUbiRzvZjXS7aStiQYa9pCLd5NVFP",
+                token: "2P1pKiE3eXxnU5MFMfjaom5ZeC1Xngnj71eCdaiQLXKR",
+            },
+            {
+                // renLINK
+                symbol: "LINK",
+                gateway: "DdVLPdWrAZ7Ru7TPkKMPwbTcxNxhGkBkZjrMheKtxzok",
+                token: "2jXuRMum8uRuBZRkvAqKvUwyN8Vmhg2GJo1aHkvtarbz",
+            },
+            {
+                // renREN
+                symbol: "REN",
+                gateway: "6Hz9okHCs3zLuckb3ojnqkneXykPZchbk8wxp96eByZe",
+                token: "3FqfAQktrpvXv98C3ddvTDt96BFRrKaL6TdWqfJUKUBZ",
+            },
+            {
+                // renROOK
+                symbol: "ROOK",
+                gateway: "ux4Sw9gQdz5whfabukZainBx2VzD5rQGcFFpgYen7Rt",
+                token: "61ttDT1c5QoyYMyKV26G2moxsrWYyjF3at4CBiNnxPNK",
+            },
+            {
+                // renUNI
+                symbol: "UNI",
+                gateway: "E1YngyA56J4hejKUaJHUTFLA1p1ioMthz5dWmZPp1Qab",
+                token: "BToxAbfaWxGaTGngpZd4Z9JUPhyjio1CpKgosoeihvsz",
+            },
+            {
+                // renUSDC
+                symbol: "USDC",
+                gateway: "LpLChZukAoUjbMmeidLRsPTZXiSkngG9RLWhPhqMeqg",
+                token: "3kkcXk8t5XnhDexXtcG3D85mVKE7Q7j27THkB7PxCjj9",
+            },
+            {
+                // renUSDT
+                symbol: "USDT",
+                gateway: "9wwjd3o8yC7rfizZuWK5CLFZyBVBX8uaz45ufqHS8afn",
+                token: "BDG2xvBftBNkBYYUKmVNi3dcPzHvsMZSUMAPvJgS8SrF",
+            },
+            {
+                // renMIM
+                symbol: "MIM",
+                gateway: "4UzdTQ2Kbz5NC5ikBSFNSfL9PnxsxNh2HUWGaQ4uUkFo",
+                token: "Geve89v55fxcY1SuiAPo47LHUzhoH62ieNVzbkbSC4cW",
+            },
+            {
+                // renSUSHI
+                symbol: "SUSHI",
+                gateway: "4tPR22zfegvkfmnwQFZKkeQANUG7i4tBMxnfkZDLGdzA",
+                token: "EuVUxRoLqUQe9exAbTTinuWBLDFfohNUxHqu6NbnkE5h",
+            },
         ],
 
         config: {
