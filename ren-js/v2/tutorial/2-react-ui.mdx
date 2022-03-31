@@ -1,0 +1,361 @@
+---
+title: 2. React UI
+slug: /tutorial/react-ui
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Tutorial} />
+
+This chapter will setup a React app so that we can have a simple user interface for interacting with RenVM and the npm contract that we deployed in [Part 1](1-smart-contract). We will assume some level of knowledge about React, so head over to https://reactjs.org/tutorial/tutorial.html if you haven't used React before.
+
+### Create React App
+
+Set up a React app with `create-react-app`. If you don't have `npx`, install [node and npm](https://www.npmjs.com/get-npm).
+
+<Tabs
+  defaultValue="npm"
+  values={[
+    { label: "npm", value: "npm" },
+    { label: "yarn", value: "yarn" },
+  ]}
+>
+  <TabItem value="npm">
+
+```shell
+npx create-react-app basic-app
+cd basic-app
+```
+
+  </TabItem>
+  <TabItem value="yarn">
+
+```shell
+yarn create react-app basic-app
+cd basic-app
+```
+
+  </TabItem>
+</Tabs>
+
+Install Web3:
+
+<Tabs
+  defaultValue="npm"
+  values={[
+    { label: "npm", value: "npm" },
+    { label: "yarn", value: "yarn" },
+  ]}
+>
+  <TabItem value="npm">
+
+```shell
+npm install --save web3
+```
+
+  </TabItem>
+  <TabItem value="yarn">
+
+```shell
+yarn add web3
+```
+
+  </TabItem>
+</Tabs>
+
+### App.js
+
+Replace `src/App.js` with the code below. It sets up the following:
+
+-   Connecting to Web3
+-   Showing the balance of the `Basic` contract
+-   Showing two buttons, Deposit and Withdraw
+
+Replace the `contractAddress` with the contract you deployed in Part 1. The lines indicated with `TODO` will be filled out in Part 3.
+
+```ts title="src/App.js"
+import React from "react";
+import Web3 from "web3";
+import "./App.css";
+
+import ABI from "./ABI.json";
+
+// Replace with your contract's address.
+const contractAddress = "0x3Aa969d343BD6AE66c4027Bb61A382DC96e88150";
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            balance: 0,
+            message: "",
+            error: "",
+        };
+    }
+
+    componentDidMount = async () => {
+        let web3Provider;
+
+        // Initialize web3 (https://medium.com/coinmonks/web3-js-ethereum-javascript-api-72f7b22e2f0a)
+        // Modern dApp browsers.
+        if (window.ethereum) {
+            web3Provider = window.ethereum;
+            try {
+                // Request account access.
+                await window.ethereum.enable();
+            } catch (error) {
+                // User denied account access.
+                this.logError("Please allow access to your Web3 wallet.");
+                return;
+            }
+        } else if (window.web3) {
+            // Legacy dApp browsers.
+            web3Provider = window.web3.currentProvider;
+        }
+        // If no injected web3 instance is detected, fall back to Ganache.
+        else {
+            this.logError("Please install MetaMask!");
+            return;
+        }
+
+        const web3 = new Web3(web3Provider);
+
+        const networkID = await web3.eth.net.getId();
+        if (networkID !== 42) {
+            this.logError("Please set your network to Kovan.");
+            return;
+        }
+
+        this.setState({ web3 }, () => {
+            // Update balances immediately and every 10 seconds.
+            this.updateBalance();
+            setInterval(() => {
+                this.updateBalance();
+            }, 10 * 1000);
+        });
+    };
+
+    render = () => {
+        const { balance, message, error } = this.state;
+        return (
+            <div className="App">
+                <p>Balance: {balance} BTC</p>
+                <p>
+                    <button onClick={() => this.deposit().catch(this.logError)}>
+                        Deposit 0.003 BTC
+                    </button>
+                </p>
+                <p>
+                    <button
+                        onClick={() => this.withdraw().catch(this.logError)}
+                    >
+                        Withdraw {balance} BTC
+                    </button>
+                </p>
+                {message.split("\n").map((line) => (
+                    <p>{line}</p>
+                ))}
+                {error ? <p style={{ color: "red" }}>{error}</p> : null}
+            </div>
+        );
+    };
+
+    updateBalance = async () => {
+        const { web3 } = this.state;
+        const contract = new web3.eth.Contract(ABI, contractAddress);
+        const balance = await contract.methods.balance().call();
+        this.setState({ balance: parseInt(balance.toString()) / 10 ** 8 });
+    };
+
+    logError = (error) => {
+        console.error(error);
+        this.setState({ error: String((error || {}).message || error) });
+    };
+
+    log = (message) => {
+        this.setState({ message });
+    };
+
+    deposit = async () => {
+        this.logError(""); // Reset error.
+        // TODO
+    };
+
+    withdraw = async () => {
+        this.logError(""); // Reset error.
+        // TODO
+    };
+}
+
+export default App;
+```
+
+### ABI.json
+
+In order to talk to our Ethereum contract, we need to have its ABI. You can find this in Remix by going to the "Solidity Compiler" tab, clicking "Compilation Details" and copying the "ABI" section. Paste this into `src/ABI.json`:
+
+```json title="src/ABI.json"
+[
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_msg",
+                "type": "bytes"
+            },
+            {
+                "name": "_amount",
+                "type": "uint256"
+            },
+            {
+                "name": "_nHash",
+                "type": "bytes32"
+            },
+            {
+                "name": "_sig",
+                "type": "bytes"
+            }
+        ],
+        "name": "deposit",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_msg",
+                "type": "bytes"
+            },
+            {
+                "name": "_to",
+                "type": "bytes"
+            },
+            {
+                "name": "_amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdraw",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "registry",
+        "outputs": [
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "balance",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "_registry",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "_amount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "_msg",
+                "type": "bytes"
+            }
+        ],
+        "name": "Deposit",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "_to",
+                "type": "bytes"
+            },
+            {
+                "indexed": false,
+                "name": "_amount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "name": "_msg",
+                "type": "bytes"
+            }
+        ],
+        "name": "Withdrawal",
+        "type": "event"
+    }
+]
+```
+
+### Run a local server
+
+Start a local development server by running:
+
+<Tabs
+  defaultValue="npm"
+  values={[
+    { label: "npm", value: "npm" },
+    { label: "yarn", value: "yarn" },
+  ]}
+>
+  <TabItem value="npm">
+
+```shell
+npm run start
+```
+
+  </TabItem>
+  <TabItem value="yarn">
+
+```shell
+yarn start
+```
+
+  </TabItem>
+</Tabs>
+
+You can now access the React app at `http://localhost:3000`. The buttons shouldn't do anything yet, but we'll be fixing that in the next part of the tutorial.
+
+![Your brand new React app!](/img/tutorial-react.png)
+
+Continue to the next section to start interacting with RenVM using RenJS.

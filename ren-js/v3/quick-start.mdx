@@ -1,0 +1,68 @@
+---
+title: Quick Start
+---
+
+import Tabs from "@theme/Tabs";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+If you are already familiar with RenVM, RenJS or Web3 libraries, you may be able to jump into using RenJS by reading through the following example and then referring to the sections in the sidebar as required. In this example, a gateway is initialized for moving BTC from Bitcoin to Ethereum, printing a gateway address for the user to deposit to, and then each deposit is submitted to Ethereum to mint renBTC.
+
+If you need more of an introduction to RenVM and RenJS, continue on to [Introduction](./introduction).
+
+To install:
+
+<Tabs>
+  <TabItem value="yarn">
+
+```shell
+yarn add @renproject/ren@next @renproject/chains@next
+```
+
+  </TabItem>
+  <TabItem value="npm">
+
+```shell
+npm install --save @renproject/ren@next @renproject/chains@next
+```
+
+  </TabItem>
+</Tabs>
+
+```ts
+import RenJS from "@renproject/ren";
+import { Bitcoin, Ethereum } from "@renproject/chains";
+
+const bitcoin = new Bitcoin({ network: "testnet" });
+const ethereum = new Ethereum({ network: "testnet" });
+
+const renJS = new RenJS("testnet").withChains([bitcoin, ethereum]);
+
+// Initialize the gateway.
+const gateway = await renJS.gateway({
+    asset: "BTC",
+    from: bitcoin.GatewayAddress(),
+    to: ethereum.Account(),
+});
+
+// Print the gateway address.
+console.log(`\
+    Deposit BTC to the following address: ${gateway.gatewayAddress}\
+`);
+
+// Listen for deposits to the gateway address. Each deposit will
+// have its own associated gateway transaction.
+gateway.on("transaction", async (gatewayTransaction) => {
+    // Wait for the `in` transaction's required number of confirmations.
+    gatewayTransaction.in.wait();
+
+    // Submit the RenVM transaction and wait for it to be finalized.
+    gatewayTransaction.renVM.submit();
+    gatewayTransaction.renVM.wait();
+
+    // Mint renBTC on Ethereum.
+    gatewayTransaction.out.submit();
+    gatewayTransaction.out.wait();
+});
+```

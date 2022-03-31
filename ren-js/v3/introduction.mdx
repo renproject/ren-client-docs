@@ -1,0 +1,169 @@
+---
+title: Introduction
+---
+
+import Tabs from "@theme/Tabs";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Explanation} />
+
+### Introduction
+
+**RenVM** is an open protocol for connecting together cryptocurrencies and decentralized apps across different blockchains.
+
+**RenJS** is the official JavaScript and TypeScript library for integrating with RenVM, allowing developers to bridge cryptocurrencies between chains and build cross-chain applications.
+
+:::note Example
+
+_Moving an asset like BTC to Ethereum involves minting renBTC, an ERC20 token on Ethereum. When 1 BTC is locked on Bitcoin, 1 renBTC is minted on Ethereum which can be redeemed at any time for BTC again._
+
+:::
+
+### Installing
+
+Start by installing RenJS using `npm` or `yarn`, along with the collection of modules for connecting to various chains:
+
+<Tabs>
+  <TabItem value="yarn">
+
+```shell
+yarn add @renproject/ren@next @renproject/chains@next
+```
+
+  </TabItem>
+  <TabItem value="npm">
+
+```shell
+npm install --save @renproject/ren@next @renproject/chains@next
+```
+
+  </TabItem>
+</Tabs>
+
+You can now import the RenJS library, as well the class for each chain supported by RenVM, and initialize them with the desired network:
+
+```ts
+// Import RenJS and chains.
+import RenJS from "@renproject/ren";
+import { Bitcoin, Ethereum, Solana } from "@renproject/chains";
+
+// Initialize each chain.
+const bitcoin = new Bitcoin({ network: "testnet" });
+const ethereum = new Ethereum({ network: "testnet", provider, signer });
+const solana = new Solana({ network: "testnet", provider, signer });
+
+// Initialize RenJS and pass in the initialized chains.
+const renJS = new RenJS("testnet").withChains([bitcoin, ethereum, solana]);
+```
+
+### Gateways and gateway transactions
+
+The main flow of interacting with RenJS is to first create a **gateway**, which contains all the required information for moving a specific asset between chains, including a recipient address or contract, and then move the asset through the gateway as one or more **gateway transactions**.
+
+A gateway transaction is a collection of three sub-transactions on different chains:
+
+1. The `in` input transaction will involve locking or burning funds on an origin chain.
+
+2. The `renVM` transaction is submitted to the RenVM.
+
+3. The `out` output transaction will mint or release funds on the target chain.
+
+The `in` transaction will usually be submitted by the user, either as a deposit to an address or as a call to a smart contract. The `renVM` transaction will then result either in RenVM generating the `out` transaction, or generate a signature that can be submitted as part of the `out` transaction by the user or a third party.
+
+RenVM will wait for the `in` transaction to reach the required number of confirmations before the `renVM` transaction can be processed.
+
+:::note Example
+
+_As an example, moving BTC from Bitcoin to Ethereum will involve:_
+
+1. _A BTC deposit by the user to the gateway's associated **gateway address**._
+
+2. _The RenVM transaction which will generate a signature._
+
+3. _An Ethereum transaction by the user to submit the signature in order to **mint** renBTC._
+
+_In order to return the BTC back to Bitcoin, the three transactions will be:_
+
+1. _An Ethereum transaction by the user to burn the renBTC._
+
+2. _The RenVM transaction to confirm the burn of the renBTC, which will then generate the third transaction:_
+
+3. _A BTC transfer from RenVM's custody to the address specified by the user._
+
+:::
+
+Initializing a gateway involves specifying all of the details, including the asset and the origin and target chain:
+
+```ts
+// A gateway for moving BTC from Bitcoin to Ethereum.
+const btcGateway = await renJS.gateway({
+    asset: "BTC", // or bitcoin.assets.BTC,
+    from: bitcoin.GatewayAddress(),
+    to: ethereum.Account(),
+});
+```
+
+```ts
+// A gateway for moving DAI (originally from Ethereum) from the user's
+// Binance Smart Chain account to a different address on Fantom.
+const daiGateway = await renJS.gateway({
+    asset: ethereum.assets.DAI,
+    from: bsc.Account(),
+    to: fantom.Address("0x123456..."),
+});
+```
+
+Each chain has various ways of specifying where the assets should come from or where they should go - for example `bitcoin.GatewayAddress` and `bitcoin.Address`, `ethereum.Account` and `ethereum.Contract`, and so on. These are documented on the page for each chain.
+
+After initializing the gateway, the next step will usually be to either display a gateway address, or, for web3 chains, to request the user to submit the `in` transaction through their browser-connected wallet (e.g. MetaMask for Ethereum, or Phantom for Solana):
+
+```ts
+// Print the gateway address
+console.log(`\
+    Deposit BTC to the following address: ${btcGateway.gatewayAddress}\
+`);
+```
+
+```ts
+// Submit the input transaction. This will prompt the user to sign
+// a transaction, such as through MetaMask for Ethereum or other
+// EVM chains.
+daiGateway.in.submit();
+```
+
+:::tip
+
+### Chain transactions
+
+Each of the `in`, `renVM` and `out` transactions are all instances of the `TxWaiter` or `TxSubmitter` interfaces, which follows the format of separating the submitting and the waiting for confirmations into two methods. When a transaction is generated outside of RenJS, for example a BTC deposit to a gateway address, the transaction will only have a `.wait()` method which will only return once the transaction has sufficient confirmations. When a transaction is being created through RenJS, it will also have a `.submit()` method which will create and submit the transaction.
+
+These interfaces can be found here: [TxWaiter](TxWaiter) and [TxSubmitter](TxSubmitter).
+
+:::
+
+The next step is to handle any deposits that are received at the gateway address, or any burn or lock events detected in the `in` transaction. Each deposit or event will create a new **gateway transaction**, described earlier.
+
+```ts
+gateway.on("transaction", (tx) => {
+    // Wait for the `in` transaction to have enough confirmations.
+    await tx.in.wait();
+
+    // Submit the transaction to RenVM, and wait for it to be confirmed.
+    await tx.renVM.submit();
+    await tx.renVM.wait();
+
+    // Check if the user needs to submit the output transaction - it may have
+    // already been submitted by RenVM.
+    if (tx.out.submit) {
+        await tx.out.submit();
+    }
+    // Wait for the output transaction to be confirmed.
+    await tx.out.wait();
+});
+```
+
+:::caution Note
+
+This example shows the basic code for handling a gateway transaction, but doesn't deal with any error handling or retrying.
+
+:::

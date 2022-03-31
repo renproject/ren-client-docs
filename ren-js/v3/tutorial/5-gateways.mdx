@@ -1,0 +1,74 @@
+---
+title: 5. Gateways
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Tutorial} />
+
+At the top of the hierarchy is the Gateway, which allows users to initiate Gateway Transactions. A Gateway can be one of two types:
+
+1. Deposit gateway - where the user deposits funds to a gateway address
+2. Contract gateway - where the user will call a contract which will emit lock or burn events
+
+The CreateGateway component will show a button to create a gateway, and then will show the gateway based on what type it is.
+
+The interface of `CreateGateway.tsx` looks like:
+
+```tsx reference title="CreateGateway.tsx"
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway_0.tsx
+```
+
+### `connectWeb3Wallet`
+
+This helper function handles conecting a Web3 wallet, such as MetaMask. Put this at the top level of `CreateGateway.tsx`:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L8-L20
+```
+
+### Component implementation
+
+At the top of the component, we'll define the asset and chains for the gateway. This allows us to use them throughout the rest of the component.
+
+:::note
+
+In this code snippet, we specify **BTC**, **Bitcoin** and **Ethereum**, but you can easily modify these to other chains, referring to each chain's documentation for how to update `renJS.gateway({...})`. You'll also need to initialize any other chain in `App.tsx`.
+
+:::
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L29-L32
+```
+
+Next, we'll write the callback `createGateway`, which will be called when the user clicks a button to create a gateway. After creating it, the gateway will passed to the `onGateway` callback prop.
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L34-L46
+```
+
+---
+
+For the return statement of the component, we'll want to branch on whether the `gateway` prop is defined or not.
+
+If it's defined, then we want to show the gateway, either by showing a gateway address, or by showing a Chain Transaction component:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L48-L57
+```
+
+If the gateway hasn't been created yet, then we'll want to show the details of the gateway, along with a button to create it:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L58-L67
+```
+
+---
+
+<details><summary>Click to see full code for CreateGateway.tsx</summary>
+
+```tsx reference link title="CreateGateway.tsx"
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx
+```
+
+</details>

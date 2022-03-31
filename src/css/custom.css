@@ -7,66 +7,72 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #006fe8;
-  --ifm-color-primary-dark: #0064d1;
-  --ifm-color-primary-darker: #0053ae;
-  --ifm-color-primary-darkest: #003874;
-  --ifm-color-primary-light: #007aff;
-  --ifm-color-primary-lighter: #238cff;
-  --ifm-color-primary-lightest: #5dabff;
-  --ifm-code-font-size: 95%;
+    --ifm-color-primary: #006fe8;
+    --ifm-color-primary-dark: #0064d1;
+    --ifm-color-primary-darker: #0053ae;
+    --ifm-color-primary-darkest: #003874;
+    --ifm-color-primary-light: #007aff;
+    --ifm-color-primary-lighter: #238cff;
+    --ifm-color-primary-lightest: #5dabff;
+    --ifm-code-font-size: 95%;
+    --openapi-required: #00000011 !important;
 }
 
 .docusaurus-highlight-code-line {
-  background-color: rgb(72, 77, 91);
-  display: block;
-  margin: 0 calc(-1 * var(--ifm-pre-padding));
-  padding: 0 var(--ifm-pre-padding);
+    background-color: rgb(72, 77, 91);
+    display: block;
+    margin: 0 calc(-1 * var(--ifm-pre-padding));
+    padding: 0 var(--ifm-pre-padding);
 }
 
 .select {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 5px;
-  width: 100%;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 100%;
 }
 .select select {
-  display: inline-block;
-  width: 100%;
-  cursor: pointer;
-  padding: 10px 15px;
-  outline: 0;
-  border: 1px solid #aaa;
-  background: #fff;
-  font-size: 16px;
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+    padding: 10px 15px;
+    outline: 0;
+    border: 1px solid #aaa;
+    background: #fff;
+    font-size: 16px;
 
-  appearance: none;
+    appearance: none;
 }
 
 .select select::-ms-expand {
-  display: none;
+    display: none;
 }
 .select select:hover,
 .select select:focus {
-  border: 1px solid #000;
+    border: 1px solid #000;
 }
 .select select:disabled {
-  opacity: 0.5;
-  pointer-events: none;
+    opacity: 0.5;
+    pointer-events: none;
 }
 .select_arrow {
-  position: absolute;
-  top: 16px;
-  right: 15px;
-  pointer-events: none;
-  border-style: solid;
-  border-width: 8px 5px 0px 5px;
-  border-color: #7b7b7b transparent transparent transparent;
+    position: absolute;
+    top: 16px;
+    right: 15px;
+    pointer-events: none;
+    border-style: solid;
+    border-width: 8px 5px 0px 5px;
+    border-color: #7b7b7b transparent transparent transparent;
 }
 .select select:hover ~ .select_arrow,
 .select select:focus ~ .select_arrow {
-  border-top-color: #000000;
+    border-top-color: #000000;
 }
 .select select:disabled ~ .select_arrow {
-  border-top-color: #cccccc;
+    border-top-color: #cccccc;
+}
+
+.theme-code-block + div {
+    margin-top: -10px;
+    text-decoration: none !important;
 }

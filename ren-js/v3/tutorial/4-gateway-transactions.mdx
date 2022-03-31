@@ -1,0 +1,69 @@
+---
+title: 4. Gateway Transactions
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Tutorial} />
+
+The next level up in the hierarchy is Gateway Transactions. Each of these will have three associated Chain Transactions, so we'll want to show a ChainTx component for each, as well as showing some details about the Gateway Transaction.
+
+:::note `gatewayTransaction.outSetup`
+
+Note that some Gateway Transactions may have additional setup transactions required to be submitted before the output transaction. For example, minting to Solana requies creating a token account before the mint can be completed. These transactions will be found in `gatewayTx.outSetup` - to update the example below to support Solana, loop through the `gatewayTx.outSetup` object and show an additional ChainTx component for each.
+
+:::
+
+The interface of the GatewayTransaction component is as follows:
+
+```tsx reference title="src/GatewayTx.tsx"
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx_0.tsx
+```
+
+### Implementation
+
+Firstly, we'll want to only show one active Chain Transaction at a time. In order to know when to enable the next Chain Transaction component, we need to know the progress status of the first two transactions:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L11-L14
+```
+
+We can now write the return statement, starting with showing some information about the Gateway Transaction:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L16-L21
+```
+
+We then show the three chain transactions:
+
+1. `gatewayTx.in`
+
+We pass in the `setInProgress` function as the onProgress callback.
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L23-L26
+```
+
+2. `gatewayTx.renVM`
+
+Again we pass in the onProgress callback. We also disable the button if `gatewayTx.in` isn't done yet, and tell it to auto-submit the transaction when it's ready.
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L27-L35
+```
+
+3. `gatewayTx.out`
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L36-L44
+```
+
+---
+
+<details><summary>Click to see full code for GatewayTx.tsx</summary>
+
+```tsx reference link title="GatewayTx.tsx"
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx
+```
+
+</details>

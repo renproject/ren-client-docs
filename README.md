@@ -6,7 +6,7 @@ This website is built using [Docusaurus 2](https://v2.docusaurus.io/), a modern 
 
 To start a development server:
 
-```bash
+```shell
 yarn
 npx docusaurus graphql-to-doc
 yarn start
@@ -14,7 +14,7 @@ yarn start
 
 To build:
 
-```bash
+```shell
 yarn build
 ```
 
@@ -27,7 +27,7 @@ yarn build
 
 The contract types are manually moved built and moved in from the contract repos. Assuming `gateway-sol`, `darknode-sol` and `ren-client-docs` are all in the same directory, then the following steps will update these docs:
 
-```bash
+```shell
 cd ../gateway-sol
 
 yarn docs && rm -rf ../docs/ren-client-docs/contracts/gateway-sol && mv docs ../docs/ren-client-docs/contracts/gateway-sol

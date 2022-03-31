@@ -1,0 +1,152 @@
+---
+title: Classes
+---
+
+This page goes over the `RenJS`, `Gateway` and `GatewayTransaction` classes.
+
+### RenJS [(TypeDoc)](https://renproject.github.io/ren-js-v3-docs/classes/_renproject_ren.RenJS.html)
+
+The `RenJS` class provides methods for creating and configuring gateways.
+
+It's initialized by providing a network or a RenVM provider. Generally, your program or website should only have one RenJS instance per network.
+
+```ts
+import RenJS from "@renproject/ren";
+import { RenNetwork } from "@renproject/utils";
+import { RenVMProvider } from "@renproject/provider";
+import { JsonRpcProvider } from "@renproject/provider/build/main/rpc/jsonRpc";
+
+// Mainnet - the following are equivalent:
+new RenJS();
+new RenJS("mainnet");
+new RenJS(RenNetwork.Mainnet);
+new RenJS("https://rpc.renproject.io");
+new RenJS(new RenVMProvider("mainnet"));
+new RenJS(new RenVMProvider("https://rpc.renproject.io"));
+new RenJS(new RenVMProvider(new JsonRpcProvider("https://rpc.renproject.io")));
+
+// Testnet
+new RenJS("testnet");
+```
+
+The second parameter for `RenJS` allows you to pass in some additional configuration:
+
+```ts
+import RenJS from "@renproject/ren";
+import { LogLevel } from "@renproject/ren";
+
+new RenJS("mainnet", {
+    // Configure a logger:
+    logLevel: LogLevel.Debug,
+    logger: console,
+
+    // Configure network delay for monitoring gateway addresses:
+    networkDelay: 15000, // 15 seconds
+});
+```
+
+Before creating a gateway or fetching fees, you'll need to connect the chain classes to RenJS:
+
+```ts
+import RenJS from "@renproject/ren";
+import { Bitcoin, Ethereum } from "@renproject/chains";
+
+const bitcoin = new Bitcoin({ network: "testnet" });
+const ethereum = new Ethereum({ network: "testnet", signer: ... });
+
+const renJS = new RenJS("testnet")
+    .withChains(bitcoin, ethereum);
+
+// Equivalently:
+renJS.withChains([bitcoin, ethereum]);
+renJS.withChain(bitcoin).withChain(ethereum);
+```
+
+You can now use the various fields and methods available on RenJS:
+
+-   `renJS.provider` - return the provider being used
+-   `renJS.getChain` - for getting the chain instances added with `withChains`
+-   `renJS.getFees` - for estimating gateway fees
+-   `renJS.gateway` - for creating Gateways
+-   `renJS.gatewayTransaction` - for re-creating Gateway Transactions created by a Gateway
+-   `renJS.selectShard` - for fetching an asset's associated RenVM shard (currently there's only one shard)
+-   `RenJS.defaultTransactionHandler` - a static method that you can pass to a `gateway.on("transaction")
+
+---
+
+### Gateway [(TypeDoc)](https://renproject.github.io/ren-js-v3-docs/classes/_renproject_ren.Gateway.html)
+
+`renJS.gateway` is used to initialize `Gateway` instances. The parameters are as follows:
+
+```ts
+interface GatewayParams<
+    FromPayload extends { chain: string },
+    ToPayload extends { chain: string }
+> {
+    /* Required */
+
+    // The asset being minted or burned - e.g. "BTC".
+    asset: string;
+
+    // The payload provided by the from-chain.
+    from: FromPayload;
+
+    // The payload provided by the to-chain.
+    to: ToPayload;
+
+    /* Optional */
+
+    // See section on nonces. A URL-base64 string or a number.
+    nonce?: string | number;
+
+    // Provide a specific RenVM shard - this will come in handy when RenVM shards rotate daily.
+    shard?: RenVMShard;
+
+    // A tag for tracking the volume of a particular bridge (still being implemented)
+    tag?: string;
+}
+```
+
+After creating the gateway, any missing parameters are filled in and available from `gateway.params`. If you are persisting the gateway details, then you should save `gateway.params` instead of the parameters being passed into `renJS.gateway`. `gateway.params` can be serialized and deserialized using `JSON.stringify` and `JSON.parse`:
+
+```ts
+// User creates new gateway
+const gateway = await renJS.gateway({...});
+const paramsToSave: string = JSON.stringify(gateway.params);
+
+// User resumes gateway
+gateway = await renJS.gateway(JSON.parse(paramsToSave));
+```
+
+There are several fields on a Gateway instance that may be useful:
+
+-   `gateway.fromChain` and `gateway.toChain` allow you to access the chain instances that were passed into `renJS.withChains`
+-   `gateway.provider` - the same provider as `renJS.provider`
+-   `gateway.fees` - for calculating the expected fees
+-   `gateway.gatewayAddress` - for deposit gateways
+-   `gateway.inSetup` - transactions required before submitting the `in` transaction
+-   `gateway.in` - for contract gateways, the input transaction submitter or waiter
+-   `gateway.on` - for listening to `"transaction"` events
+-   `gateway.eventEmitter` - the event emitter that `gateway.on` calls.
+    -   `gateway.eventEmitter.once`
+    -   `gateway.eventEmitter.removeListener`
+    -   `gateway.eventEmitter.removeAllListeners`
+    -   `gateway.eventEmitter.listenerCount`
+
+`gateway.fees` will return a [`GatewayFees`](https://renproject.github.io/ren-js-v3-docs/interfaces/_renproject_ren.GatewayFees.html) object with the following fields:
+
+```
+interface GatewayFees {
+    // The fixed part of the fee (the fixed-fee asset is currently not available on the fee object)
+    fixedFee: BigNumber;
+
+    // Variable fee - in BPS. (e.g. 15 BPS is 0.15%)
+    variableFee: number;
+
+    // The minimum intput amount that can be sent.
+    minimumAmount: BigNumber;
+
+    // Estimate how much will be minted/released by sending a certain amount.
+    estimateOutput: (input: BigNumber) => BigNumber;
+}
+```

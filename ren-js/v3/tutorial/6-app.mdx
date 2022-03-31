@@ -1,0 +1,103 @@
+---
+title: 6. App
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Tutorial} />
+
+Bringing everything together, we'll now write the App component in `App.tsx`.
+
+### RenJS
+
+Firstly, we'll want to initialize RenJS and the chains that we'll be using.
+
+We'll initialize the Ethereum class with a public JSON-RPC endpoint, but we won't pass it a signer yet, since we do that in CreateGateway.tsx.
+
+Replace the existing code in the App component with:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L9-L23
+```
+
+Next, we want to store the list of all Gateway Transactions we've seen so far:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L25-L32
+```
+
+When a new gateway is created, we want to store it and listen for new Gateway Transactions:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L34-L42
+```
+
+---
+
+The return statement of `App` will now link the gateway and gatewayTxs states with the components we made in the previous sections.
+
+Firstly, `CreateGateway`:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L44-L51
+```
+
+And finally, we loop through `gatewayTxs` and show a `GatewayTx` for each transaction:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L53-L69
+```
+
+---
+
+<details><summary>Click to see full code for App.tsx</summary>
+
+```tsx reference link title="App.tsx"
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx
+```
+
+</details>
+
+That's the last component - you can now run the site in your browser to test it out.
+
+Make sure you have a Web3 wallet installed (such as [MetaMask](https://metamask.io/)), and connect it to the right network (Kovan for Ethereum testnet).
+
+You will need testnet BTC and Kovan ETH, which can be found here:
+
+-   [Testnet BTC Faucet](https://testnet-faucet.mempool.co)
+-   [Kovan ETH Faucet](https://github.com/kovan-testnet/faucet)
+
+Note that the block times for testnet Bitcoin transactions vary a lot - for faster development, switch to a faster chain like Terra and LUNA - replace all references to `Bitcoin` with `Terra`, `bitcoin` with `terra`, and `BTC` with `LUNA`.
+
+:::caution
+
+This tutorial does not cover all the required information to write a production RenJS integration.
+
+Here is a list of concepts that this tutorial didn't cover:
+
+-   Persistent storage and resuming gateways
+-   Gateway expiry
+-   Setup transactions
+
+:::
+
+### Screenshots
+
+_Creating a gateway:_
+
+<img
+    title="App"
+    src="/ren-client-docs/img/tutorial-app-1.png"
+    style={{ border: "1px solid black" }}
+/>
+
+<br />
+<br />
+
+_Gateway transactions:_
+
+<img
+    alt="App with transactions"
+    src="/ren-client-docs/img/tutorial-app-2.png"
+    style={{ border: "1px solid black" }}
+/>

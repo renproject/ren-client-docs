@@ -1,0 +1,85 @@
+---
+title: 3. Chain Transactions
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Tutorial} />
+
+As described in the [Introducton](../introduction), the RenJS hierarchy looks like:
+
+<img src="/ren-client-docs/img/tutorial-hierarchy.png" width="500" />
+
+Starting at the bottom, we'll write a button component `ChainTx` for handling chain transactions.
+
+Chain transactions in RenJS implement wither the `TxWaiter` or the `TxSubmitter` interfacee
+
+The interface for the ChainTx component will look like this:
+
+```tsx reference title="src/ChainTx.tsx"
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx_0.tsx
+```
+
+### Progress
+
+Chain Transactions have an `eventListener` member which emits `"progress"` events whenever the state of the transaction changes - this includes confirmations, transaction hashes, error messages, et. cetera.
+
+In order to listen to these events, we store the latest event in a React state hook, and use an effect hook to set up the event listener.
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L27-L46
+```
+
+### Chain Status
+
+We now check the status of the transaction, and handle each status type accordingly, inside the return statement - `return (<>...</>);`.
+
+:::info Async Button
+
+To help keep this tutorial from getting too long, we've made a simple component `AsyncButton` in the package `async-button` which deals with calling an asynchronous function after a button click.
+
+AsyncButton extends the standard HTML button with the following props:
+
+```tsx reference title=""
+https://github.com/noah-ren/async-button/blob/main/src/index.tsx#L8-L15
+```
+
+:::
+
+#### 1. `"ready"`
+
+If the chain transaction hasn't been submitted yet, its status will be `"ready"`, and the component should show a button to the user for submitting the transaction.
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L50-L61
+```
+
+#### 2. `"confirming"`
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L63-L76
+```
+
+#### 3. `"done"`
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L78-L83
+```
+
+#### 4. `"reverted"`
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L85-L88
+```
+
+---
+
+After putting this all together, you'll now have a component that can handle chain transactions for any chain.
+
+<details><summary>Click to see full code for ChainTx.tsx</summary>
+
+```tsx reference link title="ChainTx.tsx"
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx
+```
+
+</details>

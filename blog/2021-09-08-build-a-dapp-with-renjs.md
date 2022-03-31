@@ -43,7 +43,7 @@ Let’s install the Truffle suite next. With Truffle you will be able to do a va
 
 To install Truffle open your terminal and follow the instructions[ here](https://www.trufflesuite.com/docs/truffle/getting-started/installation). Alternatively, if you feel like diving into the project without installing Truffle globally or you just want to toy around with the code, you can clone the repo (link) and run npm since Truffle and all the other dependencies are included. So to install Truffe head over to the terminal and type
 
-```sh
+```shell
 npm install truffle -g
 ```
 
@@ -57,13 +57,13 @@ To install Metamask check out their[ extension](https://chrome.google.com/websto
 
 Instead of going through the rigamarole of getting your project’s directory set up, I created a clonable repo based off the Create ETH app that has all the Ren dependencies you might need to get things moving quickly, just head over to this repo (link) and clone it by typing:
 
-```sh
+```shell
 git clone https://github.com/terrafirmatrekker/Nakamoto-Store-Demo
 ```
 
 Now cd into the directory that you cloned and you should be ready to go! Looking at our project directory you should see a simple truffle project configuration to help you build many dapps including some of the best packages from Ren, even though we only actually need two. I definitely recommend checking out all of the[ integration options we have](https://github.com/renproject/ren-js). With this basic project setup, you can create and test smart contracts, develop modern frontend applications. You can check out the dependencies in the package.json file if you’d like. To install the dependencies head over to the terminal with the project directory selected and type:
 
-```sh
+```shell
 npm install
 ```
 
@@ -130,11 +130,11 @@ Now let’s break down the second function corresponding to the event **ProductP
 
 Wow, we covered a ton of information in a short span of time! So by now you should have the tools to mimic a public blockchain through Ganache, the Truffle suite to automate testing with the test files and do a variety of things. We have also reviewed quite a bit on smart contracts, I encourage you to read the[ Solidity documentation](https://docs.soliditylang.org/en/v0.8.6/) to further develop your understanding. You may also consider[ their examples](https://docs.soliditylang.org/en/v0.8.1/solidity-by-example.html#) to develop some of your own basic dapps. There are also many open-source resources to get you started. If you have a desire to dig deeper on some of the concepts, a few things that helped me understand concepts better:
 
-- [Visualizing the blockchain](https://andersbrownworth.com/blockchain/): a professor has some examples of keys, blockchains and various other demos
-- [MIT Mooc Blockchain and Money](https://ocw.mit.edu/courses/sloan-school-of-management/15-s12-blockchain-and-money-fall-2018/index.htm): In particular Sessions 2–4 (relevant to Week 3 of Notion), & 6 ( a great course in its entirety)
-- [ETH Builder](https://eth.build/): I think the dev behind this illustrates the[ Blockchain](https://www.youtube.com/watch?v=zcX7OJ-L8XQ) and[ Smart Contracts](https://www.youtube.com/watch?v=-6aYBdnJ-nM) pretty well. In fact besides his connection to Ethereum, I think a visualization of RenVM via the same open-source toolset would be great as well!
-- [Hitchhiker’s Guide to Smart Contracts](https://blog.openzeppelin.com/the-hitchhikers-guide-to-smart-contracts-in-ethereum-848f08001f05/%29,%20[A%20Gentle%20Intro%20to%20Ethereum%20Programming]%28https://blog.openzeppelin.com/designing-the-architecture-for-your-ethereum-application-9cec086f8317/)
-- [Introduction to Blockchain through Cryptoeconomics](https://medium.com/blockchain-at-berkeley/introduction-to-blockchain-through-cryptoeconomics-part-1-bitcoin-369f245067f9)
+-   [Visualizing the blockchain](https://andersbrownworth.com/blockchain/): a professor has some examples of keys, blockchains and various other demos
+-   [MIT Mooc Blockchain and Money](https://ocw.mit.edu/courses/sloan-school-of-management/15-s12-blockchain-and-money-fall-2018/index.htm): In particular Sessions 2–4 (relevant to Week 3 of Notion), & 6 ( a great course in its entirety)
+-   [ETH Builder](https://eth.build/): I think the dev behind this illustrates the[ Blockchain](https://www.youtube.com/watch?v=zcX7OJ-L8XQ) and[ Smart Contracts](https://www.youtube.com/watch?v=-6aYBdnJ-nM) pretty well. In fact besides his connection to Ethereum, I think a visualization of RenVM via the same open-source toolset would be great as well!
+-   [Hitchhiker’s Guide to Smart Contracts](https://blog.openzeppelin.com/the-hitchhikers-guide-to-smart-contracts-in-ethereum-848f08001f05/%29,%20[A%20Gentle%20Intro%20to%20Ethereum%20Programming]%28https://blog.openzeppelin.com/designing-the-architecture-for-your-ethereum-application-9cec086f8317/)
+-   [Introduction to Blockchain through Cryptoeconomics](https://medium.com/blockchain-at-berkeley/introduction-to-blockchain-through-cryptoeconomics-part-1-bitcoin-369f245067f9)
 
 In Part 2 and 3 I will outline some of the components of our dapp like the Store’s frontend, a frontpage, a “bridge” where we will interact with RenVM to allow customers to convert BTC to renBTC to use in the shop, and more on other ways you can use RenVM.
 
@@ -204,8 +204,8 @@ RenJS allows developers to interact with RenVM’s growing network of bridged ch
 
 First you will need to install 2 packages:
 
-- @renproject/ren implements the core logic for interacting with RenVM
-- @renproject/chains provides support for various assets and chains. These can also be imported separately as I have done- e.g. using @renproject/chains-ethereum for Ethereum
+-   @renproject/ren implements the core logic for interacting with RenVM
+-   @renproject/chains provides support for various assets and chains. These can also be imported separately as I have done- e.g. using @renproject/chains-ethereum for Ethereum
 
 I have imported these packages at the top of my component file. Next, I initialize RenJS, I initialize it with the parameter “testnet” on line 19 to connect to RenVM’s testnet.
 

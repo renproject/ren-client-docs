@@ -1,36 +1,16 @@
-*.env
+# Dependencies
+/node_modules
+
+# Production
+/build
+
+# Generated files
 .docusaurus
-docusaurus-plugin-openapi
+.cache-loader
 
-node_modules
-
-lerna-debug.log
-yarn-error.log
-
-/.project
-/.settings/
-
-# Logs
-*.log
-
-# Coverage
-.nyc_output
-coverage
-reports
-
-# IDE specific
-.vscode
-.idea
-
+# Misc
 .DS_Store
+*.env*
 
-typedoc/
-
-*.env
-
-build
-misc
-dist
-
-package-lock.json
-.npmrc
+*debug.log*
+*error.log*

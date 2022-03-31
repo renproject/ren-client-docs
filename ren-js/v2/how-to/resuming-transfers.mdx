@@ -1,0 +1,112 @@
+---
+title: Resuming transfers
+slug: /how-to/resuming-transfers
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.HowTo} marginBottom={0} />
+
+## Resuming a `LockAndMintDeposit`
+
+:::caution
+
+NOTE: Resuming a mint that is in progress requires the all of the parameters passed in to `lockAndMint` to be available. You should reconstruct the chain objects (`Ethereum`, `Bitcoin`, etc.) using the same values.
+If the parameters are lost, the funds may be unrecoverable, so it's important to use a reliable persistent storage if mint details need to be stored.
+
+:::
+
+In order to resume a LockAndMint, you need to pass the same parameters to `RenJS.lockAndMint`. It will pick-up any deposits that have previously been sent to the gateway address and haven't been minted.
+
+In addition to receiving `.on("deposit", ...)` events, you can also manually provide the details of a deposit using `mint.processDeposit`. The parameter should match the type of `deposit.depositDetails` of a deposit object returned `from.on("deposit", ...)`.
+
+You may need to check for duplicate deposits if you are using both `.on("deposit", ...)` and `.processDeposit`.
+
+<Tabs
+  defaultValue="Bitcoin example"
+  values={[
+    { label: "Bitcoin example", value: "Bitcoin example" },
+    { label: "Filecoin example", value: "Filecoin example" },
+  ]}
+>
+  <TabItem value="Bitcoin example">
+
+```ts
+lockAndMint
+    .processDeposit({
+        transaction: {
+            txHash: "93864b94af9...",
+            vOut: 0,
+            amount: 290899, // sats
+            confirmations: 1,
+        },
+        amount: "290899",
+    })
+    .on(async (deposit) => {
+        // Handle deposit here. Same as .on("deposit", ...) callback.
+        // The default handler will keep retrying each step:
+        await RenJS.defaultDepositHandler(deposit);
+    })
+    .catch(console.error);
+```
+
+  </TabItem>
+  <TabItem value="Filecoin example">
+
+```ts
+lockAndMint
+    .processDeposit({
+        transaction: {
+            cid: "bafy2bzacedvu74e7ohjcwlh4fbx7ddf6li42fiuosajob6metcj2qwkgkgof2",
+            to: "t1v2ftlxhedyoijv7uqgxfygiziaqz23lgkvks77i",
+            amount: (0.01 * 1e8).toString(),
+            params: "EzGbvVHf8lb0v8CUfjh8y+tLbZzfIFcnNnt/gh6axmw=",
+            confirmations: 1,
+            nonce: 7,
+        },
+        amount: (0.01 * 1e8).toString(),
+    })
+    .on(async (deposit) => {
+        // Handle deposit here. Same as .on("deposit") callback.
+        // The default handler will keep retrying each step:
+        await RenJS.defaultDepositHandler(deposit);
+    })
+    .catch(console.error);
+```
+
+  </TabItem>
+</Tabs>
+
+<hr />
+
+## Resuming a `BurnAndRelease`
+
+Once a burn has been completed on the mint-chain, RenVM will automatically see it and process it. However, should you want to watch the progress of burn-and-release, it's possible to recreate the `BurnAndRelease` object with the details of the burn.
+
+The details passed into a `BurnAndRelease` are not unique - the same burn can be repeated multiple times. To identify a specific burn, you either need the mint-chain's transaction hash, the RenVM transaction hash or the _burn reference_ found in the burn event log.
+
+They can be passed in as follows:
+
+```ts
+const burnAndRelease = await renJS.burnAndRelease({
+    asset: "FIL",
+    to: Filecoin().Address("t14wczuvodunv3xzexobzywpbj6qpr6jwdrbkrmbq"),
+    from: Ethereum(provider),
+
+    // Provide one of:
+
+    // The RenVM transaction hash.
+    txHash: "0Nw-mdeQ1mc1TUC2xUnGgkoe_prdQ3uhO5sioDCVyFk",
+
+    // The mint-chain's transaction hash - if there are multiple burns the
+    // first will be chosen.
+    transaction: "0x1234...",
+
+    // The burn's unique identifier returned from the burn event log.
+    burnNonce: 1,
+    // can also be provided like so:
+    // from: Ethereum(provider).BurnNonce(0x16a),
+});
+```

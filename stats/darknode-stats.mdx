@@ -17,48 +17,47 @@ The RenVM subgraphs provides a way to query Ren's on-chain activity in a more ef
 A RenVM subgraph is available on the following networks:
 
 export const Link = ({ children }) => (
-  <a target="_blank" rel="noopener noreferrer" href={children}>
-    {children}
-  </a>
+    <a target="_blank" rel="noopener noreferrer" href={children}>
+        {children}
+    </a>
 );
 
-<Tabs
-  defaultValue="mainnet"
-  values={[
-    { label: "Mainnet", value: "mainnet" },
-    { label: "Testnet", value: "testnet" },
-  ]}
->
-  <TabItem value="mainnet">
-    <b>Ethereum</b>
-    <br />
-    API: <Link>https://api.thegraph.com/subgraphs/name/renproject/renvm</Link>
-    <br />
-    <b>Binance Smart Chain</b>
-    <br />
-    API:{" "}
-    <Link>https://bsc-graph.renproject.io/subgraphs/name/renproject/renvm</Link>
-    <br />
-    <b>Polygon</b>
-    <br />
-    API:{" "}
-    <Link>
-      https://api.thegraph.com/subgraphs/name/renproject/renvm-polygon
-    </Link>
-    <br />
-    <b>Fantom</b>
-    <br />
-    API:{" "}
-    <Link>https://api.thegraph.com/subgraphs/name/renproject/renvm-fantom</Link>
-  </TabItem>
-  <TabItem value="testnet">
-    <b>Ethereum (Kovan)</b>
-    <br />
-    API:{" "}
-    <Link>
-      https://api.thegraph.com/subgraphs/name/renproject/renvm-testnet
-    </Link>
-  </TabItem>
+<Tabs>
+    <TabItem value="mainnet">
+        <b>Ethereum</b>
+        <br />
+        API:{" "}
+        <Link>https://api.thegraph.com/subgraphs/name/renproject/renvm</Link>
+        <br />
+        <b>Binance Smart Chain</b>
+        <br />
+        API:{" "}
+        <Link>
+            https://bsc-graph.renproject.io/subgraphs/name/renproject/renvm
+        </Link>
+        <br />
+        <b>Polygon</b>
+        <br />
+        API:{" "}
+        <Link>
+            https://api.thegraph.com/subgraphs/name/renproject/renvm-polygon
+        </Link>
+        <br />
+        <b>Fantom</b>
+        <br />
+        API:{" "}
+        <Link>
+            https://api.thegraph.com/subgraphs/name/renproject/renvm-fantom
+        </Link>
+    </TabItem>
+    <TabItem value="testnet">
+        <b>Ethereum (Kovan)</b>
+        <br />
+        API:{" "}
+        <Link>
+            https://api.thegraph.com/subgraphs/name/renproject/renvm-testnet
+        </Link>
+    </TabItem>
 </Tabs>
 
 ## Querying
@@ -73,16 +72,16 @@ The subgraphs expose a single POST endpoint that allows you to specify what data
 
 ```graphql
 {
-  # Get the darknode with the highest BTC balance.
-  darknodes(first: 1, orderBy: balanceBTC, orderDirection: desc) {
-    id
-    operator
-    registeredAt
-    balances(where: { symbol: "renBTC" }) {
-      symbol
-      amountInUsd
+    # Get the darknode with the highest BTC balance.
+    darknodes(first: 1, orderBy: balanceBTC, orderDirection: desc) {
+        id
+        operator
+        registeredAt
+        balances(where: { symbol: "renBTC" }) {
+            symbol
+            amountInUsd
+        }
     }
-  }
 }
 ```
 
@@ -90,21 +89,21 @@ Posting this to the Ethereum Mainnet API url returns:
 
 ```json
 {
-  "data": {
-    "darknodes": [
-      {
-        "balances": [
-          {
-            "amountInUsd": "7264.59",
-            "symbol": "renBTC"
-          }
-        ],
-        "id": "0x9fec6514e6a83fa21f5da810ff45dc04dda40670",
-        "operator": "0xd8a0bc22290c42f35dfa010f4233b81a3ae3dd2c",
-        "registeredAt": "1590525958"
-      }
-    ]
-  }
+    "data": {
+        "darknodes": [
+            {
+                "balances": [
+                    {
+                        "amountInUsd": "7264.59",
+                        "symbol": "renBTC"
+                    }
+                ],
+                "id": "0x9fec6514e6a83fa21f5da810ff45dc04dda40670",
+                "operator": "0xd8a0bc22290c42f35dfa010f4233b81a3ae3dd2c",
+                "registeredAt": "1590525958"
+            }
+        ]
+    }
 }
 ```
 
@@ -115,9 +114,9 @@ Submit queries to the Mainnet Ethereum subgraph. The query will be reset when yo
 Click the Docs button in the top-right to explore the schema.
 
 <GraphQL
-  minHeight={600}
-  url="https://api.thegraph.com/subgraphs/name/renproject/renvm"
-  defaultQuery={`{
+    minHeight={600}
+    url="https://api.thegraph.com/subgraphs/name/renproject/renvm"
+    defaultQuery={`{
   # Get the number of registered darknodes.
   renVM(id: 1) {
     numberOfDarknodes

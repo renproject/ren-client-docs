@@ -1,0 +1,136 @@
+---
+title: RenJS v3
+description: >-
+    Quick-start page for RenJS v3
+slug: /ren-js-v3
+---
+
+The docs are in the process of being updated to reflect the changes in RenJS v3. The v2 docs will remain available alongside the v3 docs.
+
+The RenJS v3 type references are available at [renproject.github.io/ren-js-v3-docs](https://renproject.github.io/ren-js-v3-docs/classes/_renproject_ren.RenJS.html).
+
+## Demo
+
+An example bridge built using RenJS v3 can be found here:
+
+-   GitHub: [github.com/renproject/ren-js-v3-demo](https://github.com/renproject/ren-js-v3-demo)
+-   Deployed version: https://renproject.github.io/ren-js-v3-demo/
+
+## Installation
+
+```shell
+yarn add @renproject/ren@next @renproject/chains@next
+```
+
+## Example
+
+The following is an example of bridging DAI from Ethereum to Binance Smart Chain using RenJS v3.
+
+```ts
+import RenJS from "@renproject/ren";
+import { Ethereum, BinanceSmartChain } from "@renproject/chains";
+// NOTE - @renproject/interfaces has been merged into @renproject/utils
+import { RenNetwork } from "@renproject/utils";
+
+const network = RenNetwork.Testnet;
+
+const main = async () => {
+    // Initialize Ethereum and BSC chains.
+    const ethereum = new Ethereum(network, getEVMProvider(Ethereum, network));
+    const bsc = new BinanceSmartChain(
+        network,
+        getEVMProvider(BinanceSmartChain, network),
+    );
+
+    // Create RenJS instance. NOTE - chains must now be linked to RenJS using
+    // `withChains`.
+    const renJS = new RenJS(network).withChains(ethereum, bsc);
+
+    // Create gateway - mints and burns are both initialized with `gateway`.
+    // Gateway parameters are serializable.
+    const gateway = await renJS.gateway({
+        asset: ethereum.assets.DAI,
+        from: ethereum.Account({ amount: 2, convertToWei: true }),
+        to: bsc.Account(),
+    });
+
+    // `gateway.fees` exposes values and helpers for calculating fees.
+    console.log(gateway.fees);
+
+    // `gateway.setup` may contain multiple transactions.
+    await gateway.setup.approval.submit({
+        txConfig: {
+            gasLimit: 1000000,
+        },
+    });
+    // All transactions now follow a submit/wait pattern - see TxSubmitter
+    // interface.
+    await gateway.setup.approval.wait();
+
+    // Transactions emit a `status` whenever an update is available
+    // (confirmations, errors, etc.)
+    await gateway.in.submit().on("status", console.log);
+    await gateway.in.wait(1);
+
+    // NOTE: Event has been renamed to `"transaction"`.
+    gateway.on("transaction", (tx) => {
+        (async () => {
+            // GatewayTransaction parameters are serializable. To re-create
+            // the transaction, call `renJS.gatewayTransaction`.
+            console.log(tx.params);
+
+            // Wait for remaining confirmations for input transaction.
+            await tx.in.wait();
+
+            // RenVM transaction also follows the submit/wait pattern.
+            await tx.renVM.submit().on("status", console.log);
+            await tx.renVM.wait();
+
+            // `submit` accepts a `txConfig` parameter for overriding
+            // transaction config.
+            await tx.out.submit({
+                txConfig: {
+                    gasLimit: 1000000,
+                },
+            });
+            await tx.out.wait();
+
+            // All transactions return a `ChainTransaction` object in the
+            // status, with a `txid` field (base64) and a `txidFormatted`
+            // field (chain-dependent).
+            const outTx = tx.out.status.transaction;
+            console.log("Done:", outTx.txidFormatted);
+
+            // All chain classes expose a common set of helper functions (see
+            // `Chain` class.)
+            console.log(tx.toChain.transactionExplorerLink(outTx););
+        })().catch(reject);
+    });
+};
+
+// Test account - do not send real funds.
+const mnemonic =
+    "black magic humor turtle symptom liar salmon rally hurt concert tower run";
+
+// Get EVM-chain provider using public JSON-RPC endpoint.
+export const getEVMProvider = <EVM>(
+    ChainClass: EVMConstructor<EVM>,
+    network: RenNetwork,
+): EthProvider => {
+    // `configMap[network].network` is the same interface as used by
+    // `wallet_switchEthereumChain`.
+    const urls = ChainClass.configMap[network].network.rpcUrls;
+    let rpcUrl = urls[0];
+    const provider = new providers.JsonRpcProvider(rpcUrl);
+    const signer = Wallet.fromMnemonic(mnemonic).connect(provider);
+    return {
+        provider,
+        signer,
+    };
+};
+
+main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+});
+```

@@ -9,25 +9,20 @@ import { DocTag, DocType } from "/components/DocTag";
 <DocTag type={DocType.Reference} />
 
 export const ContractItem = ({ name, link, address }) => (
-  <li style={{ padding: 0, margin: 0 }}>
-    <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
-      <b>{name}</b>
-      <br />
-      <a href={`${link}${address}`}>{address}</a>
-    </div>
-  </li>
+    <li style={{ padding: 0, margin: 0 }}>
+        <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
+            <b>{name}</b>
+            <br />
+            <a href={`${link}${address}`}>{address}</a>
+        </div>
+    </li>
 );
 
 This page documents previous upgrades to the mainnet contracts.
 
 The contracts are governed by a Multisig with a 7-day timelock. Over time, more parties will be added to this Multisig.
 
-<Tabs
-  defaultValue="ethereum"
-  values={[
-    { label: "Ethereum", value: "ethereum" },
-  ]}
->
+<Tabs>
   <TabItem value="ethereum">
     <ul style={{listStyleType: "none", padding: 0}}>
       <ContractItem

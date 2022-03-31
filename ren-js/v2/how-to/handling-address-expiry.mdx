@@ -1,0 +1,51 @@
+---
+title: Handling address expiry and uniqueness
+slug: /how-to/handling-address-expiry
+---
+
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.HowTo} marginBottom={0} />
+
+## Gateway address uniqueness
+
+The _gateway address_ of a `LockAndMint` is deterministic based on its constructor parameters. This means that if a user is minting the same asset to the same recipient multiple times, they will be shown the same address.
+
+If this is not the desired behaviour, a `nonce` can be provided to the `lockAndMint` function along side the other parameters to ensure that a new address is generated.
+
+The nonce should be a 32-byte `Buffer`, which can be created using the `bn.js` library:
+
+```ts {3-4}
+const lockAndMint = await renJS.lockAndMint({
+    ...
+    // To set the nonce to 42.
+    nonce: new BN(42).toArrayLike(Buffer, "be", 32),
+})
+```
+
+It is best if the nonce is incremental for the user, using persistent storage to track it. If a random nonce is used, it should still be stored to persistent storage to that the `LockAndMint` can be resumed if the user's session is closed.
+
+:::caution
+
+Just like all the other parameters, the LockAndMint can only be resumed by providing the nonce again. If the nonce is lost, the funds may not be recoverable.
+
+:::
+
+## Gateway address expiry
+
+Currently, _gateway addresses_ do not expire. An upcoming update to RenVM will change this.
+
+The network will have 24-hour cycles, and the _gateway address_ timeline will look like this:
+
+-   1st time cycle:
+    -   If a user wants to make a deposit, an address for this cycle is generated. They have the rest of this time cycle to initiate the deposit.
+-   2nd time cycle:
+    -   If the user sent a deposit, the deposit needs to be confirmed and submitted to RenVM before the end of the cycle.
+    -   If the user wants to make a new deposit, a new address is generated for this new time cycle, starting a new three-cycle timeline.
+-   3rd time cycle:
+    -   The user has the rest of the time cycle to submit the RenVM signature to the mint-chain.
+    -   Like before, if the user wants to make a new deposit, a new address is generated for this new time cycle.
+
+Each of the steps can happen sooner if the deposit is ready - the deposit, signing and submitting to the mint-chain can all happen in the same cycle.
+
+In expectation of this, Bridge ([bridge.renproject.io](https://bridge.renproject.io)) is using the `nonce` described [above](#gateway-address-uniqueness) to replicate this behaviour. The `nonce` is calculated based on the current time cycle and the number addresses the user has already generated for that cycle.

@@ -1,0 +1,130 @@
+---
+title: Chain Utils
+slug: /how-to/chain-utils
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.HowTo} />
+
+The `Chain` classes exported by `@renproject/chains` provide utils for doing the following tasks:
+
+All chains:
+
+-   Check that an address is valid
+-   Generate explorer links for addresses and transactions
+-   Query an asset's number of decimals, for displaying human-readable balances
+-   Get the transaction ID (as a `string`) from a `Transaction` object
+-   Fetch the transaction details (a `Transaction` object) from a transaction ID.
+-   Calculate the number of confirmations (or another measure of finality confidence) for transactions
+
+Mint chains:
+
+-   Get an address's balance of a ren-asset
+-   Get the on-chain RenVM fees
+
+Using these utils can allow you to easily add new chains in the future, knowing that they will provide the same interface.
+
+<hr />
+
+## Getting fee details
+
+To fetch the estimated fees of a burn or mint, you can call `renJS.getFees`, passing in the same asset and chain details:
+
+```ts
+await renJS.getFees({
+    asset: "BTC",
+    from: Bitcoin(),
+    to: Ethereum(provider, "testnet"),
+});
+```
+
+The returned value will have four fields:
+
+```ts
+{
+    lock?: BigNumber;
+    release?: BigNumber;
+    mint: number;
+    burn: number;
+}
+```
+
+-   `lock` and `release`, in the asset's smallest unit, are the transaction fees subtracted from the transaction amount when RenVM is moving the asset into or out of the network's custody. For going from one mint-chain to another (not yet supported), `lock` and `release` will be `undefined`.
+-   `mint` and `burn` are the portion of the transaction amount charged by RenVM, in BPS (1 BPS equals 0.01%).
+
+<hr />
+
+## Explorer links, asset decimals, address validation
+
+Each chain class (`Bitcoin`, `Ethereum`, etc.) provide a common set of helper methods:
+
+1. `await assetDecimals(asset)` - returns the number of decimals used by the asset.
+2. `utils.addressIsValid("miMi2VET...")` - returns whether the the parameter is a valid address.
+
+The parameters to the following depend on how the chain defines an `Address` and a `Transaction`.
+
+1. `utils.addressExplorerLink(address)` - returns a link to the address in a chain explorer.
+2. `utils.transactionExplorerLink(transaction)` - returns a link to the transaction in a chain explorer.
+3. `utils.transactionID(transaction)` - returns the hash or ID of the transaction as a string.
+
+Transactions can be retrieved from a deposit object by taking `deposit.depositDetails.transaction`.
+
+The `Address` and `Transaction` formats for various chains are:
+
+<Tabs
+  defaultValue="Bitcoin"
+  values={[
+    { label: "Bitcoin", value: "Bitcoin" },
+    { label: "Ethereum", value: "Ethereum" },
+    { label: "Filecoin", value: "Filecoin" },
+  ]}
+>
+  <TabItem value="Bitcoin">
+
+```ts
+// Same for Bitcoin forks.
+
+type Address = string;
+
+interface Transaction {
+    readonly txHash: string;
+    readonly vOut: number;
+    readonly amount: number;
+    readonly scriptPubKey?: string;
+    readonly confirmations: number;
+}
+```
+
+  </TabItem>
+  <TabItem value="Ethereum">
+
+```ts
+// Same for other EVM chains like Binance Smart Chain.
+
+type Transaction = string; // The transaction hash.
+type Address = string;
+```
+
+  </TabItem>
+  <TabItem value="Filecoin">
+
+```ts
+interface Address {
+    address: string; // Filecoin address
+    params?: string; // base64 params
+}
+
+interface Transaction {
+    cid: string;
+    amount: string; // 18 decimal places
+    params: string; // base64
+    confirmations: number;
+    nonce: number;
+}
+```
+
+  </TabItem>
+</Tabs>

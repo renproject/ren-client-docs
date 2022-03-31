@@ -1,0 +1,17 @@
+diff --git a/node_modules/@saucelabs/theme-github-codeblock/build/theme/ReferenceCodeBlock/index.js b/node_modules/@saucelabs/theme-github-codeblock/build/theme/ReferenceCodeBlock/index.js
+index 8b5a20b..83f815b 100644
+--- a/node_modules/@saucelabs/theme-github-codeblock/build/theme/ReferenceCodeBlock/index.js
++++ b/node_modules/@saucelabs/theme-github-codeblock/build/theme/ReferenceCodeBlock/index.js
+@@ -123,9 +123,10 @@ function ReferenceCode(props) {
+     const titleMatch = (_a = props.metastring) === null || _a === void 0 ? void 0 : _a.match(/title="(?<title>.*)"/);
+     const customProps = {
+         ...props,
+-        metastring: ((_b = titleMatch === null || titleMatch === void 0 ? void 0 : titleMatch.groups) === null || _b === void 0 ? void 0 : _b.title)
+-            ? ` title="${(_c = titleMatch === null || titleMatch === void 0 ? void 0 : titleMatch.groups) === null || _c === void 0 ? void 0 : _c.title}"`
++        metastring: ((_b = titleMatch === null || titleMatch === void 0 ? void 0 : titleMatch.groups) === null || _b === void 0 ? void 0 : _b.title) !== undefined ? ((_b = titleMatch === null || titleMatch === void 0 ? void 0 : titleMatch.groups) === null || _b === void 0 ? void 0 : _b.title) === "" ? ` ` :
++            ` title="${(_c = titleMatch === null || titleMatch === void 0 ? void 0 : titleMatch.groups) === null || _c === void 0 ? void 0 : _c.title}"`
+             : ` title="${codeSnippetDetails.title}"`,
++        title: ((_b = titleMatch === null || titleMatch === void 0 ? void 0 : titleMatch.groups) === null || _b === void 0 ? void 0 : _b.title) === "" ? undefined : props.title,
+         children: initialFetchResultState.code,
+     };
+     return (react_1.default.createElement("div", null,

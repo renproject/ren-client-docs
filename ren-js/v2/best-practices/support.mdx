@@ -1,0 +1,59 @@
+---
+title: RenVM Support Tutorial & Template
+slug: /best-practices/support
+---
+
+_A guide to resolving RenVM support issues._
+
+<hr />
+
+Most common issues are typically caused by user error \(UE\). EG:
+
+-   User exiting the bridge before submitting the ETH or BSC transaction.
+-   Closing web-browser and deleting history.
+-   Not having ETH or BNB to pay for the TX.
+
+While we created the [RenVM UX Best Practices](https://docs.renproject.io/developers/renvm-ux-best-practice) to mitigate most of the common pitfalls some users still have issues, so the Ren team wanted to provide a few simple steps for dealing with support issues as a 3rd party integrator.
+
+### **Step \#1 \| Address Common UE**
+
+The way to solve these boil down to sending them back to the bridge UI to submit the ETH TX, and/or restarting their browser/computer to solve MetaMask not picking up the TX. Troubleshooting questions to help the user:
+
+**1\)** Have you been prompted by your MetaMask to sign an ETH or BSC TX? If not, try to restart your computer and then visit the UI with the wallet you originally used \(MetaMask, etc\).  
+**2\)** Check your MetaMask activity to ensure no pending TX is there.  
+**3\)** Make sure you added renBTC, etc into MetaMask \(as a custom token\).  
+**4\)** Try hard-refreshing the webpage \(F5\).
+
+### Step \#2 \| Push the RenVM TX through manually
+
+Since most user issue reports you will receive will likely be something at the UI level, it is typically incumbent on the Bridge owner to assist users with any issues \(via the above steps\) but if there is an issue, and step \#1 does not solve the issue, one can manually triggering the TX:
+
+To do so, follow the below directions:
+
+#### 1\) Go to: [https://renproject.github.io/dev-tools](https://renproject.github.io/dev-tools/)
+
+#### 2\) Connect wallet that the order was placed on and input the RenVM TX hash
+
+#### 3\) Submit the TX via wallet and use “Fast GAS” so there are no issues.
+
+Email template for users👇  
+_Hi xxx,  
+If you could, please follow the below instructions:  
+1\) Go here:_ [_https://renproject.github.io/dev-tools/_](https://renproject.github.io/dev-tools/)  
+_2\) Connect with your wallet that you did the order on and input this TX:  
+xxxx  
+3\) Then submit via MetaMask \(use “Fast GAS” so there are no issues\).  
+4\) renBTC, etc will show up in your wallet._
+
+_Let us know if you have any issues, and we’ll go from there.  
+All the best,  
+xxxx_
+
+### Step \#3 \| RenVM Bug Report
+
+If you are unable to get the RenVM TX hash, or there is some other case that you can't resolve through steps \#1 & \#2, have your user fill out this form, and the Ren team will assist:  
+[https://renprotocol.typeform.com/to/YdmFyB](https://renprotocol.typeform.com/to/YdmFyB)
+
+### Summary
+
+Through implementing **all** of the [RenVM UX Best Practices](https://docs.renproject.io/developers/renvm-ux-best-practice) and ensuring you have a streamlined process to complete _Steps \#1 and \#2,_ most if not all UX issues are mitigated at this stage. If you have any questions at this stage, please utilize our mutual Telegram group to reach out for any inquiries.
