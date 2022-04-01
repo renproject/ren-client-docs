@@ -1,0 +1,113 @@
+---
+title: Fees
+---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+### GatewayFees <TypeDoc name="GatewayFees">(TypeDoc)</TypeDoc>
+
+`renJS.getFees(...)` and `gateway.fees` return a GatewayFees object with the following fields:
+
+```tsx
+interface GatewayFees {
+    // The fixed fee is the same regardless of the amount being transacted - in the asset's base unit.
+    fixedFee: BigNumber;
+
+    // The variable fee is based on the amount being transacted - in BPS. (e.g. 15 BPS is 0.15%).
+    variableFee: number;
+
+    // The minimum intput amount that can be sent.
+    minimumAmount: BigNumber;
+
+    // Estimate how much will be minted/released by sending a certain amount.
+    estimateOutput: (input: BigNumber) => BigNumber;
+}
+```
+
+An example of a GatewayFees object is:
+
+```tsx
+fees;
+> {
+>    fixedFee: BigNumber(1347),
+>    variableFee: 15,
+>    minimumAmount: BigNumber(1897),
+>    estimateOutput: Function,
+> }
+fees.estimateOutput(1 ** 1e8);
+> BigNumber(99848653)
+
+// Shift amount by BTC's decimals (8) and then unshift to get BTC output.
+const amount = "1.5";
+fees.estimateOutput(new BigNumber(amount).shiftedBy(8)).shiftedBy(-8).toFixed()
+> "1.49773653"
+```
+
+<details><summary>Full example</summary>
+
+```tsx
+const RenJS = require("@renproject/ren").default;
+const { Ethereum, Bitcoin } = require("@renproject/chains");
+const ethers = require("ethers");
+const BigNumber = require("bignumber.js");
+
+const bitcoin = new Bitcoin({ network: "mainnet" });
+const ethereum = new Ethereum({
+    network: "mainnet",
+    provider: new ethers.providers.JsonRpcProvider(
+        Ethereum.configMap["mainnet"]?.network.rpcUrls[0]
+    ),
+});
+const renJS = new RenJS("mainnet").withChains(bitcoin, ethereum);
+
+const fees = await renJS.getFees({
+    asset: "BTC",
+    from: "Bitcoin",
+    to: "Ethereum",
+});
+
+console.log(fees);
+console.log(fees.estimateOutput(1 ** 1e8));
+
+// Shift amount by BTC's decimals (8) and then unshift to get BTC output.
+const amount = "1.5";
+console.log(
+    fees
+        .estimateOutput(new BigNumber(amount).shiftedBy(8))
+        .shiftedBy(-8)
+        .toFixed()
+);
+```
+
+</details>
+
+<br />
+
+### `getFees`
+
+`renJS.getFees(...)` can be used to estimate the fees before all of the gateway parameters are known by providing the chain name, or by passing the same gateway params that would be passed to `renJS.gateway`:
+
+```tsx
+... RenJS setup here ...
+
+await renJS.getFees({
+    asset: "BTC",
+    from: "Bitcoin",
+    to: "Ethereum",
+});
+
+await renJS.getFees({
+    asset: "BTC",
+    from: bitcoin,
+    to: ethereum,
+});
+
+await renJS.getFees({
+    asset: "BTC",
+    from: bitcoin.GatewayAddress(),
+    to: ethereum.Account(),
+});
+```

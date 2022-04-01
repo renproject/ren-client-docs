@@ -27,14 +27,15 @@ module.exports = {
                     label: "Reference",
                     items: [
                         "v3/reference/classes",
+                        "v3/reference/fees",
                         {
                             type: "category",
                             label: "Chains",
                             items: [
+                                "v3/reference/chains/chain-interface",
                                 "v3/reference/chains/bitcoin",
                                 "v3/reference/chains/ethereum",
                                 "v3/reference/chains/solana",
-                                "v3/reference/chains/chain-interface",
                             ],
                             collapsed: false,
                         },

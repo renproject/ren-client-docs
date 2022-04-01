@@ -1,3 +1,88 @@
 ---
 title: Bitcoin
 ---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+### Bitcoin <TypeDoc name="Bitcoin">(TypeDoc)</TypeDoc>
+
+The Bitcoin class is initialized with a Ren network ("mainnet", "testnet" or "devnet"), or a <TypeDoc name="BitcoinNetworkConfig" /> for configuring local networks.
+
+The available input payloads are:
+
+<details><summary>Gateway Address</summary>
+
+<TypeDoc name="Bitcoin.GatewayAddress">bitcoin.GatewayAddress</TypeDoc> should be
+used when you want the user to be able to deposit BTC and initiate new gateway transactions.
+
+It accepts no parameters.
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    from: bitcoin.GatewayAddress(),
+    ...
+})
+```
+
+</details>
+
+<details><summary>Transaction</summary>
+
+<TypeDoc name="Bitcoin.Transaction">bitcoin.Transaction</TypeDoc> allows you to specify
+a specific Bitcoin transaction, instead of watching for deposits to the gateway address.
+Note that the recipient address of the transaction should still match the gateway
+address generated from the to-chain's parameters.
+
+The transaction should be of type <code>Partial<<TypeDoc name="ChainTransaction" />></code>, with at least one of the `txid` or `txidFormatted` is defined.
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    from: bitcoin.Transaction({
+      // The transaction's hash in the usual Bitcoin hex encoding.
+      txidFormatted: "a1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d",
+      // The transaction's hash in URL-base64 encoding.
+      txid: "oQddtV1BbTyhmfVbYITiEVuTReFsXPMC_IDp1fv11I0",
+      // The vOut/txindex of the specific transaction ouput.
+      txindex: "0"
+    }),
+    ...
+})
+```
+
+</details>
+
+The available output payloads are:
+
+<details><summary>Address</summary>
+
+<TypeDoc name="Bitcoin.Address">bitcoin.Address</TypeDoc> allows you to specify the
+Bitcoin address for receiving the released BTC.
+
+<br />
+<br />
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    from: bitcoin.Address("miMi2VET41YV1j6SDNTeZoPBbmH8B4nEx6"),
+    ...
+})
+```
+
+</details>
+
+### Other chains
+
+A list of other chains that implement this same interface are:
+
+-   <TypeDoc name="BitcoinCash" />
+-   <TypeDoc name="Zcash" />
+-   <TypeDoc name="Dogecoin" />
+-   <TypeDoc name="DigiByte" />
+-   <TypeDoc name="Terra" />
+-   <TypeDoc name="Filecoin" />

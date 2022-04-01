@@ -13,6 +13,8 @@ module.exports = {
     themeConfig: {
         prism: {
             additionalLanguages: ["solidity"],
+            // theme: require("prism-react-renderer/themes/oceanicNext"),
+            theme: require("./codeBlockTheme"),
         },
         // announcementBar: {
         //     id: "support_us", // Any value that will identify this message.
@@ -59,11 +61,11 @@ module.exports = {
                     label: "JSON-RPC",
                     position: "left",
                 },
-                {
-                    to: "blog",
-                    label: "Blog",
-                    position: "left",
-                },
+                // {
+                //     to: "blog",
+                //     label: "Blog",
+                //     position: "left",
+                // },
                 {
                     href: "https://github.com/renproject/ren-js",
                     label: "RenJS GitHub",

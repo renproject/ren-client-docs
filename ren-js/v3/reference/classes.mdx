@@ -2,9 +2,15 @@
 title: Classes
 ---
 
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+import { Enumerate } from "/components/Enumerate";
+
+<DocTag type={DocType.Reference} />
+
 This page goes over the `RenJS`, `Gateway` and `GatewayTransaction` classes.
 
-### RenJS [(TypeDoc)](https://renproject.github.io/ren-js-v3-docs/classes/_renproject_ren.RenJS.html)
+### RenJS <TypeDoc name="RenJS">(TypeDoc)</TypeDoc>
 
 The `RenJS` class provides methods for creating and configuring gateways.
 
@@ -64,17 +70,26 @@ renJS.withChain(bitcoin).withChain(ethereum);
 
 You can now use the various fields and methods available on RenJS:
 
--   `renJS.provider` - return the provider being used
--   `renJS.getChain` - for getting the chain instances added with `withChains`
--   `renJS.getFees` - for estimating gateway fees
--   `renJS.gateway` - for creating Gateways
--   `renJS.gatewayTransaction` - for re-creating Gateway Transactions created by a Gateway
--   `renJS.selectShard` - for fetching an asset's associated RenVM shard (currently there's only one shard)
--   `RenJS.defaultTransactionHandler` - a static method that you can pass to a `gateway.on("transaction")
+<Enumerate title={"Methods"}>
+    <p><TypeDoc name="RenJS.getChain">getChain</TypeDoc> - for getting the chain instances added with <code>withChains</code></p>
+    <p><TypeDoc name="RenJS.getFees">getFees</TypeDoc> - for estimating gateway fees (see [fees](./fees))</p>
+    <p><TypeDoc name="RenJS.gateway">gateway</TypeDoc> - for creating Gateways</p>
+    <p><TypeDoc name="RenJS.gatewayTransaction">gatewayTransaction</TypeDoc> - for re-creating Gateway Transactions created by a Gateway</p>
+    <p><TypeDoc name="RenJS.selectShard">selectShard</TypeDoc> - for fetching an asset's associated RenVM shard (currently there's only one shard)</p>
+    <p><TypeDoc name="RenJS.defaultTransactionHandler">defaultTransactionHandler</TypeDoc> - a static method that you can pass to a <code>gateway.on("transaction")</code></p>
+
+</Enumerate>
+
+<br />
+
+<Enumerate title={"Properties"}>
+    <p><TypeDoc name="RenJS.provider">provider</TypeDoc> - the connected RenVM provider</p>
+
+</Enumerate>
 
 ---
 
-### Gateway [(TypeDoc)](https://renproject.github.io/ren-js-v3-docs/classes/_renproject_ren.Gateway.html)
+### Gateway <TypeDoc name="Gateway">(TypeDoc)</TypeDoc>
 
 `renJS.gateway` is used to initialize `Gateway` instances. The parameters are as follows:
 
@@ -120,33 +135,16 @@ gateway = await renJS.gateway(JSON.parse(paramsToSave));
 
 There are several fields on a Gateway instance that may be useful:
 
--   `gateway.fromChain` and `gateway.toChain` allow you to access the chain instances that were passed into `renJS.withChains`
--   `gateway.provider` - the same provider as `renJS.provider`
--   `gateway.fees` - for calculating the expected fees
--   `gateway.gatewayAddress` - for deposit gateways
--   `gateway.inSetup` - transactions required before submitting the `in` transaction
--   `gateway.in` - for contract gateways, the input transaction submitter or waiter
--   `gateway.on` - for listening to `"transaction"` events
--   `gateway.eventEmitter` - the event emitter that `gateway.on` calls.
-    -   `gateway.eventEmitter.once`
-    -   `gateway.eventEmitter.removeListener`
-    -   `gateway.eventEmitter.removeAllListeners`
-    -   `gateway.eventEmitter.listenerCount`
+<Enumerate title={"Properties"}>
+    <p><TypeDoc name="RenJS.provider">provider</TypeDoc> - the connected RenVM provider</p>
+    <p><TypeDoc name="Gateway.fromChain">fromChain</TypeDoc> - access the from-payload's chain instance that were passed into `renJS.withChains`</p>
+    <p><TypeDoc name="Gateway.fromChain">toChain</TypeDoc> - access the to-payload's chain instance that were passed into `renJS.withChains`</p>
+    <p><TypeDoc name="Gateway.provider">provider</TypeDoc> - the same provider as `renJS.provider`</p>
+    <p><TypeDoc name="Gateway.fees">fees</TypeDoc> - for calculating the expected fees (see [fees](./fees))</p>
+    <p><TypeDoc name="Gateway.gatewayAddress">gatewayAddress</TypeDoc> - for deposit gateways</p>
+    <p><TypeDoc name="Gateway.inSetup">inSetup</TypeDoc> - transactions required before submitting the `in` transaction</p>
+    <p><TypeDoc name="Gateway.in">in</TypeDoc> - for contract gateways, the input transaction submitter or waiter</p>
+    <p><TypeDoc name="Gateway.on">on</TypeDoc> - for listening to `"transaction"` events</p>
+    <p><TypeDoc name="Gateway.eventEmitter">eventEmitter</TypeDoc> - the event emitter that `gateway.on` calls - see <TypeDoc name="EventEmitterTyped.once">eventEmitter.once</TypeDoc>, <TypeDoc name="EventEmitterTyped.removeListener">eventEmitter.removeListener</TypeDoc>, <TypeDoc name="EventEmitterTyped.removeAllListeners">eventEmitter.removeAllListeners</TypeDoc> and <TypeDoc name="EventEmitterTyped.listenerCount">eventEmitter.listenerCount</TypeDoc></p>
 
-`gateway.fees` will return a [`GatewayFees`](https://renproject.github.io/ren-js-v3-docs/interfaces/_renproject_ren.GatewayFees.html) object with the following fields:
-
-```
-interface GatewayFees {
-    // The fixed part of the fee (the fixed-fee asset is currently not available on the fee object)
-    fixedFee: BigNumber;
-
-    // Variable fee - in BPS. (e.g. 15 BPS is 0.15%)
-    variableFee: number;
-
-    // The minimum intput amount that can be sent.
-    minimumAmount: BigNumber;
-
-    // Estimate how much will be minted/released by sending a certain amount.
-    estimateOutput: (input: BigNumber) => BigNumber;
-}
-```
+</Enumerate>

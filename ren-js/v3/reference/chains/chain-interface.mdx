@@ -1,0 +1,38 @@
+---
+title: Chain Interface
+---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+import { Enumerate } from "/components/Enumerate";
+
+<DocTag type={DocType.Reference} />
+
+All chains implement a standard <TypeDoc name="ChainCommon" /> interface:
+
+<Enumerate title={"Methods"}>
+    <p>
+        <TypeDoc name="ChainCommon.addressExplorerLink">
+            addressExplorerLink
+        </TypeDoc>{" "}
+        - return a link to the address's page in an explorer
+    </p>
+    <p><TypeDoc name="ChainCommon.assetDecimals">assetDecimals</TypeDoc> - return the provided asset's number of decimals</p>
+    <p><TypeDoc name="ChainCommon.formattedTransactionHash">formattedTransactionHash</TypeDoc> - convert a URL-base64 transaction hash into the chain's standard transaction hash format</p>
+    <p><TypeDoc name="ChainCommon.getBalance">getBalance</TypeDoc> - fetch the provided address's balance for the provided asset</p>
+    <p><TypeDoc name="ChainCommon.transactionConfidence">transactionConfidence</TypeDoc> - return a transaction's current number of confirmations</p>
+    <p><TypeDoc name="ChainCommon.transactionExplorerLink">transactionExplorerLink</TypeDoc> - return a link to the transaction's page in an explorer</p>
+    <p><TypeDoc name="ChainCommon.validateAddress">validateAddress</TypeDoc> - check if the address's format is valid</p>
+    <p><TypeDoc name="ChainCommon.validateTransaction">validateTransaction</TypeDoc> - check if the transaction's format is valid</p>
+    <p><TypeDoc name="ChainCommon.withProvider">withProvider</TypeDoc> - overwrite the chain's provider</p>
+
+</Enumerate>
+
+<br />
+
+<Enumerate title={"Properties"}>
+    <p><TypeDoc name="ChainCommon.chain">chain</TypeDoc> - the name of the chain</p>
+    <p><TypeDoc name="ChainCommon.assets">assets</TypeDoc> - an object containing assets supported by the chain</p>
+    <p><TypeDoc name="ChainCommon.network">network</TypeDoc> - the chain's current network config</p>
+
+</Enumerate>
