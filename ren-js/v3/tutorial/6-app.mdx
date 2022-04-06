@@ -17,19 +17,19 @@ We'll initialize the Ethereum class with a public JSON-RPC endpoint, but we won'
 Replace the existing code in the App component with:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L9-L23
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L11-L25
 ```
 
 Next, we want to store the list of all Gateway Transactions we've seen so far:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L25-L32
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L26-L33
 ```
 
 When a new gateway is created, we want to store it and listen for new Gateway Transactions:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L34-L42
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L35-L43
 ```
 
 ---
@@ -39,13 +39,13 @@ The return statement of `App` will now link the gateway and gatewayTxs states wi
 Firstly, `CreateGateway`:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L44-L51
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L45-L52
 ```
 
 And finally, we loop through `gatewayTxs` and show a `GatewayTx` for each transaction:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L53-L69
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L54-L70
 ```
 
 ---
@@ -73,7 +73,7 @@ Note that the block times for testnet Bitcoin transactions vary a lot - for fast
 
 This tutorial does not cover all the required information to write a production RenJS integration.
 
-Here is a list of concepts that this tutorial didn't cover:
+Continue reading through the docs to learn about:
 
 -   Persistent storage and resuming gateways
 -   Gateway expiry

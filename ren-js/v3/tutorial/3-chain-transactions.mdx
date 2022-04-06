@@ -27,7 +27,7 @@ Chain Transactions have an `eventListener` member which emits `"progress"` event
 In order to listen to these events, we store the latest event in a React state hook, and use an effect hook to set up the event listener.
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L27-L46
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L28-L47
 ```
 
 ### Chain Status
@@ -51,25 +51,25 @@ https://github.com/noah-ren/async-button/blob/main/src/index.tsx#L8-L15
 If the chain transaction hasn't been submitted yet, its status will be `"ready"`, and the component should show a button to the user for submitting the transaction.
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L50-L61
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L51-L62
 ```
 
 #### 2. `"confirming"`
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L63-L76
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L64-L77
 ```
 
 #### 3. `"done"`
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L78-L83
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L79-L84
 ```
 
 #### 4. `"reverted"`
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L85-L88
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/ChainTx.tsx#L86-L89
 ```
 
 ---

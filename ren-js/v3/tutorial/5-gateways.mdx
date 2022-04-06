@@ -24,7 +24,7 @@ https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/Cre
 This helper function handles conecting a Web3 wallet, such as MetaMask. Put this at the top level of `CreateGateway.tsx`:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L8-L20
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L14-L26
 ```
 
 ### Component implementation
@@ -38,13 +38,25 @@ In this code snippet, we specify **BTC**, **Bitcoin** and **Ethereum**, but you 
 :::
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L29-L32
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L37-L39
 ```
 
-Next, we'll write the callback `createGateway`, which will be called when the user clicks a button to create a gateway. After creating it, the gateway will passed to the `onGateway` callback prop.
+Next, we'll write the callback `createDepositGateway`, which will be called when the user clicks a button to create a gateway. After creating it, the gateway will passed to the `onGateway` callback prop.
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L34-L46
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L35-L68
+```
+
+The other required callback is `createWithdrawGateway` - this is included in the full `CreateGateway.tsx` below, to give you a chance to try implementing it yourself first, or return to later after completing `CreateGateway.tsx` and `App.tsx`.
+
+Some things to note are that you'll need to set `useRenParams` to false, since `withdraw` doesn't expect the `amount`, `nHash` and `signature` parameters that `deposit` does.
+
+The completed version below makes use of `EVMParam.EVM_TO_ADDRESS` which you can read more about in the [Ethereum docs](`../reference/chains/ethereum.mdx`).
+
+```tsx
+const createWithdrawGateway = useCallback(async () => {
+    // Implement `withdraw` gateway.
+});
 ```
 
 ---
@@ -54,13 +66,13 @@ For the return statement of the component, we'll want to branch on whether the `
 If it's defined, then we want to show the gateway, either by showing a gateway address, or by showing a Chain Transaction component:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L48-L57
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L124-L133
 ```
 
-If the gateway hasn't been created yet, then we'll want to show the details of the gateway, along with a button to create it:
+If a gateway hasn't been created yet, then we'll want to show the buttons to create one:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L58-L67
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/CreateGateway.tsx#L134-L139
 ```
 
 ---

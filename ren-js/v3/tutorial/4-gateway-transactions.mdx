@@ -25,13 +25,13 @@ https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/Gat
 Firstly, we'll want to only show one active Chain Transaction at a time. In order to know when to enable the next Chain Transaction component, we need to know the progress status of the first two transactions:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L11-L14
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L13-L16
 ```
 
 We can now write the return statement, starting with showing some information about the Gateway Transaction:
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L16-L21
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L18-L23
 ```
 
 We then show the three chain transactions:
@@ -41,7 +41,7 @@ We then show the three chain transactions:
 We pass in the `setInProgress` function as the onProgress callback.
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L23-L26
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L25-L28
 ```
 
 2. `gatewayTx.renVM`
@@ -49,13 +49,13 @@ https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/Gat
 Again we pass in the onProgress callback. We also disable the button if `gatewayTx.in` isn't done yet, and tell it to auto-submit the transaction when it's ready.
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L27-L35
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L29-L37
 ```
 
 3. `gatewayTx.out`
 
 ```tsx reference title=""
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L36-L44
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/GatewayTx.tsx#L38-L46
 ```
 
 ---

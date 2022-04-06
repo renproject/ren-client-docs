@@ -8,7 +8,7 @@ import { DocTag, DocType } from "/components/DocTag";
 
 In the code examples so far, RenJS has been used to mint tokens directly to a user's account. In this tutorial, we'll instead mint to a smart contract, allowing more complex interactions to be made in a single step.
 
-The contract will be very simple, allowing the user to mint tokens to the contract, and then withdraw them again.
+The contract will be very simple, allowing the user to mint tokens to the contract, and then withdraw them again. The contract itself will hold the minted ERC20.
 
 To get started, create a new Hardhat repository:
 
@@ -49,32 +49,34 @@ In addition to these required parameters, the `deposit` function will also allow
 This is what the signature of the `deposit` function will look like:
 
 ```sol title="" reference
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge_2.sol#L15-L22
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge_2.sol#L15-L23
 ```
 
 There is another parameter we need to forward to the `Gateway` for minting: the `pHash` (also known as the payload hash). It is the hash of any extra parameters we are using (in our case this is the attached `message`). Inside the function body, add:
 
 ```solidity title="" reference
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L23
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L24
 ```
 
 We can now get the address of the gateway and call `mint`.
 
 ```solidity title="" reference
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L24-L29
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L25-L30
 ```
 
 Finally, we can log the message provided by the user:
 
 ```solidity title="" reference
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L30
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L31
 ```
 
 The `deposit` function should now look like this:
 
 ```solidity title="" reference
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L15-L31
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L15-L32
 ```
+
+The deposit function mints the
 
 ### Withdraw function
 
@@ -83,7 +85,7 @@ The `withdaw` function is similar to the `deposit` function - we call `burn` on 
 The user will provide the `message` of the withdrawal (as before), a `to` Bitcoin address to receive the funds to, and the `amount` of BTC they want to withdraw.
 
 ```solidity title="" reference
-https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L33-L41
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge.sol#L34-L43
 ```
 
 ---
@@ -135,5 +137,5 @@ You can find the address for other networks on the [Contract Deployments](/ren-c
 ![Remix - deploy](/img/remix-2.png)
 
 :::tip
-You can also use the TutorialBridge contract that we have deployed here: [0xEE10904890B99b49cFa88d628E851AD4CEcb961C](https://kovan.etherscan.io/address/0xEE10904890B99b49cFa88d628E851AD4CEcb961C).
+You can also use the TutorialBridge contract that we have deployed here: [0xd9145CCE52D386f254917e481eB44e9943F39138](https://kovan.etherscan.io/address/0xd9145CCE52D386f254917e481eB44e9943F39138).
 :::
