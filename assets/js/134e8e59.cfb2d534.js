@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[5906],{34238:function(e){e.exports=JSON.parse('{"allTagsPath":"/ren-client-docs/blog/tags","slug":"/ren-client-docs/blog/tags/ren-js","name":"RenJS","count":1,"permalink":"/ren-client-docs/blog/tags/ren-js"}')}}]);

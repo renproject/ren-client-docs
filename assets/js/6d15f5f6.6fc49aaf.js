@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[129],{162:function(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Build your first Dapp with RenJS","permalink":"/ren-client-docs/blog/build-a-dapp-with-renjs"}]}')}}]);

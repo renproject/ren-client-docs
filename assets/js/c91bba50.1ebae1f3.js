@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[4562],{632:function(e){e.exports=JSON.parse('{"allTagsPath":"/ren-client-docs/blog/tags","slug":"/ren-client-docs/blog/tags/dapp","name":"dapp","count":1,"permalink":"/ren-client-docs/blog/tags/dapp"}')}}]);
