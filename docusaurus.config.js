@@ -77,11 +77,19 @@ module.exports = {
             style: "dark",
             links: [
                 {
-                    title: "RenJS",
+                    title: "RenVM",
                     items: [
                         {
-                            label: "Getting Started",
-                            to: "ren-js/",
+                            label: "renproject.io",
+                            href: "https://renproject.io",
+                        },
+                        {
+                            label: "Command Center",
+                            href: "https://mainnet.renproject.io",
+                        },
+                        {
+                            label: "Explorer",
+                            href: "https://explorer.renproject.io",
                         },
                     ],
                 },

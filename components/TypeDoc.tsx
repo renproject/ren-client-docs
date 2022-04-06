@@ -13,6 +13,7 @@ export const lookup = {
     RenJSError: "enums/_renproject_utils.RenJSError.html",
     RenNetwork: "enums/_renproject_utils.RenNetwork.html",
     TxStatus: "enums/_renproject_utils.TxStatus.html",
+    EVMParam: "enums/_renproject_chains_ethereum.EVMParam.html",
     // Arbitrum: "classes/_renproject_chains.Arbitrum.html",
     // Avalanche: "classes/_renproject_chains.Avalanche.html",
     // BinanceSmartChain: "classes/_renproject_chains.BinanceSmartChain.html",

@@ -1,3 +1,117 @@
 ---
-title: Solana (TODO)
+title: Solana
 ---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+### Solana <TypeDoc name="Solana">(TypeDoc)</TypeDoc>
+
+The Solana class expects:
+
+1. a network - either a Ren network ("mainnet", "testnet" or "devnet"), or a `SolNetworkConfig`.
+2. a provider - a `Connection` instance from the [@solana/web3.js](https://npmjs.org/package/@solana/web3.js).
+3. an optinal signer - a `Wallet` instance from the [@project-serum/sol-wallet-adapter](https://npmjs.org/package/@project-serum/sol-wallet-adapter) library. If no signer is provided, it should be provided later with `.withSigner()`
+
+:::caution Testnet
+
+RenVM Testnet points to Solana Devnet, not Solana Testnet.
+
+:::
+
+An example of connecting using a private key:
+
+```ts
+new Solana({
+    network: "testnet",
+    provider: new Connection("https://api.devnet.solana.com"),
+    signer: new Wallet(window.solana),
+}
+```
+
+You can import `renMainnet` and `renTestnet` from `@renproject/chains-solana/build/main/network` to access `renMainnet.endpoint` or `renMainnet.endpoint` instead of hard-coding the endpoint passed to `Connection`.
+
+#### Payloads
+
+The available input payloads are:
+
+<details><summary>Account</summary>
+
+<TypeDoc name="Solana.Account">solana.Account</TypeDoc> allows you to specify the
+user's connected address as the recipient for a mint or release.
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    from: ethereum.Account({ amount: "0.1", convertUnit: true }),
+    ...
+})
+```
+
+Required parameters:
+
+-   `amount` - the asset amount to lock or burn
+
+Optional parameters:
+
+-   `convertUnit` - convert the `amount` to the chain's smallest unit.
+
+</details>
+
+<details><summary>Transaction</summary>
+
+<TypeDoc name="Solana.Transaction">solana.Transaction</TypeDoc> allows you to specify
+an existing Solana transaction as the input.
+
+The transaction should be of type <code>Partial<<TypeDoc name="ChainTransaction" />></code>, with at least one of the `txid` or `txidFormatted` is defined.
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    from: ethereum.Transaction({
+      // The transaction's hash in the usual Solana hex encoding.
+      txidFormatted: "3mabcf8...",
+    }),
+    ...
+})
+```
+
+</details>
+
+<details><summary>BurnNonce</summary>
+
+<TypeDoc name="Solana.BurnNonce">solana.BurnNonce</TypeDoc> allows you to provide
+a burn nonce - this can be used as an alternative to solana.Transaction.
+<br />
+<br />
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    from: ethereum.BurnNonce(100),
+    ...
+})
+```
+
+</details>
+
+The available output payloads are:
+
+<details><summary>Account</summary>
+
+<TypeDoc name="Solana.Account">solana.Account</TypeDoc> allows you to specify the
+user's account as the recipient of the minted or released funds.
+<br />
+<br />
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    ...
+    to: solana.Account(),
+})
+```
+
+</details>

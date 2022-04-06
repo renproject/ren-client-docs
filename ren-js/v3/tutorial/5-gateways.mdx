@@ -3,6 +3,7 @@ title: 5. Gateways
 ---
 
 import { DocTag, DocType } from "/components/DocTag";
+import { Enumerate } from "/components/Enumerate";
 
 <DocTag type={DocType.Tutorial} />
 
@@ -49,7 +50,7 @@ https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/Cre
 
 The other required callback is `createWithdrawGateway` - this is included in the full `CreateGateway.tsx` below, to give you a chance to try implementing it yourself first, or return to later after completing `CreateGateway.tsx` and `App.tsx`.
 
-Some things to note are that you'll need to set `useRenParams` to false, since `withdraw` doesn't expect the `amount`, `nHash` and `signature` parameters that `deposit` does.
+Some things to note are that you'll need to set `withRenParams` to false, since `withdraw` doesn't expect the `amount`, `nHash` and `signature` parameters that `deposit` does.
 
 The completed version below makes use of `EVMParam.EVM_TO_ADDRESS` which you can read more about in the [Ethereum docs](`../reference/chains/ethereum.mdx`).
 

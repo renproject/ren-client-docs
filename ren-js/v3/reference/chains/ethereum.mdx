@@ -4,6 +4,7 @@ title: Ethereum
 
 import { TypeDoc } from "/components/TypeDoc";
 import { DocTag, DocType } from "/components/DocTag";
+import { Enumerate } from "/components/Enumerate";
 
 <DocTag type={DocType.Reference} />
 
@@ -90,25 +91,10 @@ new Ethereum({
 
 The available input payloads are:
 
-<details><summary>Address or Account</summary>
+<details><summary>Account</summary>
 
 <TypeDoc name="Ethereum.Account">ethereum.Account</TypeDoc> allows you to specify
-the user's connected address as the recipient for a mint or release, or as the origin
-of assets to be burnt or locked.
-
-<br />
-
-Destination:
-
-```tsx
-renJS.gateway({
-    asset: "BTC",
-    ...
-    to: ethereum.Account(),
-})
-```
-
-Origin:
+the user's connected address as the origin of assets to be burnt or locked.
 
 ```tsx
 renJS.gateway({
@@ -118,16 +104,16 @@ renJS.gateway({
 })
 ```
 
-<TypeDoc name="Ethereum.Address">ethereum.Address</TypeDoc> allows you to specify
-an Ethereum address for receiving the minted/released funds.
+Required parameters:
 
-```tsx
-renJS.gateway({
-    asset: "BTC",
-    ...
-    to: ethereum.Address(),
-})
-```
+-   `amount` - the asset amount to lock or burn
+
+Optional parameters:
+
+-   `convertUnit` - convert the `amount` to the chain's smallest unit.
+-   `account` - specify the account that the user should have connected when they submit.
+
+You can specify a specific account by providing an `account` field in the options - this account should be connected when the user is prompted to submit the transaction.
 
 </details>
 
@@ -145,11 +131,9 @@ renJS.gateway({
     asset: "BTC",
     from: ethereum.Transaction({
       // The transaction's hash in the usual Ethereum hex encoding.
-      txidFormatted: "a1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d",
+      txidFormatted: "0xa1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d",
       // The transaction's hash in URL-base64 encoding.
       txid: "oQddtV1BbTyhmfVbYITiEVuTReFsXPMC_IDp1fv11I0",
-      // The vOut/txindex of the specific transaction ouput.
-      txindex: "0"
     }),
     ...
 })
@@ -157,33 +141,179 @@ renJS.gateway({
 
 </details>
 
-The available output payloads are:
+<details><summary>Contract</summary>
 
-<details><summary>Address</summary>
-
-<TypeDoc name="Ethereum.Address">ethereum.Address</TypeDoc> allows you to specify
-the Ethereum address for receiving the released BTC.
-
-<br />
-<br />
+<TypeDoc name="Ethereum.Contract">ethereum.Contract</TypeDoc> allows you to specify
+a call to a contract as the input transaction. The contract call should make a call
+to `burn` or `lock` on a Ren Gateway contract.
 
 ```tsx
 renJS.gateway({
     asset: "BTC",
-    from: ethereum.Address("miMi2VET41YV1j6SDNTeZoPBbmH8B4nEx6"),
+    from: ethereum.Contract({
+      to: "0x1234",
+      method: "testBurnFunction",
+      withRenParams: false,
+      params: {
+        {
+            name: "message",
+            type: "string",
+            value: "Hello world.",
+        },
+      },
+    }),
     ...
+})
+```
+
+`withRenParams` should be false for inputs - see the output Contract payload for details.
+
+</details>
+
+The available output payloads are:
+
+<details><summary>Account</summary>
+
+<TypeDoc name="Ethereum.Account">ethereum.Account</TypeDoc> allows you to specify
+the user's account as the recipient of the minted or released funds.
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    ...
+    to: ethereum.Account(),
+})
+```
+
+Optional parameters:
+
+-   `account` - specify the account that the user should have connected when they submit.
+-   `anyoneCanSubmit` - by default, only the specified account can submit the output transaction. Set `anyoneCanSubmit` to `true` to allow anyone to submit the transaction for the user.
+
+</details>
+
+<details><summary>Address</summary>
+
+<TypeDoc name="Ethereum.Address">ethereum.Address</TypeDoc> allows you to specify
+an Ethereum address for receiving the minted/released funds.
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    ...
+    to: ethereum.Address("0x1234..."),
 })
 ```
 
 </details>
 
+<details><summary>Contract</summary>
+
+<TypeDoc name="Ethereum.Contract">ethereum.Contract</TypeDoc> allows you to specify
+a call to a contract as the output transaction. The contract call should make a call
+to `mint` or `release` on a Ren Gateway contract.
+
+```tsx
+renJS.gateway({
+    asset: "BTC",
+    from: ethereum.Contract({
+      to: "0x1234...",
+      method: "testMintFunction",
+      withRenParams: true,
+      params: {
+        {
+            name: "message",
+            type: "string",
+            value: "Hello world.",
+        },
+      },
+    }),
+    ...
+})
+```
+
+`withRenParams` should be set to true if the contract function expected the Ren params `amount`, `nHash` and `signature` as its last three parameters.
+
+It adds the following three parameters to the contract call:
+
+<details><summary>Ren Params</summary>
+
+```tsx
+{
+    name: "amount",
+    type: "uint256",
+    value: EVMParam.EVM_AMOUNT,
+    notInPayload: true,
+    renParam: true,
+},
+{
+    name: "nHash",
+    type: "bytes32",
+    value: EVMParam.EVM_NHASH,
+    notInPayload: true,
+    renParam: true,
+},
+{
+    name: "signature",
+    type: "bytes",
+    value: EVMParam.EVM_SIGNATURE,
+    notInPayload: true,
+    renParam: true,
+},
+```
+
+See [EVMParam](#evmparam) below.
+
+</details>
+
+</details>
+
+### EVMParam
+
+When specifying a `Contract` payload, you may provide a `EVMParam` instead of a value for parameters. These will get replaced by the EVMParam's associated logic once available.
+
+<details><summary>EVMParam</summary>
+
+<Enumerate title={"EMVParam"}>
+    <p><TypeDoc name="EVMParam.EVM_INPUT_TYPE">EVM_INPUT_TYPE</TypeDoc> - whether the input is a "lock" or a "burn"</p>
+    <p><TypeDoc name="EVMParam.EVM_OUTPUT_TYPE">EVM_OUTPUT_TYPE</TypeDoc> - whether the output is a "mint" or a "release"</p>
+    <p><TypeDoc name="EVMParam.EVM_TRANSACTION_TYPE">EVM_TRANSACTION_TYPE</TypeDoc> - whether the transaction is a "setup", "mint", "burn", "lock" or "release</p>
+    <p><TypeDoc name="EVMParam.EVM_TOKEN_ADDRESS">EVM_TOKEN_ADDRESS</TypeDoc> - the address of the token being transferred - either the ren-asset or the lock-asset</p>
+    <p><TypeDoc name="EVMParam.EVM_TOKEN_DECIMALS">EVM_TOKEN_DECIMALS</TypeDoc> - the decimals of the token</p>
+    <p><TypeDoc name="EVMParam.EVM_GATEWAY_IS_DEPOSIT_ASSET">EVM_GATEWAY_IS_DEPOSIT_ASSET</TypeDoc> - whether the funds need to be transferred to a gateway address using TransferWithLog</p>
+    <p><TypeDoc name="EVMParam.EVM_GATEWAY_DEPOSIT_ADDRESS">EVM_GATEWAY_DEPOSIT_ADDRESS</TypeDoc> - the gateway address for native assets (e.g. ETH)</p>
+    <p><TypeDoc name="EVMParam.EVM_TRANSFER_WITH_LOG_CONTRACT">EVM_TRANSFER_WITH_LOG_CONTRACT</TypeDoc> - the address of the TransferWithLog contract</p>
+    <p><TypeDoc name="EVMParam.EVM_ACCOUNT">EVM_ACCOUNT</TypeDoc> - the connected account</p>
+    <p><TypeDoc name="EVMParam.EVM_ACCOUNT_IS_CONTRACT">EVM_ACCOUNT_IS_CONTRACT</TypeDoc> - whether the account has code deployed to it</p>
+    <p><TypeDoc name="EVMParam.EVM_GATEWAY">EVM_GATEWAY</TypeDoc> - the address of the relevant gateway</p>
+    <p><TypeDoc name="EVMParam.EVM_ASSET">EVM_ASSET</TypeDoc> - the asset being transacted</p>
+    <p><TypeDoc name="EVMParam.EVM_AMOUNT">EVM_AMOUNT</TypeDoc> - the amount signed by RenVM (mints and releases)</p>
+    <p><TypeDoc name="EVMParam.EVM_NHASH">EVM_NHASH</TypeDoc> - the RenVM transaction's nHash</p>
+    <p><TypeDoc name="EVMParam.EVM_PHASH">EVM_PHASH</TypeDoc> - the RenVM transaction's pHash</p>
+    <p><TypeDoc name="EVMParam.EVM_SIGNATURE">EVM_SIGNATURE</TypeDoc> - the signature generated by RenVM (mints and releases)</p>
+    <p><TypeDoc name="EVMParam.EVM_SIGNATURE_R">EVM_SIGNATURE_R</TypeDoc> - the `r` component of the signature</p>
+    <p><TypeDoc name="EVMParam.EVM_SIGNATURE_S">EVM_SIGNATURE_S</TypeDoc> - the `s` component of the signature</p>
+    <p><TypeDoc name="EVMParam.EVM_SIGNATURE_V">EVM_SIGNATURE_V</TypeDoc> - the `v` component of the signature</p>
+    <p><TypeDoc name="EVMParam.EVM_TO_CHAIN">EVM_TO_CHAIN</TypeDoc> - the target chain</p>
+    <p><TypeDoc name="EVMParam.EVM_TO_ADDRESS">EVM_TO_ADDRESS</TypeDoc> - the target recipient</p>
+    <p><TypeDoc name="EVMParam.EVM_TO_ADDRESS_BYTES">EVM_TO_ADDRESS_BYTES</TypeDoc> - the target recipient, decoded into bytes</p>
+    <p><TypeDoc name="EVMParam.EVM_TO_PAYLOAD">EVM_TO_PAYLOAD</TypeDoc> - the target paylaod</p>
+
+</Enumerate>
+
+</details>
+
+### Things to note
+
+-   Locking ERC20s requires an approval transaction before calling `gateway.in`. See [Setup Transactions](../setupTxs).
+
 ### Other chains
 
 A list of other chains that implement this same interface are:
 
--   <TypeDoc name="EthereumCash" />
--   <TypeDoc name="Zcash" />
--   <TypeDoc name="Dogecoin" />
--   <TypeDoc name="DigiByte" />
--   <TypeDoc name="Terra" />
--   <TypeDoc name="Filecoin" />
+-   <TypeDoc name="BinanceSmartChain" />
+-   <TypeDoc name="Polygon" />
+-   <TypeDoc name="Fantom" />
+-   <TypeDoc name="Arbitrum" />
+-   <TypeDoc name="Avalanche" />
+-   <TypeDoc name="Goerli" /> (testnet only)

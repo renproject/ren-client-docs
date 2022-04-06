@@ -1,0 +1,38 @@
+---
+title: Setup Transactions
+---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+
+<DocTag type={DocType.Reference} />
+
+Some chains require additional transactions to be submitted besides the usual lock, mint, burn or release transactions. Examples inlude "approve" transactions for ERC20s on Ethereum, or creating associated token accounts on Solana.
+
+If required, these transactions will be available in `gateway.inSetup` on gateways and on `gatewayTransaction.outSetup` for Gateways and GatewayTransactions.
+
+`inSetup` and `outSetup` are objects with the field names containing a simple description, and the value being a TxSubmitter or TxWater.
+
+### Example of handling setup transactions
+
+`inSetup`:
+
+```tsx
+// Before calling gateway.in.submit()`
+for (const setupKey of Object.keys(gateway.inSetup)) {
+    const setup = gateway.inSetup[setupKey];
+    await setup.submit();
+    await setup.wait();
+}
+```
+
+`inSetup`:
+
+```tsx
+// Before calling `tx.out.submit()`
+for (const setupKey of Object.keys(tx.outSetup)) {
+    const setup = tx.outSetup[setupKey];
+    await setup.submit();
+    await setup.wait();
+}
+```

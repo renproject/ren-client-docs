@@ -28,6 +28,7 @@ module.exports = {
                     items: [
                         "v3/reference/classes",
                         "v3/reference/fees",
+                        "v3/reference/setupTxs",
                         {
                             type: "category",
                             label: "Chains",
