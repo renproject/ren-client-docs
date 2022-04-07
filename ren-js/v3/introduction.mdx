@@ -5,14 +5,15 @@ title: Introduction
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import { DocTag, DocType } from "/components/DocTag";
+import { TypeDoc } from "/components/TypeDoc";
 
 <DocTag type={DocType.Explanation} />
 
 ### Introduction
 
-**RenVM** is an open protocol for connecting together cryptocurrencies and decentralized apps across different blockchains.
+**RenVM** is an open protocol for connecting cryptocurrencies and decentralized apps across different blockchains.
 
-**RenJS** is the official JavaScript and TypeScript library for integrating with RenVM, allowing developers to bridge cryptocurrencies between chains and build cross-chain applications.
+**RenJS** is the official JavaScript/TypeScript library for integrating with RenVM, allowing developers to build build cross-chain applications.
 
 :::note Example
 
@@ -41,7 +42,7 @@ npm install --save @renproject/ren@next @renproject/chains@next
   </TabItem>
 </Tabs>
 
-You can now import the RenJS library, as well the class for each chain supported by RenVM, and initialize them with the desired network:
+You can now import RenJS and the handlers for each chain, and initialize them with the desired network. (See the [Ethereum](./reference/chains/ethereum) and [Solana](./reference/chains/solana) docs for how to initialize their providers and signers)
 
 ```ts
 // Import RenJS and chains.
@@ -54,7 +55,7 @@ const ethereum = new Ethereum({ network: "testnet", provider, signer });
 const solana = new Solana({ network: "testnet", provider, signer });
 
 // Initialize RenJS and pass in the initialized chains.
-const renJS = new RenJS("testnet").withChains([bitcoin, ethereum, solana]);
+const renJS = new RenJS("testnet").withChains(bitcoin, ethereum, solana);
 ```
 
 ### Gateways and gateway transactions
@@ -65,11 +66,11 @@ A gateway transaction is a collection of three sub-transactions on different cha
 
 1. The `in` input transaction will involve locking or burning funds on an origin chain.
 
-2. The `renVM` transaction is submitted to the RenVM.
+2. The `renVM` transaction is submitted to RenVM.
 
 3. The `out` output transaction will mint or release funds on the target chain.
 
-The `in` transaction will usually be submitted by the user, either as a deposit to an address or as a call to a smart contract. The `renVM` transaction will then result either in RenVM generating the `out` transaction, or generate a signature that can be submitted as part of the `out` transaction by the user or a third party.
+The `in` transaction will usually be submitted by the user, either as a deposit to an address or as a call to a smart contract. The `renVM` transaction will then result in RenVM either generating the `out` transaction, or returning a signature that can be submitted by the user as part of the `out` transaction.
 
 RenVM will wait for the `in` transaction to reach the required number of confirmations before the `renVM` transaction can be processed.
 
@@ -81,7 +82,7 @@ _As an example, moving BTC from Bitcoin to Ethereum will involve:_
 
 2. _The RenVM transaction which will generate a signature._
 
-3. _An Ethereum transaction by the user to submit the signature in order to **mint** renBTC._
+3. _An Ethereum transaction by the user to submit the signature and **mint** renBTC._
 
 _In order to return the BTC back to Bitcoin, the three transactions will be:_
 
@@ -116,7 +117,7 @@ const daiGateway = await renJS.gateway({
 
 Each chain has various ways of specifying where the assets should come from or where they should go - for example `bitcoin.GatewayAddress` and `bitcoin.Address`, `ethereum.Account` and `ethereum.Contract`, and so on. These are documented on the page for each chain.
 
-After initializing the gateway, the next step will usually be to either display a gateway address, or, for web3 chains, to request the user to submit the `in` transaction through their browser-connected wallet (e.g. MetaMask for Ethereum, or Phantom for Solana):
+After initializing the gateway, the next step will be to either display a gateway address, or, for web3 chains, to request the user to submit the `in` transaction through their browser-connected wallet (e.g. MetaMask for Ethereum, or Phantom for Solana):
 
 ```ts
 // Print the gateway address
@@ -132,13 +133,15 @@ console.log(`\
 daiGateway.in.submit();
 ```
 
+Note that some chains require additional setup transactions to be submitted before the input transaction can be completed - see [Setup Transactions](./reference/setup-transactions).
+
 :::tip
 
 ### Chain transactions
 
-Each of the `in`, `renVM` and `out` transactions are all instances of the `TxWaiter` or `TxSubmitter` interfaces, which follows the format of separating the submitting and the waiting for confirmations into two methods. When a transaction is generated outside of RenJS, for example a BTC deposit to a gateway address, the transaction will only have a `.wait()` method which will only return once the transaction has sufficient confirmations. When a transaction is being created through RenJS, it will also have a `.submit()` method which will create and submit the transaction.
+Each of the `in`, `renVM` and `out` transactions are all instances of the `TxWaiter` or `TxSubmitter` interfaces, which follows the format of separating the submitting and the waiting for confirmations into two methods. When a transaction is generated outside of RenJS (e.g. a BTC deposit to a gateway address), the transaction will only have a `.wait()` method which will only return once the transaction has sufficient confirmations. When a transaction is being created through RenJS, it will also have a `.submit()` method which will create and submit the transaction.
 
-These interfaces can be found here: [TxWaiter](TxWaiter) and [TxSubmitter](TxSubmitter).
+These interfaces can be found here: <TypeDoc name="TxWaiter" /> and <TypeDoc name="TxSubmitter" />
 
 :::
 
@@ -162,9 +165,3 @@ gateway.on("transaction", (tx) => {
     await tx.out.wait();
 });
 ```
-
-:::caution Note
-
-This example shows the basic code for handling a gateway transaction, but doesn't deal with any error handling or retrying.
-
-:::

@@ -4,10 +4,12 @@ title: Setup Transactions
 
 import { TypeDoc } from "/components/TypeDoc";
 import { DocTag, DocType } from "/components/DocTag";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 <DocTag type={DocType.Reference} />
 
-Some chains require additional transactions to be submitted besides the usual lock, mint, burn or release transactions. Examples inlude "approve" transactions for ERC20s on Ethereum, or creating associated token accounts on Solana.
+Some chains require additional transactions to be submitted besides the usual lock, mint, burn or release transactions. Examples include "approve" transactions for ERC20s on Ethereum, or creating associated token accounts on Solana.
 
 If required, these transactions will be available in `gateway.inSetup` on gateways and on `gatewayTransaction.outSetup` for Gateways and GatewayTransactions.
 
@@ -15,24 +17,68 @@ If required, these transactions will be available in `gateway.inSetup` on gatewa
 
 ### Example of handling setup transactions
 
-`inSetup`:
+#### inSetup:
+
+`inSetup` transactions should be submitted before `gateway.in`:
+
+<Tabs>
+  <TabItem value="JS">
 
 ```tsx
 // Before calling gateway.in.submit()`
-for (const setupKey of Object.keys(gateway.inSetup)) {
-    const setup = gateway.inSetup[setupKey];
-    await setup.submit();
-    await setup.wait();
+for (const setupTx of Object.values(gateway.inSetup)) {
+    await setupTx.submit?.();
+    await setupTx.wait();
 }
 ```
 
-`inSetup`:
+  </TabItem>
+  <TabItem value="React">
+
+For the RenJS v3 tutorial, add this to `CreateGateway.tsx` before `<ChainTx chainTx={gateway.in} />`:
 
 ```tsx
-// Before calling `tx.out.submit()`
-for (const setupKey of Object.keys(tx.outSetup)) {
-    const setup = tx.outSetup[setupKey];
-    await setup.submit();
-    await setup.wait();
+<>
+    {Object.keys(gateway.inSetup).map((setupKey) => {
+        <p key={setupKey}>
+            {setupKey}: <ChainTx chainTx={gateway.inSetup[setupKey]} />
+        </p>;
+    })}
+</>
+```
+
+  </TabItem>
+</Tabs>
+
+#### outSetup:
+
+`outSetup` transactions should be submitted before
+
+<Tabs>
+  <TabItem value="JS">
+
+```tsx
+// Before calling gatewayTx.out.submit()`
+for (const setupTx of Object.values(gatewayTx.outSetup)) {
+    await setupTx.submit?.();
+    await setupTx.wait();
 }
 ```
+
+  </TabItem>
+  <TabItem value="React">
+
+For the RenJS v3 tutorial, add this to `GatewayTx.tsx` before the `gatewayTx.out` section:
+
+```tsx
+<>
+    {Object.keys(gatewayTx.outSetup).map((setupKey) => {
+        <p key={setupKey}>
+            {setupKey}: <ChainTx chainTx={gatewayTx.outSetup[setupKey]} />
+        </p>;
+    })}
+</>
+```
+
+  </TabItem>
+</Tabs>

@@ -10,7 +10,7 @@ The rest of the tutorial will go through making a React front-end with RenJS tha
 
 ### Install dependencies
 
-Use create-react-app to set-up a basic React site:
+Use create-react-app to set-up a basic React site.
 
 ```shell
 yarn create react-app tutorial-ui --template typescript
@@ -27,12 +27,22 @@ yarn add async-button
 
 ### Craco config
 
-Webpack, which is used internally by Create React App and React Scripts, no longer provides polyfills for node.js modules. We use [Craco](https://github.com/gsoft-inc/craco) to re-enable this, because some of the dependencies imported by @renproject/chains require this.
+Webpack, which is used internally by Create React App and React Scripts, no longer provides polyfills for node.js modules. We use [Craco](https://github.com/gsoft-inc/craco) to re-enable this, because some of the dependencies imported by `@renproject/chains` require this.
 
 Create `craco.config.js`:
 
 ```js reference title="craco.config.js"
 https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/craco.config.js
+```
+
+And in `package.json` update `scripts` to be:
+
+```json
+"scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
+},
 ```
 
 ### Running site

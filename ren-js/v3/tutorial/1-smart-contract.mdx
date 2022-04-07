@@ -13,14 +13,14 @@ The contract will be very simple, allowing the user to mint tokens to the contra
 To get started, create a new Hardhat repository:
 
 ```shell
-mkdir contracts
-cd contracts
+mkdir tutorial-sol
+cd tutorial-sol
 yarn init --yes
 yarn add --dev hardhat
 yarn hardhat
 ```
 
-Select `Create an advanced sample project that uses TypeScript`, and then go through the various prompts. It will install some dependencies, which may take a few minutes.
+Select `Create an advanced sample project that uses TypeScript`, and then press Enter for the remaining prompts. It will install some dependencies, which may take a few minutes.
 
 Next, add Ren's contracts as a dependency:
 
@@ -123,19 +123,17 @@ Switch to the "Deploy & Run Transactions" tab and then:
 
 1. Select "Injected Web3" as the environment,
 2. Select "TutorialBridge" under the contract tab,
-3. Enter `0x5076a1F237531fa4dC8ad99bb68024aB6e1Ff701` into the `address.gatewayRegistry_` textinput, and
+3. Enter `0x5076a1F237531fa4dC8ad99bb68024aB6e1Ff701` (the testnet Gateway Registry address) into the `address.gatewayRegistry_` textinput, and
 4. Click deploy and confirm in MetaMask.
 
 :::info
 
-`0x5076a1F237531fa4dC8ad99bb68024aB6e1Ff701` is the current address of the GatewayRegistry contract on Kovan.
-
-You can find the address for other networks on the [Contract Deployments](/ren-client-docs/contracts/deployments) page.
+You can find the GatewayRegistry address for other chains and networks on the [Contract Deployments](/ren-client-docs/contracts/deployments) page.
 
 :::
 
 ![Remix - deploy](/img/remix-2.png)
 
 :::tip
-You can also use the TutorialBridge contract that we have deployed here: [0xd9145CCE52D386f254917e481eB44e9943F39138](https://kovan.etherscan.io/address/0xd9145CCE52D386f254917e481eB44e9943F39138).
+You can also use the TutorialBridge contract that we have deployed here: [0xcfbD9476BbcEAdebFd6964f4D447853309480DF2](https://kovan.etherscan.io/address/0xcfbD9476BbcEAdebFd6964f4D447853309480DF2).
 :::

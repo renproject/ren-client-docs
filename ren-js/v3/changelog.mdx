@@ -11,6 +11,7 @@ This is a list of changes between RenJS v2 and RenJS v3, to help integrators mig
 -   Chain handlers require a network parameter in the constructor, instead of reading it from the RenJS instance
 -   The `to` and `from` parameters for `renJS.gateway` are now plain JavaScript objects containing payload details, instead of chain handler instances.
 -   The field names in the `ethereum.Contract` parameter have been renamed - `to`, `method` and `params` instead of `sendTo`, `contractFn` and `contractParams`.
+-   Buffers have been replaced with URL-base64 strings (where serialization is required) or Uint8Arrays.
 
 :::note Why a new major version?
 

@@ -20,6 +20,12 @@ Replace the existing code in the App component with:
 https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L11-L25
 ```
 
+and update the imports:
+
+```tsx reference title=""
+https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L1-L8
+```
+
 Next, we want to store the list of all Gateway Transactions we've seen so far:
 
 ```tsx reference title=""
@@ -67,7 +73,9 @@ You will need testnet BTC and Kovan ETH, which can be found here:
 -   [Testnet BTC Faucet](https://testnet-faucet.mempool.co)
 -   [Kovan ETH Faucet](https://github.com/kovan-testnet/faucet)
 
-Note that the block times for testnet Bitcoin transactions vary a lot - for faster development, switch to a faster chain like Terra and LUNA - replace all references to `Bitcoin` with `Terra`, `bitcoin` with `terra`, and `BTC` with `LUNA`.
+Note that the block times for testnet Bitcoin transactions vary a lot - for faster development, switch to a faster chain like Terra and LUNA - replace all references to `Bitcoin` with `Terra`, `bitcoin` with `terra`, and `BTC` with `LUNA`. You can send LUNA to the gateway address using <https://faucet.terra.money/>.
+
+The Kovan RPC endpoint is occasionally unavailable - you can replace all references to `Ethereum` with `Goerli` to use the [Görli](https://goerli.net/) Ethereum testnet instead.
 
 :::caution
 
@@ -75,9 +83,9 @@ This tutorial does not cover all the required information to write a production 
 
 Continue reading through the docs to learn about:
 
+-   [Setup transactions](../reference/setupTxs)
 -   Persistent storage and resuming gateways
 -   Gateway expiry
--   Setup transactions
 
 :::
 

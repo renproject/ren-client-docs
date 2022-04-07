@@ -52,12 +52,12 @@ The other required callback is `createWithdrawGateway` - this is included in the
 
 Some things to note are that you'll need to set `withRenParams` to false, since `withdraw` doesn't expect the `amount`, `nHash` and `signature` parameters that `deposit` does.
 
-The completed version below makes use of `EVMParam.EVM_TO_ADDRESS` which you can read more about in the [Ethereum docs](`../reference/chains/ethereum.mdx`).
+The completed version below makes use of `EVMParam.EVM_TO_ADDRESS` which you can read more about in the [Ethereum docs](../reference/chains/ethereum#evmparam), but this isn't required.
 
 ```tsx
 const createWithdrawGateway = useCallback(async () => {
     // Implement `withdraw` gateway.
-});
+}, []);
 ```
 
 ---
