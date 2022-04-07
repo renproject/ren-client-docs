@@ -8,6 +8,7 @@ module.exports = {
             items: [
                 "v3/quick-start",
                 "v3/introduction",
+                "v3/changelog",
                 {
                     type: "category",
                     label: "Tutorial",
@@ -50,7 +51,6 @@ module.exports = {
             label: "RenJS v2",
             collapsed: true,
             items: [
-                "v2/welcome",
                 "v2/quick-start",
                 "v2/ren-js-v3",
                 {

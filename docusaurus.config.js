@@ -106,10 +106,10 @@ module.exports = {
                         },
                     ],
                 },
-                {
-                    title: "More",
-                    items: [],
-                },
+                // {
+                //     title: "More",
+                //     items: [],
+                // },
             ],
             // copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
         },

@@ -1,0 +1,21 @@
+---
+title: Changelog
+---
+
+This is a list of changes between RenJS v2 and RenJS v3, to help integrators migrate to the latest version. We recommend reading the RenJS v3 docs first. This list contains less obvious changes - compare [RenJS v3 Quick Start](./quick-start) and [RenJS v2 Quick Start](../quick-start) for major interface changes.
+
+-   `@renproject/interfaces` has been merged into `@renproject/utils`
+-   `@renproject/rpc` has been merged into `@renproject/provider`
+-   Gateways now emit a `"transaction"` event instead of a `"deposit"` event
+-   Chain handlers (e.g. the `Bitcoin` and `Ethereum` classes) should be linked to RenJS using `.withChains`
+-   Chain handlers require a network parameter in the constructor, instead of reading it from the RenJS instance
+-   The `to` and `from` parameters for `renJS.gateway` are now plain JavaScript objects containing payload details, instead of chain handler instances.
+-   The field names in the `ethereum.Contract` parameter have been renamed - `to`, `method` and `params` instead of `sendTo`, `contractFn` and `contractParams`.
+
+:::note Why a new major version?
+
+As RenVM has evolved to support more features, RenJS has been adapted to provide developers with an easier and more natural framework to integrate with RenVM. RenJS v3 is the latest iteration of the library, with a similar and yet more flexible interface compared to previous versions. This current interface is now considered to be stable, and any future features and improvements will be built on top of the current interface with the goal of minimizing any breaking interface changes.
+
+RenJS v2 will continue to receive any required security updates until integrators have had a chance to migrate to RenJS v3.
+
+:::

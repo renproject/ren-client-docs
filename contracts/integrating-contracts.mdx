@@ -9,7 +9,7 @@ For now, integrating with Ren contracts is only documented for EVM chains and So
 
 :::
 
-The [RenJS Tutorial](/ren-js/tutorial/overview) goes through writing a smart contract that can mint Ren-tokens.
+The [RenJS Tutorial](/ren-js/v3/tutorial/overview) goes through writing a smart contract that can mint Ren-tokens.
 
 There is also the [Ren Solidity Template](https://github.com/renproject/ren-solidity-template) repository includes local tests that test a mint function using RenJS and a mock RenVM provider.
 
@@ -19,8 +19,8 @@ There is also the [Ren Solidity Template](https://github.com/renproject/ren-soli
 
 The Ren contracts can be imported with the following packages:
 
-- [`@renproject/sol`](https://www.npmjs.com/package/@renproject/sol) - for the DarknodeRegistry and DarknodePayment contracts
-- [`@renproject/gateway-sol`](https://www.npmjs.com/package/@renproject/gateway-sol) - for the GatewayRegistry, Gateway and RenERC20 contracts
+-   [`@renproject/sol`](https://www.npmjs.com/package/@renproject/sol) - for the DarknodeRegistry and DarknodePayment contracts
+-   [`@renproject/gateway-sol`](https://www.npmjs.com/package/@renproject/gateway-sol) - for the GatewayRegistry, Gateway and RenERC20 contracts
 
 Note that they currently require an older Solidity compiler version - `0.5.17`. You can configure Hardhat to use multiple Solidity versions by adding the following line to the `networks` field in `hardhat.config.ts`:
 
