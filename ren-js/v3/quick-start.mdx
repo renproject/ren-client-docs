@@ -67,7 +67,7 @@ const main = async () => {
     // Create gateway - mints and burns are both initialized with `gateway`.
     // Gateway parameters are serializable.
     const gateway = await renJS.gateway({
-        asset: ethereum.assets.DAI, // "DAI"
+        asset: bitcoin.assets.BTC, // "BTC"
         from: bitcoin.GatewayAddress(),
         to: ethereum.Account(),
     });

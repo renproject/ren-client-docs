@@ -14,7 +14,7 @@ Firstly, we'll want to initialize RenJS and the chains that we'll be using.
 
 We'll initialize the Ethereum class with a public JSON-RPC endpoint, but we won't pass it a signer yet, since we do that in CreateGateway.tsx.
 
-Replace the existing code in the App component with:
+Replace the existing code in the App component with the following (`useState`s are used for compactness - replace with `useRef`s if required):
 
 ```tsx reference title=""
 https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-ui/src/App.tsx#L11-L25
