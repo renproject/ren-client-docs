@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkren_client_docs=self.webpackChunkren_client_docs||[]).push([[747],{76298:function(e){e.exports=JSON.parse('{"permalink":"/ren-client-docs/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"previousPage":null,"nextPage":null,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

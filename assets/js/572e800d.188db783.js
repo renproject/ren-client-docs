@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkren_client_docs=self.webpackChunkren_client_docs||[]).push([[7902],{38915:function(t){t.exports=JSON.parse('{"allTagsPath":"/ren-client-docs/blog/tags","slug":"/ren-client-docs/blog/tags/tutorial","name":"tutorial","count":1,"permalink":"/ren-client-docs/blog/tags/tutorial"}')}}]);

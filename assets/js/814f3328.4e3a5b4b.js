@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[2535],{45641:function(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Build your first Dapp with RenJS","permalink":"/ren-client-docs/blog/build-a-dapp-with-renjs"}]}')}}]);

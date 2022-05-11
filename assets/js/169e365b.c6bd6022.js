@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkren_client_docs=self.webpackChunkren_client_docs||[]).push([[9536],{6424:function(e){e.exports=JSON.parse('{"allTagsPath":"/ren-client-docs/blog/tags","slug":"/ren-client-docs/blog/tags/ren-vm","name":"RenVM","count":1,"permalink":"/ren-client-docs/blog/tags/ren-vm"}')}}]);
