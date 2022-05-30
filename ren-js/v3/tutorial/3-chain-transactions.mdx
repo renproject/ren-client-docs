@@ -2,6 +2,7 @@
 title: 3. Chain Transactions
 ---
 
+import { TypeDoc } from "/components/TypeDoc";
 import { DocTag, DocType } from "/components/DocTag";
 
 <DocTag type={DocType.Tutorial} />
@@ -10,9 +11,7 @@ As described in the [Introducton](../introduction), the RenJS hierarchy looks li
 
 <img src="/ren-client-docs/img/tutorial-hierarchy.png" width="500" />
 
-Starting at the bottom, we'll write a button component `ChainTx` for handling chain transactions.
-
-Chain transactions in RenJS implement wither the `TxWaiter` or the `TxSubmitter` interfacee
+Starting at the bottom, we'll write a button component `ChainTx` for handling chain transactions. Chain transactions in RenJS implement either the <TypeDoc name="TxWaiter" /> or the <TypeDoc name="TxSubmitter" /> interface.
 
 The interface for the ChainTx component will look like this:
 
