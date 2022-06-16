@@ -12,26 +12,47 @@ import { DocTag, DocType } from "/components/DocTag";
 The Solana class expects:
 
 1. a network - either a Ren network ("mainnet", "testnet" or "devnet"), or a `SolNetworkConfig`.
-2. a provider - a `Connection` instance from the [@solana/web3.js](https://npmjs.org/package/@solana/web3.js).
-3. an optinal signer - a `Wallet` instance from the [@project-serum/sol-wallet-adapter](https://npmjs.org/package/@project-serum/sol-wallet-adapter) library. If no signer is provided, it should be provided later with `.withSigner()`
+2. an optional provider - a `Connection` instance from the [@solana/web3.js](https://npmjs.org/package/@solana/web3.js). If no provider is given, a public endpoint for the network will be used.
+3. an optional signer - a `Wallet` instance from the [@project-serum/sol-wallet-adapter](https://npmjs.org/package/@project-serum/sol-wallet-adapter) library. If no signer is provided, it should be provided later with `.withSigner()`.
 
 :::caution Testnet
 
-RenVM Testnet points to Solana Devnet, not Solana Testnet.
+RenVM Testnet points to Solana Devnet, not Solana Testnet. For information on Solana's networks, see [Solana Clusters](https://docs.solana.com/clusters).
 
 :::
 
-An example of connecting using a private key:
+An example of connecting to a Solana Web3 Wallet (e.g. Phantom):
 
 ```ts
+import { Solana } from "@renproject/chains-solana";
+import Wallet from "@project-serum/sol-wallet-adapter";
+
 new Solana({
     network: "testnet",
-    provider: new Connection("https://api.devnet.solana.com"),
     signer: new Wallet(window.solana),
 }
 ```
 
-You can import `renMainnet` and `renTestnet` from `@renproject/chains-solana/build/main/network` to access `renMainnet.endpoint` or `renMainnet.endpoint` instead of hard-coding the endpoint passed to `Connection`.
+An example of using a private key (see also `signerFromMnemonic` for using a mnemonic):
+
+```ts
+import { Solana } from "@renproject/chains-solana";
+import { signerFromPrivateKey } from "@renproject/chains-solana/build/main/utils";
+import Wallet from "@project-serum/sol-wallet-adapter";
+import { Connection } from "@solana/web3.js";
+
+const privateKey = Buffer.from(
+    // 64-bit private key
+    "a842...",
+    "hex",
+);
+
+new Solana({
+    network: "testnet",
+    provider: new Connection("https://api.devnet.solana.com"), // optional
+    signer: signerFromPrivateKey(privateKey),
+}
+```
 
 #### Payloads
 
@@ -115,3 +136,31 @@ renJS.gateway({
 ```
 
 </details>
+
+#### Exporting Transaction
+
+If you wish to submit a gateway's Solana transaction manually rather than calling .submit(), you can call .export() instead, which returns the transaction details serialized and base58-encoded:
+
+```ts
+import {
+    Connection,
+    Message,
+    sendAndConfirmRawTransaction,
+    Transaction,
+} from "@solana/web3.js";
+
+const provider = new Connection("https://api.devnet.solana.com");
+const signer = new Wallet(window.solana);
+
+// Export Solana transaction.
+const exportedTransaction = await tx.out.export();
+
+// Complete the transaction.
+const message = Message.from(exportedTransaction);
+const tx = Transaction.populate(message);
+const signed = await signer.signTransaction(tx);
+const confirmedSignature = await sendAndConfirmRawTransaction(
+    provider,
+    signed.serialize()
+);
+```
