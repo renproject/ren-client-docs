@@ -18,8 +18,28 @@ To build:
 yarn build
 ```
 
+To deploy:
+
+
+```shell
+yarn deploy
+```
+
 <br />
 <br />
+
+
+## Adding deployments for a new chain or asset
+
+1. Update the `gateway-sol` submodule:
+
+```shell
+git submodule update --init --recursive
+```
+
+2. Add any new chains to the table in deployments.mdx and add its explorers in `RenderGatewaySolConfig.tsx`. For new assets, add the icons to contracts/icons and then list the asset in `RenderGatewaySolConfig.tsx`
+
+
 
 # Updating auto-generated docs
 
