@@ -1,85 +1,63 @@
 import React from "react";
 
-import { gatewaySolConfig } from "../contracts/addresses/gatewaySol";
-import IconRenArbETH from "../contracts/icons/renArbETH.svg";
-import IconRenAVAX from "../contracts/icons/renAVAX.svg";
-import IconRenBADGER from "../contracts/icons/renBADGER.svg";
-import IconRenBCH from "../contracts/icons/renBCH.svg";
-import IconRenBNB from "../contracts/icons/renBNB.svg";
-import IconRenBTC from "../contracts/icons/renBTC.svg";
-import IconRenBUSD from "../contracts/icons/renBUSD.svg";
-import IconRenCOMP from "../contracts/icons/renCOMP.svg";
-import IconRenCRV from "../contracts/icons/renCRV.svg";
-import IconRenDAI from "../contracts/icons/renDAI.svg";
-import IconRenDGB from "../contracts/icons/renDGB.svg";
-import IconRenDOGE from "../contracts/icons/renDOGE.svg";
-import IconRenETH from "../contracts/icons/renETH.svg";
-import IconRenEURT from "../contracts/icons/renEURT.svg";
-import IconRenFIL from "../contracts/icons/renFIL.svg";
-import IconRenFTM from "../contracts/icons/renFTM.svg";
-import IconRenFTT from "../contracts/icons/renFTT.svg";
-import IconRenKNC from "../contracts/icons/renKNC.svg";
-import IconRenLINK from "../contracts/icons/renLINK.svg";
-import IconRenLUNA from "../contracts/icons/renLUNA.svg";
-import IconRenMATIC from "../contracts/icons/renMATIC.svg";
-import IconRenMIM from "../contracts/icons/renMIM.svg";
-import IconRenREN from "../contracts/icons/renREN.svg";
-import IconRenROOK from "../contracts/icons/renROOK.svg";
-import IconRenSUSHI from "../contracts/icons/renSUSHI.svg";
-import IconRenUNI from "../contracts/icons/renUNI.svg";
-import IconRenUSDC from "../contracts/icons/renUSDC.svg";
-import IconRenUSDT from "../contracts/icons/renUSDT.svg";
-import IconRenZEC from "../contracts/icons/renZEC.svg";
+import SolanaConfig from "../contracts/addresses/solana.json";
 import { ContractItem } from "./RenderDarknodeSolConfig";
 
-const icons = {
-    renBADGER: IconRenBADGER,
-    renBCH: IconRenBCH,
-    renBNB: IconRenBNB,
-    renBTC: IconRenBTC,
-    renBUSD: IconRenBUSD,
-    renCOMP: IconRenCOMP,
-    renCRV: IconRenCRV,
-    renDAI: IconRenDAI,
-    renDGB: IconRenDGB,
-    renDOGE: IconRenDOGE,
-    renETH: IconRenETH,
-    renEURT: IconRenEURT,
-    renFIL: IconRenFIL,
-    renFTM: IconRenFTM,
-    renFTT: IconRenFTT,
-    renKNC: IconRenKNC,
-    renLINK: IconRenLINK,
-    renLUNA: IconRenLUNA,
-    renMATIC: IconRenMATIC,
-    renMIM: IconRenMIM,
-    renREN: IconRenREN,
-    renROOK: IconRenROOK,
-    renSUSHI: IconRenSUSHI,
-    renUNI: IconRenUNI,
-    renUSDC: IconRenUSDC,
-    renUSDT: IconRenUSDT,
-    renZEC: IconRenZEC,
-    renAVAX: IconRenAVAX,
-    renArbETH: IconRenArbETH,
-};
+const NULL20 = "0x0000000000000000000000000000000000000000";
+
+enum Assets {
+    renBTC = "renBTC",
+    renBCH = "renBCH",
+    renZEC = "renZEC",
+    renDGB = "renDGB",
+    renDOGE = "renDOGE",
+    renFIL = "renFIL",
+    renLUNA = "renLUNA",
+
+    // H2h - not all of the below have been deployed.
+    renArbETH = "renArbETH",
+    renAVAX = "renAVAX",
+    renBADGER = "renBADGER",
+    renBNB = "renBNB",
+    renBUSD = "renBUSD",
+    renCOMP = "renCOMP",
+    renCRV = "renCRV",
+    renDAI = "renDAI",
+    renETH = "renETH",
+    renEURT = "renEURT",
+    renFTM = "renFTM",
+    renFTT = "renFTT",
+    renGLMR = "renGLMR",
+    renibBTC = "renibBTC",
+    renKAVA = "renKAVA",
+    renKNC = "renKNC",
+    renLINK = "renLINK",
+    renMATIC = "renMATIC",
+    renMIM = "renMIM",
+    renoETH = "renoETH",
+    renREN = "renREN",
+    renROOK = "renROOK",
+    renSOL = "renSOL",
+    renSUSHI = "renSUSHI",
+    renUNI = "renUNI",
+    renUSDC = "renUSDC",
+    renUSDT = "renUSDT",
+    renUST = "renUST",
+    renWBTC = "renWBTC",
+}
 
 export const AssetItem = ({
     symbol,
     link,
     erc20,
     gateway,
-    standard,
-    decimals,
-    icon: Icon,
+    icon,
 }: {
     symbol: string;
     link: string;
     erc20: string;
     gateway: string;
-    decimals: number;
-    standard?: string;
-    icon?: React.SVGFactory;
+    icon?: string;
 }) => (
     <li style={{ padding: 0, margin: 0 }}>
         <div
@@ -100,23 +78,23 @@ export const AssetItem = ({
                     marginRight: "10px",
                 }}
             >
-                {Icon ? (
-                    <Icon style={{ height: "50px", width: "50px" }} />
+                {icon ? (
+                    <img src={icon} style={{ height: "50px", width: "50px" }} />
                 ) : null}
             </div>
             <div>
                 <b>
                     {symbol}
-                    {decimals !== undefined ? (
+                    {/* {decimals !== undefined ? (
                         <span style={{ opacity: 0.8, fontWeight: 300 }}>
                             {" "}
                             ({decimals} decimals)
                         </span>
-                    ) : null}
+                    ) : null} */}
                 </b>
                 <ul style={{ listStyleType: "none", padding: 0 }}>
                     <li>
-                        {standard ? standard : <>ERC20</>}:{" "}
+                        Token:{" "}
                         <a
                             target="_blank"
                             rel="noopener noreferrer"
@@ -152,15 +130,15 @@ const links = {
     },
     Fantom: {
         Mainnet: "https://ftmscan.com/address/",
-        Testnet: "https://testnet.ftmscan.com/address",
+        Testnet: "https://testnet.ftmscan.com/address/",
     },
     Polygon: {
         Mainnet: "https://polygonscan.com/address/",
         Testnet: "https://mumbai.polygonscan.com/address/",
     },
     Avalanche: {
-        Mainnet: "https://cchain.explorer.avax.network/address/",
-        Testnet: "https://cchain.explorer.avax-test.network/address",
+        Mainnet: "https://snowtrace.io/address/",
+        Testnet: "https://snowtrace.io/address/",
     },
     Arbitrum: {
         Mainnet: "https://arbiscan.io/address/",
@@ -172,6 +150,60 @@ const links = {
     },
 };
 
+export const RenderSolanaConfig = ({
+    network,
+    chain,
+}: {
+    chain: string;
+    network: string;
+}) => {
+    const link = links[chain][network];
+
+    const deploymentName = `${chain[0].toLowerCase()}${chain.slice(
+        1
+    )}${network}` as "solanaMainnet";
+
+    const config = SolanaConfig[deploymentName];
+    if (!config) {
+        return (
+            <div style={{ marginTop: "10px", color: "#bf616a" }}>
+                Addresses not available for {chain} {network}
+            </div>
+        );
+    }
+
+    return (
+        <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
+            {config.GatewayRegistry ? (
+                <ContractItem
+                    name="GatewayRegistry"
+                    link={link}
+                    address={config.GatewayRegistry}
+                />
+            ) : null}
+            {config.assets.map((asset) => {
+                let icon;
+
+                try {
+                    icon =
+                        require(`../contracts/icons/ren${asset.symbol}.svg`)?.default;
+                } catch (error) {
+                    // Ignore.
+                }
+                return (
+                    <AssetItem
+                        link={link}
+                        symbol={`${config.config.tokenPrefix}${asset.symbol}`}
+                        erc20={asset.token}
+                        gateway={asset.gateway}
+                        icon={icon}
+                    />
+                );
+            })}
+        </ul>
+    );
+};
+
 export const RenderGatewaySolConfig = ({
     network,
     chain,
@@ -179,47 +211,59 @@ export const RenderGatewaySolConfig = ({
     chain: string;
     network: string;
 }) => {
-    // The config keys are in an un-ideal format because they are copied directly
-    // over from tge gateway-sol repository.
-    const config: typeof gatewaySolConfig.ethereumMainnet =
-        gatewaySolConfig[chain.toLowerCase() + network];
-
-    if (!config) {
-        return (
-            <div>
-                No configuration found for {chain} on {network}
-            </div>
-        );
-    }
-
     const link = links[chain][network];
+
+    const deploymentName = `${chain[0].toLowerCase()}${chain.slice(
+        1
+    )}${network}`;
+
+    const gatewayRegistry =
+        require(`../submodules/gateway-sol/deployments/${deploymentName}/GatewayRegistryProxy.json`).address;
+    const basicBridge =
+        require(`../submodules/gateway-sol/deployments/${deploymentName}/BasicBridge.json`).address;
 
     return (
         <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
-            <ContractItem
-                name="GatewayRegistry"
-                link={link}
-                address={config.GatewayRegistry}
-            />
-            {config.BasicBridge ? (
+            {gatewayRegistry ? (
+                <ContractItem
+                    name="GatewayRegistry"
+                    link={link}
+                    address={gatewayRegistry}
+                />
+            ) : null}
+            {basicBridge ? (
                 <ContractItem
                     name="BasicBridge"
                     link={link}
-                    address={config.BasicBridge}
+                    address={basicBridge}
                 />
             ) : null}
-            {config.assets.map((asset) => {
-                return (
+            {Object.keys(Assets).map((asset) => {
+                let mintGateway;
+                let mintAsset;
+                let icon;
+
+                try {
+                    mintGateway =
+                        require(`../submodules/gateway-sol/deployments/${deploymentName}/${asset}_Proxy.json`).address;
+                    mintAsset =
+                        require(`../submodules/gateway-sol/deployments/${deploymentName}/${asset}_MintGateway_Proxy.json`).address;
+                    icon = require(`../contracts/icons/${asset}.svg`)?.default;
+                } catch (error) {
+                    // Ignore.
+                }
+
+                return (mintGateway && mintGateway !== NULL20) ||
+                    (mintAsset && mintAsset !== NULL20) ? (
                     <AssetItem
                         link={link}
-                        symbol={`${config.config.tokenPrefix}${asset.symbol}`}
-                        erc20={asset.token}
-                        gateway={asset.gateway}
-                        decimals={asset.decimals}
-                        standard={config.config.standard}
-                        icon={icons[`ren${asset.symbol}`]}
+                        symbol={asset}
+                        erc20={mintGateway}
+                        gateway={mintAsset}
+                        // decimals={parseInt(asset.decimals.toString())}
+                        icon={icon}
                     />
-                );
+                ) : null;
             })}
         </ul>
     );
