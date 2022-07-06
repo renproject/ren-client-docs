@@ -1,0 +1,3 @@
+[submodule "submodules/gateway-sol"]
+	path = submodules/gateway-sol
+	url = https://github.com/renproject/gateway-sol.git

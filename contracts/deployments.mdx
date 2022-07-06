@@ -7,7 +7,10 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import { DocTag, DocType } from "/components/DocTag";
 import { RenderDarknodeSolConfig } from "../components/RenderDarknodeSolConfig";
-import { RenderGatewaySolConfig } from "../components/RenderGatewaySolConfig";
+import {
+    RenderSolanaConfig,
+    RenderGatewaySolConfig,
+} from "../components/RenderGatewaySolConfig";
 
 <DocTag type={DocType.Reference} />
 
@@ -18,24 +21,30 @@ The darknode contracts, deployed to Ethereum, are responsible for managing darkn
 Networks in (brackets) are testnet networks.
 
 export const DarknodeContracts = () => {
-  const [network, setNetwork] = useState("Mainnet");
-  const handleChangeNetwork = (event) => {
-    setNetwork(event.target.value);
-  };
-  return (
-    <>
-      <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 20 }}>
-        <div className="select">
-          <select value={network} onChange={handleChangeNetwork}>
-            <option>Mainnet</option>
-            <option>Testnet</option>
-          </select>
-          <div className="select_arrow" />
-        </div>
-        <RenderDarknodeSolConfig network={network.toLowerCase()} />
-      </div>
-    </>
-  );
+    const [network, setNetwork] = useState("Mainnet");
+    const handleChangeNetwork = (event) => {
+        setNetwork(event.target.value);
+    };
+    return (
+        <>
+            <div
+                style={{
+                    border: "1px solid #eee",
+                    padding: 10,
+                    marginBottom: 20,
+                }}
+            >
+                <div className="select">
+                    <select value={network} onChange={handleChangeNetwork}>
+                        <option>Mainnet</option>
+                        <option>Testnet</option>
+                    </select>
+                    <div className="select_arrow" />
+                </div>
+                <RenderDarknodeSolConfig network={network.toLowerCase()} />
+            </div>
+        </>
+    );
 };
 
 <DarknodeContracts />
@@ -48,46 +57,52 @@ The gateway contracts, deployed to every host-chain supported by RenVM, are resp
 Currently, they are EVM-based contracts and Solana programs.
 
 export const GatewayContracts = () => {
-  const [network, setNetwork] = useState("Mainnet");
-  const [chain, setChain] = useState("Ethereum");
-  const handleChangeNetwork = (event) => {
-    setNetwork(event.target.value);
-  };
-  const handleChangeChain = (event) => {
-    setChain(event.target.value);
-  };
-  return (
-    <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 20 }}>
-      <div>
-        <div className="select">
-          <select value={chain} onChange={handleChangeChain}>
-            <option>Ethereum</option>
-            <option>Bsc</option>
-            <option>Fantom</option>
-            <option>Polygon</option>
-            <option>Avalanche</option>
-            <option>Arbitrum</option>
-            <option>Solana</option>
-            <option>Optimism</option>
-          </select>
-          <div className="select_arrow" />
+    const [network, setNetwork] = useState("Mainnet");
+    const [chain, setChain] = useState("Ethereum");
+    const handleChangeNetwork = (event) => {
+        setNetwork(event.target.value);
+    };
+    const handleChangeChain = (event) => {
+        setChain(event.target.value);
+    };
+    return (
+        <div
+            style={{ border: "1px solid #eee", padding: 10, marginBottom: 20 }}
+        >
+            <div>
+                <div className="select">
+                    <select value={chain} onChange={handleChangeChain}>
+                        <option>Ethereum</option>
+                        <option>Bsc</option>
+                        <option>Fantom</option>
+                        <option>Polygon</option>
+                        <option>Avalanche</option>
+                        <option>Arbitrum</option>
+                        <option>Optimism</option>
+                        <option>Solana</option>
+                    </select>
+                    <div className="select_arrow" />
+                </div>
+                <div className="select">
+                    <select value={network} onChange={handleChangeNetwork}>
+                        <option>Mainnet</option>
+                        <option>Testnet</option>
+                    </select>
+                    <div className="select_arrow" />
+                </div>
+                {chain === "Solana" ? (
+                    <RenderSolanaConfig chain={chain} network={network} />
+                ) : (
+                    <RenderGatewaySolConfig chain={chain} network={network} />
+                )}
+            </div>
         </div>
-        <div className="select">
-          <select value={network} onChange={handleChangeNetwork}>
-            <option>Mainnet</option>
-            <option>Testnet</option>
-          </select>
-          <div className="select_arrow" />
-        </div>
-        <RenderGatewaySolConfig chain={chain} network={network} />
-      </div>
-    </div>
-  );
+    );
 };
 
 <GatewayContracts />
 
 Sources:
 
-- gateway-sol: [gateway-sol/blob/master/scripts/networks.ts](https://github.com/renproject/gateway-sol/blob/master/scripts/networks.ts)
-- ren-solana: [ren-solana](https://github.com/renproject/ren-solana)
+-   gateway-sol: [gateway-sol/blob/master/scripts/networks.ts](https://github.com/renproject/gateway-sol/blob/master/scripts/networks.ts)
+-   ren-solana: [ren-solana](https://github.com/renproject/ren-solana)
