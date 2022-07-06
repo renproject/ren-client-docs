@@ -1,7 +1,6 @@
 import React from "react";
 
 import { darknodeSolConfig } from "../contracts/addresses/darknodeSol";
-import { gatewaySolConfig } from "../contracts/addresses/gatewaySol";
 
 export const ContractItem = ({
     name,
@@ -10,7 +9,7 @@ export const ContractItem = ({
     legacy,
 }: {
     name: string;
-    link: string;
+    link?: string;
     address: string;
     legacy?: boolean;
 }) => (
@@ -18,13 +17,17 @@ export const ContractItem = ({
         <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
             <b>{name}</b> {legacy ? <span>(legacy)</span> : null}
             <br />
-            <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`${link}${address}`}
-            >
-                {address}
-            </a>
+            {link ? (
+                <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={`${link}${address}`}
+                >
+                    {address}
+                </a>
+            ) : (
+                <span>{address}</span>
+            )}
         </div>
     </li>
 );

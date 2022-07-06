@@ -54,7 +54,7 @@ export const AssetItem = ({
     icon,
 }: {
     symbol: string;
-    link: string;
+    link?: string;
     erc20: string;
     gateway: string;
     icon?: string;
@@ -95,23 +95,31 @@ export const AssetItem = ({
                 <ul style={{ listStyleType: "none", padding: 0 }}>
                     <li>
                         Token:{" "}
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`${link}${erc20}`}
-                        >
-                            {erc20}
-                        </a>
+                        {link ? (
+                            <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`${link}${erc20}`}
+                            >
+                                {erc20}
+                            </a>
+                        ) : (
+                            <span>{erc20}</span>
+                        )}
                     </li>
                     <li>
                         Gateway:{" "}
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`${link}${gateway}`}
-                        >
-                            {gateway}
-                        </a>
+                        {link ? (
+                            <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`${link}${gateway}`}
+                            >
+                                {gateway}
+                            </a>
+                        ) : (
+                            <span>{gateway}</span>
+                        )}
                     </li>
                 </ul>
             </div>
@@ -143,6 +151,10 @@ const links = {
     Arbitrum: {
         Mainnet: "https://arbiscan.io/address/",
         Testnet: "https://testnet.arbiscan.io/address/",
+    },
+    Optimism: {
+        Mainnet: "https://optimistic.etherscan.io/address/",
+        Testnet: "https://kovan-optimistic.etherscan.io/address/",
     },
     Solana: {
         Mainnet: "https://explorer.solana.com/address/",
@@ -211,16 +223,22 @@ export const RenderGatewaySolConfig = ({
     chain: string;
     network: string;
 }) => {
-    const link = links[chain][network];
+    const link: string | undefined = links[chain]?.[network];
 
     const deploymentName = `${chain[0].toLowerCase()}${chain.slice(
         1
     )}${network}`;
 
-    const gatewayRegistry =
-        require(`../submodules/gateway-sol/deployments/${deploymentName}/GatewayRegistryProxy.json`).address;
-    const basicBridge =
-        require(`../submodules/gateway-sol/deployments/${deploymentName}/BasicBridge.json`).address;
+    let gatewayRegistry;
+    let basicBridge;
+    try {
+        gatewayRegistry =
+            require(`../submodules/gateway-sol/deployments/${deploymentName}/GatewayRegistryProxy.json`).address;
+        basicBridge =
+            require(`../submodules/gateway-sol/deployments/${deploymentName}/BasicBridge.json`).address;
+    } catch (error) {
+        // Ignore.
+    }
 
     return (
         <ul style={{ listStyleType: "none", padding: 0, margin: 0 }}>
