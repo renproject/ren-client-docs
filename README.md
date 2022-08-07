@@ -1,6 +1,6 @@
 # Website
 
-This website is built using [Docusaurus 2](https://v2.docusaurus.io/), a modern static website generator.
+This website is built using [Docusaurus 2](https://v2.docusaurus.io/).
 
 ## Local Development
 
@@ -25,10 +25,6 @@ To deploy:
 yarn deploy
 ```
 
-<br />
-<br />
-
-
 ## Adding deployments for a new chain or asset
 
 1. Update the `gateway-sol` submodule:
@@ -38,6 +34,16 @@ git submodule update --init --recursive
 ```
 
 2. Add any new chains to the table in deployments.mdx and add its explorers in `RenderGatewaySolConfig.tsx`. For new assets, add the icons to contracts/icons and then list the asset in `RenderGatewaySolConfig.tsx`
+
+
+
+
+
+<br />
+<br />
+
+
+
 
 
 
