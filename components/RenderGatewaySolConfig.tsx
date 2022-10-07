@@ -156,6 +156,14 @@ const links = {
         Mainnet: "https://optimistic.etherscan.io/address/",
         Testnet: "https://kovan-optimistic.etherscan.io/address/",
     },
+    Kava: {
+        Mainnet: "https://explorer.kava.io/address/",
+        Testnet: "https://explorer.evm-alpha.kava.io/address/",
+    },
+    Moonbeam: {
+        Mainnet: "https://moonscan.io/address/",
+        Testnet: "https://moonbase.moonscan.io/address/",
+    },
     Solana: {
         Mainnet: "https://explorer.solana.com/address/",
         Testnet: "",
