@@ -20,7 +20,7 @@ yarn add --dev hardhat
 yarn hardhat
 ```
 
-Select `Create an advanced sample project that uses TypeScript`, and then press Enter for the remaining prompts. It will install some dependencies, which may take a few minutes.
+Select `Create a TypeScript project`, and then press Enter for the remaining prompts. It will install some dependencies, which may take a few minutes.
 
 Next, add Ren's contracts as a dependency:
 
@@ -28,7 +28,7 @@ Next, add Ren's contracts as a dependency:
 yarn add @renproject/gateway-sol
 ```
 
-Remove `./contracts/Greeter.sol` and instead create `./contracts/TutorialBridge.sol`:
+Remove `./contracts/Lock.sol` and instead create `./contracts/TutorialBridge.sol`:
 
 ```sol reference title="contracts/TutorialBridge.sol"
 https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contracts/TutorialBridge_1.sol
@@ -102,7 +102,7 @@ https://github.com/renproject/ren-js-v3-tutorial/blob/master/tutorial-sol/contra
 
 ### Deploying to testnet
 
-You'll need [MetaMask](https://metamask.io) (or another Web3 wallet) installed and the Kovan network selected. Additionally, you'll need Kovan ETH (KETH). Request some here: https://github.com/kovan-testnet/faucet
+You'll need [MetaMask](https://metamask.io) (or another Web3 wallet) installed and the Görli network selected. Additionally, you'll need Görli ETH (gETH). Request some here: https://goerlifaucet.com/
 
 To deploy the contract with MetaMask, we'll load it into [remix.ethereum.org](https://remix.ethereum.org):
 
@@ -135,5 +135,6 @@ You can find the GatewayRegistry address for other chains and networks on the [C
 ![Remix - deploy](/img/remix-2.png)
 
 :::tip
-You can also use the TutorialBridge contract that we have deployed here: [0xcfbD9476BbcEAdebFd6964f4D447853309480DF2](https://kovan.etherscan.io/address/0xcfbD9476BbcEAdebFd6964f4D447853309480DF2).
+TODO:
+You can also use the TutorialBridge contract that we have deployed here: [0x2e8084cd0d6a3d7923504c3d68E849Ba7f032C6b](https://goerli.etherscan.io/address/0x2e8084cd0d6a3d7923504c3d68E849Ba7f032C6b).
 :::

@@ -2,17 +2,12 @@ import React from "react";
 
 import { darknodeSolConfig } from "../contracts/addresses/darknodeSol";
 
-export const ContractItem = ({
-    name,
-    link,
-    address,
-    legacy,
-}: {
+export const ContractItem: React.FC<{
     name: string;
     link?: string;
     address: string;
     legacy?: boolean;
-}) => (
+}> = ({ name, link, address, legacy }) => (
     <li style={{ padding: 0, margin: 0 }}>
         <div style={{ border: "1px solid #eee", padding: 10, marginBottom: 2 }}>
             <b>{name}</b> {legacy ? <span>(legacy)</span> : null}

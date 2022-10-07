@@ -307,6 +307,36 @@ When specifying a `Contract` payload, you may provide a `EVMParam` instead of a 
 
 -   Locking ERC20s requires an approval transaction before calling `gateway.in`. See [Setup Transactions](../setupTxs).
 
+### Migrating from Kovan to Görli
+
+The Kovan Ethereum testnet is in the process of being shut down, and any testnet integration that has been deployed on Kovan needs to be migrated to Görli. After redeploying any required contracts on Görli, you can update RenJS to point to Görli by:
+
+1. Initializing `Ethereum` with the `defaultTestnet` parameter set to `"goerli"`:
+
+```ts
+const ethereum = new Ethereum({ network: RenNetwork, provider: ..., defaultTestnet: "goerli" })
+```
+
+or by switching to the `Goerli` class:
+
+```ts
+const goerli = new Goerli({ network: RenNetwork, provider: ... })
+```
+
+2. When bridging Ethereum assets on testnet, specify Görli assets instead of Ethereum assets. For DAI, this can be done as `"DAI_Goerli"`, `Ethereum.assets.DAI_Goerli` or `Goerli.assets.DAI`.
+
+```ts
+const gateway = await renJS.gateway({
+    asset: Goerli.assets.DAI,
+    from: ethereum.Account(),
+    to: bsc.Account(),
+});
+```
+
+If you are accessing `Ethereum.configMap` you may need to use `Goerli.configMap` instead for testnet.
+
+While integrations are being migrated, Kovan will continue to be the default testnet in RenJS, which means that you may need additional logic to write an integration that seamlessly switched between Ethereum on mainnet and Görli on testnet.
+
 ### Other chains
 
 A list of other chains that implement this same interface are:

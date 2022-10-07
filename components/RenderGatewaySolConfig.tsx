@@ -13,14 +13,11 @@ enum Assets {
     renDOGE = "renDOGE",
     renFIL = "renFIL",
     renLUNA = "renLUNA",
-
-    // H2h - not all of the below have been deployed.
     renArbETH = "renArbETH",
     renAVAX = "renAVAX",
     renBADGER = "renBADGER",
     renBNB = "renBNB",
     renBUSD = "renBUSD",
-    renCOMP = "renCOMP",
     renCRV = "renCRV",
     renDAI = "renDAI",
     renETH = "renETH",
@@ -37,13 +34,10 @@ enum Assets {
     renoETH = "renoETH",
     renREN = "renREN",
     renROOK = "renROOK",
-    renSOL = "renSOL",
     renSUSHI = "renSUSHI",
     renUNI = "renUNI",
     renUSDC = "renUSDC",
     renUSDT = "renUSDT",
-    renUST = "renUST",
-    renWBTC = "renWBTC",
 }
 
 export const AssetItem = ({
@@ -130,7 +124,6 @@ export const AssetItem = ({
 const links = {
     Ethereum: {
         Mainnet: "https://etherscan.io/address/",
-        Testnet: "https://kovan.etherscan.io/address/",
     },
     Bsc: {
         Mainnet: "https://bscscan.com/address/",
@@ -168,15 +161,15 @@ const links = {
         Mainnet: "https://explorer.solana.com/address/",
         Testnet: "",
     },
+    Goerli: {
+        Testnet: "https://goerli.etherscan.io/address/",
+    },
 };
 
-export const RenderSolanaConfig = ({
-    network,
-    chain,
-}: {
+export const RenderSolanaConfig: React.FC<{
     chain: string;
     network: string;
-}) => {
+}> = ({ network, chain }) => {
     const link = links[chain][network];
 
     const deploymentName = `${chain[0].toLowerCase()}${chain.slice(
@@ -231,6 +224,12 @@ export const RenderGatewaySolConfig = ({
     chain: string;
     network: string;
 }) => {
+    // Override chain name for Goerli.
+    console.log(chain, network);
+    if (chain === "Ethereum" && network === "Testnet") {
+        chain = "Goerli";
+    }
+
     const link: string | undefined = links[chain]?.[network];
 
     const deploymentName = `${chain[0].toLowerCase()}${chain.slice(
