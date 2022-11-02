@@ -1,0 +1,122 @@
+---
+title: GatewayTransaction Class
+---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+import { Enumerate } from "/components/Enumerate";
+
+<DocTag type={DocType.Reference} />
+
+### GatewayTransaction <TypeDoc name="GatewayTransaction">(TypeDoc)</TypeDoc>
+
+When a new transaction is detected on a `Gateway` instance (either from a user sending funds to a gateway address or from the user submitting a transaction), a new `GatewayTransaction` instance is returned. Alternatively, `renJS.gatewayTransaction` can also be used directly - this will usually only be used to recover existing transactions that have already been emitted by a `Gateway` instance.
+
+```ts
+interface TransactionParams<
+    ToPayload extends { chain: string; txConfig?: any } = {
+        chain: string;
+    }
+> {
+    /**
+     * The asset being minted or burned - e.g. `"BTC"`.
+     */
+    asset: string;
+
+    /**
+     * A payload for the chain being bridged to.
+     *
+     * @example
+     * bitcoin.Address("miMi...")
+     */
+    to: ToPayload;
+
+    /**
+     * A gateway transaction always has a input transaction on the origin-chain.
+     */
+    fromTx: InputChainTransaction;
+
+    /**
+     * See GatewayParams["shard"].
+     */
+    shard?: GatewayParams["shard"];
+
+    /**
+     * See GatewayParams["nonce"].
+     */
+    nonce?: GatewayParams["nonce"];
+}
+```
+
+The main difference between the parameters for the `Gateway` and `GatewayTransaction` objects is the `fromTx` field of type <TypeDoc name="InputChainTransaction">`InputChainTransaction`</TypeDoc> instead of the `from` payload.
+
+The parameters of an existing `GatewayTransaction` are available from `gatewayTransaction.params`. They can be serialized and deserialized using `JSON.stringify` and `JSON.parse`, and the transaction recreated using `renJS.gatewayTransaction(JSON.parse(serializedParams))`.
+
+There are several fields on a GatewayTransaction instance that may be useful:
+
+<Enumerate title={"Properties"}>
+    <p>
+        <TypeDoc name="GatewayTransaction.params">params</TypeDoc> - the
+        parameters that can be used to recreate the{" "}
+        <code>GatewayTransaction</code>
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.hash">hash</TypeDoc> - the RenVM hash
+        of the transaction
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.selector">selector</TypeDoc> - the
+        transaction's RenVM method selector
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.provider">provider</TypeDoc> - the
+        connected RenVM provider
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.fromChain">fromChain</TypeDoc> -
+        access the from transaction's chain instance that was passed into
+        <code>renJS.withChains</code>
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.fromChain">toChain</TypeDoc> - access
+        the to-payload's chain instance that was passed into{" "}
+        <code>renJS.withChains</code>
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.nHash">nHash</TypeDoc> - the nonce
+        hash of the RenVM transaction
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.pHash">pHash</TypeDoc> - the payload
+        hash of the RenVM transaction
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.gHash">gHash</TypeDoc> - the gateway
+        hash of the RenVM transaction
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.in">in</TypeDoc> - the TxWaiter
+        instance for the input transaction
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.renVM">renVM</TypeDoc> - the
+        TxSubmitter instance for the RenVM transaction
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.outSetup">outSetup</TypeDoc> - the
+        setup transactions required to be submitted before <code>out</code> -
+        e.g. for creating SPL token accounts on Solana
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.out">out</TypeDoc> - the
+        TxSubmitter/TxWaiter instance for the output transaction
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.inputType">inputType</TypeDoc> - the
+        input type of the transaction (one of "lock" or "burn")
+    </p>
+    <p>
+        <TypeDoc name="GatewayTransaction.outputType">outputType</TypeDoc> - the
+        output type of the transaction (one of "mint" or "release")
+    </p>
+</Enumerate>

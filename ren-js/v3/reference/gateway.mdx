@@ -1,0 +1,87 @@
+---
+title: Gateway Class
+---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+import { Enumerate } from "/components/Enumerate";
+
+<DocTag type={DocType.Reference} />
+
+### Gateway <TypeDoc name="Gateway">(TypeDoc)</TypeDoc>
+
+`renJS.gateway` is used to initialize `Gateway` instances. The parameters are as follows:
+
+```ts
+interface GatewayParams<
+    FromPayload extends { chain: string },
+    ToPayload extends { chain: string }
+> {
+    /* Required */
+
+    // The asset being minted or burned - e.g. "BTC".
+    asset: string;
+
+    // The payload provided by the from-chain.
+    from: FromPayload;
+
+    // The payload provided by the to-chain.
+    to: ToPayload;
+
+    /* Optional */
+
+    // See section on nonces. A URL-base64 string or a number.
+    nonce?: string | number;
+
+    // Provide a specific RenVM shard - this will come in handy when RenVM shards rotate daily.
+    shard?: RenVMShard;
+
+    // A tag for tracking the volume of a particular bridge (still being implemented)
+    tag?: string;
+}
+```
+
+The `from` and the `to` parameters will usually be created using a chain class (e.g. `ethereum.Accont()` or `bitcoin.GatewayAddres()`).
+
+After creating the gateway, any missing parameters are filled in and available from `gateway.params`. If you are persisting the gateway details, then you should save `gateway.params` instead of the parameters being passed into `renJS.gateway`. `gateway.params` can be serialized and deserialized using `JSON.stringify` and `JSON.parse`:
+
+```ts
+// User creates new gateway
+let gateway = await renJS.gateway({...});
+const paramsToSave: string = JSON.stringify(gateway.params);
+
+// User resumes gateway
+gateway = await renJS.gateway(JSON.parse(paramsToSave));
+```
+
+The methods and properties on a `Gateway` instance are:
+
+<Enumerate title={"Methods"}>
+    <p>
+        <TypeDoc name="RenJS.processDeposit">processDeposit</TypeDoc> - manually
+        pass in a the details of a transaction represented by an
+        <code>InputChainTransaction</code>
+    </p>
+    <p>
+        <TypeDoc name="RenJS.on">on</TypeDoc> - register listeners for
+        <code>"transaction"</code> events - see <code>eventEmitter</code> below for
+        accessing other
+        <code>EventEmitter</code> methods
+    </p>
+</Enumerate>
+
+<br />
+
+<Enumerate title={"Properties"}>
+    <p><TypeDoc name="Gateway.params">params</TypeDoc> - the parameters that can be used to recreate the <code>Gateway</code></p>
+    <p><TypeDoc name="Gateway.provider">provider</TypeDoc> - the connected RenVM provider</p>
+    <p><TypeDoc name="Gateway.fromChain">fromChain</TypeDoc> - access the from-payload's chain instance that was passed into <code>renJS.withChains</code></p>
+    <p><TypeDoc name="Gateway.fromChain">toChain</TypeDoc> - access the to-payload's chain instance that was passed into <code>renJS.withChains</code></p>
+    <p><TypeDoc name="Gateway.provider">provider</TypeDoc> - the same provider as <code>renJS.provider</code></p>
+    <p><TypeDoc name="Gateway.fees">fees</TypeDoc> - for calculating the expected fees (see <a href="./fees">fees</a>)</p>
+    <p><TypeDoc name="Gateway.gatewayAddress">gatewayAddress</TypeDoc> - for deposit gateways</p>
+    <p><TypeDoc name="Gateway.inSetup">inSetup</TypeDoc> - transactions required before submitting the <code>in</code> transaction</p>
+    <p><TypeDoc name="Gateway.in">in</TypeDoc> - for contract gateways, the input transaction submitter or waiter</p>
+    <p><TypeDoc name="Gateway.eventEmitter">eventEmitter</TypeDoc> - the event emitter that <code>gateway.on</code> calls - see{" "} <TypeDoc name="EventEmitterTyped.once">eventEmitter.once</TypeDoc>,{" "} <TypeDoc name="EventEmitterTyped.removeListener">     eventEmitter.removeListener </TypeDoc> , <TypeDoc name="EventEmitterTyped.removeAllListeners">     eventEmitter.removeAllListeners </TypeDoc> and <TypeDoc name="EventEmitterTyped.listenerCount">eventEmitter.listenerCount</TypeDoc></p>
+
+</Enumerate>

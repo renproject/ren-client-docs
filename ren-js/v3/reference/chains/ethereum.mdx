@@ -268,6 +268,20 @@ See [EVMParam](#evmparam) below.
 
 </details>
 
+### TxConfig
+
+When calling `.submit()` for an EVM transaction, you can provide an optional `txConfig` parameter of type `ethers.PayableOverrides` from the ethers.js library.
+
+```ts
+gateway.in.submit({
+    txConfig: {
+        gasLimit: 1000000,
+        gasPrice: 21e9, // 21 GWEI
+        nonce: 12,
+    },
+});
+```
+
 ### EVMParam
 
 When specifying a `Contract` payload, you may provide a `EVMParam` instead of a value for parameters. These will get replaced by the EVMParam's associated logic once available.
@@ -309,7 +323,7 @@ When specifying a `Contract` payload, you may provide a `EVMParam` instead of a 
 
 ### Migrating from Kovan to Görli
 
-The Kovan Ethereum testnet is in the process of being shut down, and any testnet integration that has been deployed on Kovan needs to be migrated to Görli. After redeploying any required contracts on Görli, you can update RenJS to point to Görli by:
+The Kovan Ethereum testnet is in the process of being shut down. The [RenJS tutorial](../../tutorial) has been updated to use Görli and any existing integrations that have been deployed on Kovan need to migrate to Görli as well. After redeploying any required contracts on Görli, you can update RenJS to point to Görli by:
 
 1. Initializing `Ethereum` with the `defaultTestnet` parameter set to `"goerli"`:
 

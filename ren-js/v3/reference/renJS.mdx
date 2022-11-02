@@ -1,0 +1,86 @@
+---
+title: RenJS Class
+---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+import { Enumerate } from "/components/Enumerate";
+
+<DocTag type={DocType.Reference} />
+
+### RenJS <TypeDoc name="RenJS">(TypeDoc)</TypeDoc>
+
+The `RenJS` class provides methods for creating and configuring gateways.
+
+It's initialized by providing a network or a RenVM provider. Generally, your program or website should only have one RenJS instance per network.
+
+```ts
+import RenJS from "@renproject/ren";
+import { RenNetwork } from "@renproject/utils";
+import { RenVMProvider } from "@renproject/provider";
+import { JsonRpcProvider } from "@renproject/provider/build/main/rpc/jsonRpc";
+
+// Mainnet - the following are equivalent:
+new RenJS();
+new RenJS("mainnet");
+new RenJS(RenNetwork.Mainnet);
+new RenJS("https://rpc.renproject.io");
+new RenJS(new RenVMProvider("mainnet"));
+new RenJS(new RenVMProvider("https://rpc.renproject.io"));
+new RenJS(new RenVMProvider(new JsonRpcProvider("https://rpc.renproject.io")));
+
+// Testnet
+new RenJS("testnet");
+```
+
+The second parameter for `RenJS` allows you to pass in some additional configuration:
+
+```ts
+import RenJS from "@renproject/ren";
+import { LogLevel } from "@renproject/ren";
+
+new RenJS("mainnet", {
+    // Configure a logger:
+    logLevel: LogLevel.Debug,
+    logger: console,
+
+    // Configure network delay for monitoring gateway addresses:
+    networkDelay: 15000, // 15 seconds
+});
+```
+
+Before creating a gateway or fetching fees, you'll need to connect the chain classes to RenJS:
+
+```ts
+import RenJS from "@renproject/ren";
+import { Bitcoin, Ethereum } from "@renproject/chains";
+
+const bitcoin = new Bitcoin({ network: "testnet" });
+const ethereum = new Ethereum({ network: "testnet", signer: ... });
+
+const renJS = new RenJS("testnet")
+    .withChains(bitcoin, ethereum);
+
+// Equivalently:
+renJS.withChains([bitcoin, ethereum]);
+renJS.withChain(bitcoin).withChain(ethereum);
+```
+
+You can now use the various fields and methods available on RenJS:
+
+<Enumerate title={"Methods"}>
+    <p><TypeDoc name="RenJS.getChain">getChain</TypeDoc> - for getting the chain instances added with <code>withChains</code></p>
+    <p><TypeDoc name="RenJS.getFees">getFees</TypeDoc> - for estimating gateway fees (see <a href="./fees">fees</a>)</p>
+    <p><TypeDoc name="RenJS.gateway">gateway</TypeDoc> - for creating Gateways</p>
+    <p><TypeDoc name="RenJS.gatewayTransaction">gatewayTransaction</TypeDoc> - for re-creating Gateway Transactions created by a Gateway</p>
+    <p><TypeDoc name="RenJS.selectShard">selectShard</TypeDoc> - for fetching an asset's associated RenVM shard (currently there's only one shard)</p>
+    <p><TypeDoc name="RenJS.defaultTransactionHandler">defaultTransactionHandler</TypeDoc> - a static method that you can pass to a <code>gateway.on("transaction")</code></p>
+
+</Enumerate>
+
+<br />
+
+<Enumerate title={"Properties"}>
+    <p><TypeDoc name="RenJS.provider">provider</TypeDoc> - the connected RenVM provider</p>
+
+</Enumerate>

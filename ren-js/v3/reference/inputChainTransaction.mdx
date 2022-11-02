@@ -1,0 +1,39 @@
+---
+title: InputChainTransaction
+---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+import { Enumerate } from "/components/Enumerate";
+
+<DocTag type={DocType.Reference} />
+
+### InputChainTransaction <TypeDoc name="InputChainTransaction">(TypeDoc)</TypeDoc>
+
+If you want to process an existing transaction, each chain class will have a payload method for doing so which can be used when creating a Gateway (e.g. `ethereum.Transaction` or `bitcoin.Transaction`), or expose the method `populateChainTransaction` for generating a `ChainTransaction` object from a `txHash` (and `txindex` for UTXO chains).
+
+An `InputChainTransaction` extends a `ChainTransaction` with details about an input for a RenVM transaction, e.g. a lock or a burn.
+
+If you need to construct a `InputChainTransaction` object directly, then here are some examples:
+
+```ts
+{
+  chain: 'Bitcoin',
+  txid: 'WWeisGJLyv5Qxm0FZDsdbf8LZ71odzeYRxIrLfTehLs',
+  txHash: 'bb84def42d2b124798377768bd670bff6d1d3b64056dc650feca4b62b0a26759',
+  txindex: '0',
+  explorerLink: 'https://live.blockcypher.com/btc-testnet/tx/bb84def42d2b124798377768bd670bff6d1d3b64056dc650feca4b62b0a26759',
+  asset: 'BTC',
+  amount: '203140'
+}
+```
+
+```ts
+{
+  chain: 'RenVM',
+  txid: 'vCJDNlgIYjZ7LHCq2jscu64ReUx0Qa6gymMEYBvs7-E',
+  txHash: 'vCJDNlgIYjZ7LHCq2jscu64ReUx0Qa6gymMEYBvs7-E',
+  txindex: '0',
+  explorerLink: 'https://explorer-testnet.renproject.io/#/tx/vCJDNlgIYjZ7LHCq2jscu64ReUx0Qa6gymMEYBvs7-E'
+}
+```

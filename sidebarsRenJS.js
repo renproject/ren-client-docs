@@ -27,7 +27,11 @@ module.exports = {
                     type: "category",
                     label: "Reference",
                     items: [
-                        "v3/reference/classes",
+                        "v3/reference/renJS",
+                        "v3/reference/gateway",
+                        "v3/reference/gatewayTransaction",
+                        "v3/reference/txSubmitter",
+                        "v3/reference/inputChainTransaction",
                         "v3/reference/fees",
                         "v3/reference/setupTxs",
                         {

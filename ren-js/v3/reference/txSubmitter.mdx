@@ -1,0 +1,131 @@
+---
+title: TxSubmitter / TxWaiter
+---
+
+import { TypeDoc } from "/components/TypeDoc";
+import { DocTag, DocType } from "/components/DocTag";
+import { Enumerate } from "/components/Enumerate";
+
+<DocTag type={DocType.Reference} />
+
+### TxSubmitter <TypeDoc name="TxSubmitter">(TypeDoc)</TypeDoc> and TxWaiter <TypeDoc name="TxWaiter">(TypeDoc)</TypeDoc>
+
+Each of the `in`, `renVM` and `out` transactions on `GatewayTransaction` are all instances of the `TxWaiter` or `TxSubmitter` interfaces, which follows the format of separating the submitting and the waiting for confirmations into two methods.
+
+When a transaction is generated outside of RenJS (e.g. a BTC deposit to a gateway address), the transaction will be a `TxWaiter` instance and will only have a `.wait()` method which will only return once the transaction has sufficient confirmations.
+
+When a transaction is being created through RenJS, it will be a `TxSubmitter` instance and also have a `.submit()` method for submitting the transaction and `.export()` for exporting the unsigned transaction details.
+
+#### Progress
+
+`TxSubmitter` and `TxWaiter` instances have a field `progress` of type <TypeDoc name="ChainTransactionProgress">`ChainTransactionProgress`</TypeDoc>. Additionally `.wait()` and `.submit()` return a PromiEvent (combined Promise and EventEmitter) which emit `"progress"` events when there is an update (e.g. a confirmation or a status change).
+
+The progress object has a `status` field of type <TypeDoc name="ChainTransactionStatus">ChainTransactionStatus</TypeDoc> - one of `"ready"`, `"confirming"`, `"done"` or `"reverted"`.
+
+Some examples of progress objects are:
+
+<details><summary>Goerli ETH lock transaction</summary>
+
+```js
+{
+  chain: 'Goerli',
+  status: 'confirming',
+  confirmations: 0,
+  target: 6,
+  transaction: {
+    chain: 'Goerli',
+    txHash: '0x2246d2cb679603bd26136f9ccf5ec2ee7ebb6ae998c8bab428c924089b111e0f',
+    txid: 'IkbSy2eWA70mE2-cz17C7n67aumYyLq0KMkkCJsRHg8',
+    txindex: '0',
+    explorerLink: 'https://goerli.etherscan.io/tx/0x2246d2cb679603bd26136f9ccf5ec2ee7ebb6ae998c8bab428c924089b111e0f'
+  }
+}
+```
+
+</details>
+
+<details><summary>RenVM transaction</summary>
+
+```js
+{
+  chain: 'RenVM',
+  status: 'confirming',
+  target: 1,
+  transaction: {
+    chain: 'RenVM',
+    txid: 'vCJDNlgIYjZ7LHCq2jscu64ReUx0Qa6gymMEYBvs7-E',
+    txHash: 'vCJDNlgIYjZ7LHCq2jscu64ReUx0Qa6gymMEYBvs7-E',
+    txindex: '0',
+    explorerLink: 'https://explorer-testnet.renproject.io/#/tx/vCJDNlgIYjZ7LHCq2jscu64ReUx0Qa6gymMEYBvs7-E'
+  },
+  confirmations: 0,
+  // Some chains add additional fields to a progress object:
+  response: {
+    tx: {
+      version: 1,
+      hash: 'vCJDNlgIYjZ7LHCq2jscu64ReUx0Qa6gymMEYBvs7-E',
+      selector: 'BTC/toGoerli',
+      in: { /* snip */ },
+      out: {}
+    },
+    txStatus: 'confirming'
+  }
+}
+```
+
+</details>
+
+<details><summary>Reverted Goerli transaction</summary>
+
+```js
+{
+  chain: 'Goerli',
+  status: 'reverted',
+  confirmations: 1,
+  target: 1,
+  transaction: {
+    chain: 'Goerli',
+    txHash: '0x09c5a847f016f90da2e13fce669444ec92ba781172d19b3d9eebe186809d80f5',
+    txid: 'CcWoR_AW-Q2i4T_OZpRE7JK6eBFy0Zs9nuvhhoCdgPU',
+    txindex: '0',
+    explorerLink: 'https://goerli.etherscan.io/tx/0x09c5a847f016f90da2e13fce669444ec92ba781172d19b3d9eebe186809d80f5'
+  },
+  // Error message passed up from ethers.js
+  revertReason: 'transaction failed [ See: https://links.ethers.org/v5-er...'
+}
+```
+
+</details>
+
+#### Class fields
+
+The `TxSubmitter` class extends the `TxWaiter` class with its additional `submit` and `export` methods.
+
+<Enumerate title={"Properties"}>
+    <p>
+        <TypeDoc name="TxWaiter.chain">chain</TypeDoc> - the transaction's chain
+    </p>
+    <p>
+        <TypeDoc name="TxWaiter.progress">progress</TypeDoc> - the transaction's
+        current progress status
+    </p>
+</Enumerate>
+
+<br />
+
+<Enumerate title={"Properties"}>
+    <p>
+        <TypeDoc name="TxWaiter.wait">wait</TypeDoc> - wait for the transaction
+        to be confirmed, accepting an optional confirmation target parameter to
+        override the count required by RenVM
+    </p>
+    <p>
+        <TypeDoc name="TxSubmitter.submit">submit</TypeDoc> - submit the
+        transaction using the signer connected to the relevant chain instance
+    </p>
+    <p>
+        <TypeDoc name="TxSubmitter.export">export</TypeDoc> - export the
+        unsigned transaction details so that they can be submitted by an
+        external signer
+    </p>
+</Enumerate>
