@@ -143,11 +143,11 @@ const links = {
     },
     Arbitrum: {
         Mainnet: "https://arbiscan.io/address/",
-        Testnet: "https://testnet.arbiscan.io/address/",
+        Testnet: "https://goerli.arbiscan.io/address/",
     },
     Optimism: {
         Mainnet: "https://optimistic.etherscan.io/address/",
-        Testnet: "https://kovan-optimistic.etherscan.io/address/",
+        Testnet: "https://goerli-optimism.etherscan.io/address/",
     },
     Kava: {
         Mainnet: "https://explorer.kava.io/address/",
